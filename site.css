@@ -344,8 +344,22 @@ h6,
   display: none;
 }
 
+/* Share menu floats below the Share icon instead of taking up space beside
+   it: the arrow points at the icon, and the transparent top padding keeps
+   the menu open while the pointer moves down into it */
 .listing-detail .tour-btn-container .share .popper {
+  position: absolute !important;
+  top: 100%;
+  left: 18px;
+  transform: translateX(-50%);
+  padding-top: 12px;
+  z-index: 400;
   visibility: hidden !important;
+}
+
+.listing-detail .tour-btn-container .share .share-btn::before {
+  left: calc(50% - 5px) !important;
+  right: auto !important;
 }
 
 .listing-detail .tour-btn-container .share:hover .popper {
