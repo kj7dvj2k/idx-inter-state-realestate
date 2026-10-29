@@ -374,8 +374,8 @@ h6,
 }
 
 .listing-detail .isg-updated {
-  font: 14px / 1.4 var(--r);
-  color: #595e6d;
+  font: inherit;          /* same type as the "Listed by" text */
+  color: inherit;
 }
 
 .listing-detail .tour-btn-container .share:hover .popper {
@@ -426,6 +426,7 @@ h6,
     order: 5;
     align-self: stretch;
     margin-top: 18px !important;
+    margin-bottom: 0 !important;
   }
 
   /* Phones already have Share in the top bar */
@@ -433,10 +434,21 @@ h6,
     display: none !important;
   }
 
+  /* Tour button row: spacing lives on the buttons, so a row with nothing
+     visible (Lofty hides Save on phones) adds no empty gap */
   .listing-detail .detail-info-header > .mobile .tour-btn-container {
     order: 6;
     position: static !important;
-    margin: 18px 0 0 !important;
+    margin: 0 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .tour-btn-container > .btn-item {
+    margin-top: 18px !important;
+  }
+
+  /* "Listed by" and the Updated line stack on phones; space before the badge */
+  .listing-detail .mls-provided-container {
+    margin-bottom: 14px !important;
   }
 
   /* Footer: eXp and ISG logos side by side at equal height, brand line
