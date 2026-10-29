@@ -375,7 +375,7 @@ h6,
 
 .listing-detail .isg-updated {
   font: inherit;          /* same type as the "Listed by" text */
-  color: inherit;
+  color: #595e6d;         /* Lofty's "Listed by" gray */
 }
 
 .listing-detail .tour-btn-container .share:hover .popper {
