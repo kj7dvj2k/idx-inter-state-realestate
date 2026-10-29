@@ -1,1 +1,568 @@
-:root{--m:font-Manrope-400,Manrope,sans-serif;--b:font-Manrope-800,Manrope,sans-serif;--r:font-Roboto-400,Roboto,sans-serif}h6,#app>header>.nosticky>.nav-container,#app>footer .left-content{letter-spacing:.125em!important;text-transform:uppercase!important}.evaluation .md-header.layout3{&.transparent .header-container{.header-bg{background:#fff!important}:is(.head-menu,.head-account,.head-language-pc)>.menu-item,.head-account .item-line{color:#000}.menu-bar{background-color:#000}}.menu-item:before{background-color:#000!important}}#app :is(h1,h2,.mg-title,.mg-title *,.detail-title,.street,.price-number,.house-price,h3.agent-name){font-family:var(--b)!important;font-weight:400!important;text-transform:none!important;letter-spacing:-.01em!important}.mg-title,.mg-title *{font-size:clamp(26px,4vw,34px)!important;line-height:1.15!important}.address-container{.street{font-size:clamp(24px,3vw,32px)!important;line-height:1.15!important;color:#111!important}.city{display:block;margin-top:4px;font:17px/1.4 var(--m)!important;color:#555!important}}#app .mg-title .zipcode{font-family:var(--m)!important;color:#555!important}.price-number{color:#111!important;font-size:32px!important}.detail-title{font-size:20px!important;line-height:1.3!important;color:#111!important;margin-bottom:.6em!important}.info-title{color:#666!important}.info-data{color:#222!important}.info-des .info-data{font-size:16px!important;line-height:1.65!important;color:#333!important}.house-price{color:#111!important;font-size:22px!important}#app .form-container .title h2{font-size:24px!important;line-height:1.2!important}.price-address{.street{font-size:20px!important}.price-number{font-size:22px!important}}.listing-detail #app{:is(.mg-title,.mg-title *,.form-container .title h2,.on-site .detail-title){text-transform:lowercase!important}:is(.mg-title,.mg-title>h2,.form-container .title h2,.on-site .detail-title)::first-letter{text-transform:uppercase!important}}.listing-detail{hr.line{display:none}.house-status{background:none;border:2px solid #111;border-radius:0;padding:3px 8px}.status-text{font:700 11px/1 Roboto,sans-serif;color:#111;text-transform:uppercase;letter-spacing:.14em}.tour-btn-container{display:flex;gap:20px}.save{order:1}.btn-item,.btn-item a{display:flex;align-items:center;gap:8px;width:auto!important;margin:0!important}.btn-text{font:16px/1 var(--r);color:#555;white-space:nowrap}.tour-btn-container i{width:36px;height:36px;border:.8px solid #e2e2e2;border-radius:50%;line-height:36px!important;font-size:17px!important;text-align:center}.btn-item .default,.icon-3d,.caculator-container *{color:#555}.caculator-container{cursor:pointer;:not(.iconfont){font:17px/1.4 var(--m)!important}}.key-info{.detail-title{border-top:2px solid #111;padding-top:14px}.two-columns{column-gap:40px}.info-title{text-transform:uppercase;font-size:12px!important;letter-spacing:.08em}}.info-content{border:0;padding:8px 0!important;margin:0!important}.info-des .info-data{max-width:none;text-align:justify}.detail-schedule-container{border:2px solid #111;border-radius:0;box-shadow:none}}@media(min-width:768px){.listing-detail{.read-more{display:none}.detail-info-left{max-height:none!important}.detail-info-header>div{display:grid!important;grid-template-columns:1fr auto;column-gap:32px;align-items:end;padding-bottom:28px;.price-caculator{display:contents!important}.house-status{justify-self:start;margin-bottom:12px}.tour-btn-container{position:static!important;grid-area:3/2;justify-self:end;margin:18px 0 0}.address-container{grid-area:2/1;margin:0!important}.price-container{grid-area:2/2;justify-self:end;align-self:start}.count-container{grid-area:3/1;margin-top:18px}.caculator-container{grid-area:2/2;justify-self:end}}.md-footer{padding:48px 0!important;.footer-container{display:grid;grid-template-columns:1fr auto;column-gap:40px}.site-logo{margin:0 0 20px}.top-content{display:contents}.left-content{grid-area:2/1;ul,li{width:auto!important}}.right-content{grid-area:1/2/3;*{text-align:right!important}.co-name:not(#_){font:20px/1.3 var(--b)!important;margin-bottom:6px}.detail-addr{font-size:0!important;&:after{content:"715 Main St W\A Ashland, WI 54806";white-space:pre;font:20px/1.3 var(--b)}}.agent-name,.agent-info,.other-cont,.detail-info{display:none}}.bottom-content{grid-column:1/-1;margin-top:32px}.copyright{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline}.line{flex-basis:100%;margin:24px 0;background:#fff}.content{text-align:justify}}}}@media(min-width:1200px){.listing-detail{.breadcrumb-container{display:none}.md-header .header-container{padding-inline:max(34px,calc(50vw - 628px))}#app :is(.mg-container,.footer-container){max-width:1240px;margin-inline:auto}.fixed-banner :is(.banner-box,.center){padding-inline:0}.detail-info-imgs{&,.slide-pc{height:clamp(400px,30vw,560px)!important}.slide-5 .img-item{height:50%}img{height:100%;object-fit:cover}}.detail-info-left{padding-right:48px}}}
+/* ==========================================================================
+   idx.inter-state.realestate - custom styles for the ISG Lofty site
+   Loaded by Lofty from GitHub via jsDelivr (CMS > Settings > Tools >
+   Custom Style & Script > Style holds only the jsDelivr URL).
+
+   Written without CSS nesting on purpose: older iPhones (iOS 16.4 and
+   earlier) ignore nested rules entirely.
+
+   Sections
+     1. Fonts
+     2. Site-wide type
+     3. /sell page header
+     4. Listing pages, all screen sizes
+     5. Listing pages, phones only (under 768px)
+     6. Listing pages, tablet and up (768px+)
+     7. Listing pages, desktop (1200px+)
+   ========================================================================== */
+
+
+/* 1. Fonts ---------------------------------------------------------------- */
+
+:root {
+  --m: font-Manrope-400, Manrope, sans-serif;   /* Manrope regular   */
+  --b: font-Manrope-800, Manrope, sans-serif;   /* Manrope ExtraBold */
+  --r: font-Roboto-400, Roboto, sans-serif;     /* Roboto regular    */
+}
+
+
+/* 2. Site-wide type ------------------------------------------------------- */
+
+/* Nav, footer menu and h6: spaced uppercase */
+h6,
+#app > header > .nosticky > .nav-container,
+#app > footer .left-content {
+  letter-spacing: .125em !important;
+  text-transform: uppercase !important;
+}
+
+/* Headings, titles, addresses and prices: Manrope ExtraBold */
+#app :is(h1, h2, .mg-title, .mg-title *, .detail-title, .street, .price-number, .house-price, h3.agent-name) {
+  font-family: var(--b) !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: -.01em !important;
+}
+
+.mg-title,
+.mg-title * {
+  font-size: clamp(26px, 4vw, 34px) !important;
+  line-height: 1.15 !important;
+}
+
+#app .mg-title .zipcode {
+  font-family: var(--m) !important;
+  color: #555 !important;
+}
+
+.address-container .street {
+  font-size: clamp(24px, 3vw, 32px) !important;
+  line-height: 1.15 !important;
+  color: #111 !important;
+}
+
+.address-container .city {
+  display: block;
+  margin-top: 4px;
+  font: 17px / 1.4 var(--m) !important;
+  color: #555 !important;
+}
+
+.price-number {
+  font-size: 32px !important;
+  color: #111 !important;
+}
+
+.price-address .street       { font-size: 20px !important; }
+.price-address .price-number { font-size: 22px !important; }
+
+.house-price {
+  font-size: 22px !important;
+  color: #111 !important;
+}
+
+.detail-title {
+  margin-bottom: .6em !important;
+  font-size: 20px !important;
+  line-height: 1.3 !important;
+  color: #111 !important;
+}
+
+.info-title { color: #666 !important; }
+.info-data  { color: #222 !important; }
+
+.info-des .info-data {
+  font-size: 16px !important;
+  line-height: 1.65 !important;
+  color: #333 !important;
+}
+
+#app .form-container .title h2 {
+  font-size: 24px !important;
+  line-height: 1.2 !important;
+}
+
+
+/* 3. /sell page header (body.evaluation): black on white -------------------- */
+
+.evaluation .md-header.layout3.transparent .header-container .header-bg {
+  background: #fff !important;
+}
+
+.evaluation .md-header.layout3.transparent .header-container :is(.head-menu, .head-account, .head-language-pc) > .menu-item,
+.evaluation .md-header.layout3.transparent .header-container .head-account .item-line {
+  color: #000;
+}
+
+.evaluation .md-header.layout3.transparent .header-container .menu-bar {
+  background-color: #000;
+}
+
+.evaluation .md-header.layout3 .menu-item:before {
+  background-color: #000 !important;
+}
+
+
+/* 4. Listing pages, all screen sizes ------------------------------------- */
+
+/* Section titles typed in caps by Lofty: sentence case */
+.listing-detail #app :is(.mg-title, .mg-title *, .form-container .title h2, .on-site .detail-title) {
+  text-transform: lowercase !important;
+}
+
+.listing-detail #app :is(.mg-title, .mg-title > h2, .form-container .title h2, .on-site .detail-title)::first-letter {
+  text-transform: uppercase !important;
+}
+
+/* Status badge: outlined box */
+.listing-detail .house-status {
+  padding: 3px 8px;
+  background: none;
+  border: 2px solid #111;
+  border-radius: 0;
+}
+
+/* Header badge: white square on the gray page (Lofty's own tint removed;
+   the colored badges on the nearby-listing cards keep their fills) */
+.listing-detail .detail-info-header .house-status {
+  background: #fff !important;
+}
+
+.listing-detail .status-text {
+  font: 700 11px / 1 Roboto, sans-serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #111;
+}
+
+/* Save and Virtual Tour buttons: round outlined icons with a text label */
+.listing-detail .tour-btn-container {
+  display: flex;
+  gap: 20px;
+}
+
+.listing-detail .tour-btn-container .save {
+  order: 1;
+}
+
+.listing-detail .btn-item,
+.listing-detail .btn-item a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: auto !important;
+  margin: 0 !important;
+}
+
+.listing-detail .tour-btn-container .btn-text {
+  font: 16px / 1 var(--r);
+  color: #555;
+  white-space: nowrap;
+}
+
+.listing-detail .tour-btn-container i {
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border: 1px solid #111;
+  border-radius: 50%;
+  font-size: 17px !important;
+  line-height: 36px !important;
+  text-align: center;
+}
+
+.listing-detail .btn-item .default,
+.listing-detail .icon-3d,
+.listing-detail .caculator-container * {
+  color: #555;
+}
+
+/* Est. payment line (keep .iconfont out of the font rule or its glyph breaks) */
+.listing-detail .caculator-container {
+  cursor: pointer;
+}
+
+.listing-detail .caculator-container :not(.iconfont) {
+  font: 17px / 1.4 var(--m) !important;
+}
+
+/* Detail sections: black rule above each title, no gray row lines */
+.listing-detail hr.line {
+  display: none;
+}
+
+.listing-detail .key-info .detail-title {
+  padding-top: 14px;
+  border-top: 2px solid #111;
+}
+
+.listing-detail .key-info .two-columns {
+  column-gap: 40px;
+}
+
+.listing-detail .key-info .info-title {
+  font-size: 12px !important;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.listing-detail .info-content {
+  margin: 0 !important;
+  padding: 8px 0 !important;
+  border: 0;
+}
+
+.listing-detail .info-des .info-data {
+  max-width: none;
+  text-align: justify;
+}
+
+/* No "Read More" cutoff: show all details */
+.listing-detail .read-more {
+  display: none;
+}
+
+.listing-detail .detail-info-left {
+  max-height: none !important;
+}
+
+/* Empty gray breadcrumb band above the photos: hidden */
+.listing-detail .breadcrumb-container {
+  display: none;
+}
+
+/* Tour request card: square black outline */
+.listing-detail .detail-schedule-container {
+  background: #fff !important;
+  border: 2px solid #111;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Phone/tablet top bar (back, Search, save, share): white instead of navy */
+.listing-detail .save-share-container {
+  background: #fff !important;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.listing-detail .save-share-container .iconfont {
+  color: #111 !important;
+}
+
+.listing-detail .save-share-container .btn-text {
+  color: #555 !important;
+}
+
+/* Footer content: company and office address in Manrope, agent lines hidden.
+   The address is hard-coded here: if the office moves, change it here too. */
+.listing-detail .md-footer {
+  padding: 48px 0 !important;
+}
+
+.listing-detail .md-footer .site-logo {
+  margin: 0 0 20px;
+}
+
+.listing-detail .md-footer .right-content .co-name:not(#_) {
+  margin-bottom: 6px;
+  font: 20px / 1.3 var(--b) !important;
+}
+
+.listing-detail .md-footer .right-content .detail-addr {
+  font-size: 0 !important;
+}
+
+.listing-detail .md-footer .right-content .detail-addr::after {
+  content: "715 Main St W\A Ashland, WI 54806";
+  white-space: pre;
+  font: 20px / 1.3 var(--b);
+}
+
+.listing-detail .md-footer .right-content :is(.agent-name, .agent-info, .other-cont, .detail-info) {
+  display: none;
+}
+
+.listing-detail .md-footer .line {
+  margin: 24px 0;
+  background: #fff;
+}
+
+.listing-detail .md-footer .content {
+  text-align: justify;
+}
+
+
+/* Gray page (#eeeeee) behind white elements. The header, sticky banner
+   and footer keep their own colors */
+.listing-detail main.page-content,
+.listing-detail :is(.md-detail-info, .md-house-listing, .md-map, .md-market-trends, .md-mid-banner, .md-property-history, .filter-chart-container, .map-tab, .tab-content.more-panel) {
+  background: #eee !important;
+}
+
+/* Beds/baths/sqft icons: white circles with a black outline, like the
+   Save / Share / Virtual Tour buttons */
+.listing-detail .count-container .count-logo {
+  background: #fff !important;
+  border: 1px solid #111 !important;
+}
+
+/* Share button beside Save. The button itself is added by the script in
+   Lofty's Script box (CSS cannot add elements); this styles it and opens
+   Lofty's share menu on hover */
+.listing-detail .tour-btn-container .share {
+  order: 2;
+  position: relative;
+  cursor: pointer;
+}
+
+.listing-detail .tour-btn-container .share .hover {
+  display: none;
+}
+
+.listing-detail .tour-btn-container .share .popper {
+  visibility: hidden !important;
+}
+
+.listing-detail .tour-btn-container .share:hover .popper {
+  visibility: visible !important;
+}
+
+/* Phone bottom bar: Call and Tour in black */
+.listing-detail .detail-bottom-menu :is(.phone, .tour),
+.listing-detail .detail-bottom-menu :is(.phone, .tour) * {
+  color: #111 !important;
+}
+
+
+/* 5. Listing pages, phones only (under 768px) ---------------------------- */
+
+@media (max-width: 767.98px) {
+
+  /* Header block in the desktop order: status, address, price, payment,
+     beds/baths/sqft, then the tour button */
+  .listing-detail .detail-info-header > .mobile {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 24px;
+  }
+
+  .listing-detail .detail-info-header > .mobile .house-status {
+    order: 1;
+    margin: 0 0 12px !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .address-container {
+    order: 2;
+    margin: 0 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .price-container {
+    order: 3;
+    margin: 16px 0 0 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .caculator-container {
+    order: 4;
+    margin: 4px 0 0 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .count-container {
+    order: 5;
+    align-self: stretch;
+    margin-top: 18px !important;
+  }
+
+  /* Phones already have Share in the top bar */
+  .listing-detail .tour-btn-container .share {
+    display: none !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .tour-btn-container {
+    order: 6;
+    position: static !important;
+    margin: 18px 0 0 !important;
+  }
+
+  /* Footer: eXp and ISG logos side by side at equal height, brand line
+     under them, company and address below */
+  .listing-detail .md-footer .site-logo {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .listing-detail .md-footer .site-logo a {
+    display: flex;
+  }
+
+  .listing-detail .md-footer .site-logo img {
+    width: auto !important;
+    height: 96px !important;
+    margin: 0 !important;
+  }
+
+  .listing-detail .md-footer .left-content {
+    display: block !important;
+    margin-bottom: 28px;
+  }
+
+  .listing-detail .md-footer .left-content ul,
+  .listing-detail .md-footer .left-content li {
+    width: auto !important;
+  }
+}
+
+
+/* 6. Listing pages, tablet and up (768px+) -------------------------------- */
+
+@media (min-width: 768px) {
+
+  /* Header block: address left, price right, counts and buttons below */
+  .listing-detail .detail-info-header > div {
+    display: grid !important;
+    grid-template-columns: 1fr auto;
+    column-gap: 32px;
+    align-items: end;
+    padding-bottom: 28px;
+  }
+
+  .listing-detail .detail-info-header > div .price-caculator {
+    display: contents !important;
+  }
+
+  .listing-detail .detail-info-header > div .house-status {
+    justify-self: start;
+    margin-bottom: 12px;
+  }
+
+  .listing-detail .detail-info-header > div .address-container {
+    grid-area: 2 / 1;
+    margin: 0 !important;
+  }
+
+  .listing-detail .detail-info-header > div .price-container {
+    grid-area: 2 / 2;
+    place-self: start end;
+  }
+
+  .listing-detail .detail-info-header > div .caculator-container {
+    grid-area: 2 / 2;
+    justify-self: end;
+  }
+
+  .listing-detail .detail-info-header > div .count-container {
+    grid-area: 3 / 1;
+    margin-top: 18px;
+  }
+
+  .listing-detail .detail-info-header > div .tour-btn-container {
+    grid-area: 3 / 2;
+    justify-self: end;
+    margin: 18px 0 0;
+    position: static !important;
+  }
+
+  /* Footer: logo and brand line left, company and address right */
+  .listing-detail .md-footer .footer-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 40px;
+  }
+
+  .listing-detail .md-footer .top-content {
+    display: contents;
+  }
+
+  .listing-detail .md-footer .left-content {
+    grid-area: 2 / 1;
+  }
+
+  .listing-detail .md-footer .left-content ul,
+  .listing-detail .md-footer .left-content li {
+    width: auto !important;
+  }
+
+  .listing-detail .md-footer .right-content {
+    grid-area: 1 / 2 / 3;
+  }
+
+  .listing-detail .md-footer .right-content * {
+    text-align: right !important;
+  }
+
+  .listing-detail .md-footer .bottom-content {
+    grid-column: 1 / -1;
+    margin-top: 32px;
+  }
+
+  .listing-detail .md-footer .copyright {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .listing-detail .md-footer .line {
+    flex-basis: 100%;
+  }
+}
+
+
+/* 7. Listing pages, desktop (1200px+) ------------------------------------- */
+
+@media (min-width: 1200px) {
+
+  /* Centered 1240px column, header aligned to it */
+  .listing-detail .md-header .header-container {
+    padding-inline: max(34px, calc(50vw - 628px));
+  }
+
+  .listing-detail #app :is(.mg-container, .footer-container) {
+    max-width: 1240px;
+    margin-inline: auto;
+  }
+
+  .listing-detail .fixed-banner :is(.banner-box, .center) {
+    padding-inline: 0;
+  }
+
+  /* Taller photo gallery */
+  .listing-detail .detail-info-imgs,
+  .listing-detail .detail-info-imgs .slide-pc {
+    height: clamp(400px, 30vw, 560px) !important;
+  }
+
+  .listing-detail .detail-info-imgs .slide-5 .img-item {
+    height: 50%;
+  }
+
+  .listing-detail .detail-info-imgs img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .listing-detail .detail-info-left {
+    padding-right: 48px;
+  }
+}
