@@ -315,8 +315,13 @@ h6,
 /* Gray page (#eeeeee) behind white elements. The header, sticky banner
    and footer keep their own colors */
 .listing-detail main.page-content,
-.listing-detail :is(.md-detail-info, .md-house-listing, .md-map, .md-market-trends, .md-mid-banner, .md-property-history, .filter-chart-container, .map-tab, .tab-content.more-panel) {
+.listing-detail :is(.md-detail-info, .md-house-listing, .md-map, .md-market-trends, .md-market-trends .container, .md-mid-banner, .md-property-history) {
   background: #eee !important;
+}
+
+/* Panels sitting on the gray page stay white: map sidebar, market chart */
+.listing-detail :is(.map-tab, .tab-content.more-panel, .filter-chart-container) {
+  background: #fff !important;
 }
 
 /* Beds/baths/sqft icons: white circles with a black outline, like the
