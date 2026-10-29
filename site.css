@@ -360,6 +360,22 @@ h6,
 .listing-detail .tour-btn-container .share .share-btn::before {
   left: calc(50% - 5px) !important;
   right: auto !important;
+  transform: rotate(-45deg) !important;   /* Lofty's own nudge put it 5px off */
+}
+
+/* "Updated <date> - N days on market", moved by the Script box script from
+   its own "Updated:" block onto the right end of the "Listed by" line */
+.listing-detail .mls-provided-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 16px;
+}
+
+.listing-detail .isg-updated {
+  font: 14px / 1.4 var(--r);
+  color: #595e6d;
 }
 
 .listing-detail .tour-btn-container .share:hover .popper {
