@@ -559,10 +559,11 @@ h6,
 
 /* Round icon buttons, one spec everywhere: beds/baths/sqft, Save, Share,
    Virtual Tour, and the Save/Share circles in the scrolling top bar.
-   40px white circle, 1px #111 outline, 16px #111 glyph. 40/16 lands on whole
-   device pixels at 100%, 125% and 150% Windows scaling, so edges stay crisp.
-   Centered by line-height 38px (the inner height); display is left to Lofty,
-   which swaps the hover/saved twins. Only the heart is red. */
+   40px white circle, 16px #111 glyph. 40/16 lands on whole device pixels at
+   100%, 125% and 150% Windows scaling, so edges stay crisp. White on the gray
+   page has no outline; the top bar is white, so its circles keep a 1px #111
+   outline. Centered by line-height (the inner height); display is left to
+   Lofty, which swaps the hover/saved twins. Only the heart is red. */
 .listing-detail .tour-btn-container i,
 .listing-detail .count-container .count-logo,
 .listing-detail .fixed-banner .save-share-tour .item:is(.save, .share) {
@@ -572,13 +573,18 @@ h6,
   height: 40px !important;
   padding: 0 !important;
   background: #fff !important;
-  border: 1px solid #111 !important;
+  border: 0 !important;
   border-radius: 50% !important;
   font-size: 16px !important;
-  line-height: 38px !important;
+  line-height: 40px !important;
   text-align: center !important;
   color: #111 !important;
   vertical-align: middle !important;
+}
+
+.listing-detail .fixed-banner .save-share-tour .item:is(.save, .share) {
+  border: 1px solid #111 !important;
+  line-height: 38px !important;
 }
 
 .listing-detail .tour-btn-container i,
@@ -677,10 +683,15 @@ h6,
   color: #333 !important;
 }
 
-/* Open house bar: white with a black outline */
+/* White on the gray page has no outline: open house bar, header status badge */
 .listing-detail .open-house .detail-content {
   background: #fff !important;
-  border: 1px solid #111 !important;
+  border: 0 !important;
+}
+
+.listing-detail .detail-info-header .house-status {
+  padding: 5px 10px !important;
+  border: 0 !important;
 }
 
 /* Tour request card: white, no outline */
@@ -736,9 +747,10 @@ h6,
   opacity: .3;
 }
 
-/* NEXT listing button (shown when the visitor came from a search), in the
-   page and in the scrolling bar */
-.listing-detail :is(.extral-banner-right, .banner-right) a.btn {
+/* PREV / NEXT listing buttons (shown when the visitor came from a search),
+   in the page (no outline, on the gray) and in the white scrolling bar
+   (1px outline) */
+.listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn {
   box-sizing: border-box;
   display: inline-flex !important;
   align-items: center;
@@ -748,23 +760,27 @@ h6,
   height: 40px !important;
   padding: 0 16px !important;
   background: #fff !important;
-  border: 1px solid #111 !important;
+  border: 0 !important;
   border-radius: 0 !important;
   color: #111 !important;
   font: 700 12px / 1 Roboto, sans-serif !important;
   letter-spacing: .14em;
 }
 
-.listing-detail :is(.extral-banner-right, .banner-right) a.btn :is(.text, .iconfont) {
+.listing-detail .fixed-banner :is(.banner-left, .banner-right) a.btn {
+  border: 1px solid #111 !important;
+}
+
+.listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn :is(.text, .iconfont) {
   color: #111 !important;
   line-height: 1 !important;
 }
 
-.listing-detail :is(.extral-banner-right, .banner-right) a.btn .iconfont {
+.listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn .iconfont {
   font-size: 11px !important;
 }
 
-.listing-detail :is(.extral-banner-right, .banner-right) a.btn:hover {
+.listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn:hover {
   background: #eee !important;
 }
 
@@ -879,9 +895,9 @@ h6,
 }
 
 .listing-detail .md-house-listing .house-preview .house-status {
-  padding: 3px 8px !important;
+  padding: 5px 10px !important;
   background: #fff !important;
-  border: 2px solid #111 !important;
+  border: 0 !important;
   border-radius: 0 !important;
   font: 700 11px / 1 Roboto, sans-serif !important;
   letter-spacing: .14em;
