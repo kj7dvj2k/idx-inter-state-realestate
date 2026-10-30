@@ -771,6 +771,11 @@ h6,
   border: 1px solid #111 !important;
 }
 
+/* No photo preview of the previous / next listing on hover */
+.listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) .bg-img-box {
+  display: none !important;
+}
+
 .listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn :is(.text, .iconfont) {
   color: #111 !important;
   line-height: 1 !important;
