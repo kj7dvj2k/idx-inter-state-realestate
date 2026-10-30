@@ -22,9 +22,12 @@
   }
   window.addEventListener("scroll", holdBanner, { passive: true });
 
-  // Re-run every second: Lofty re-renders parts of the listing page as it
-  // loads and when the visitor moves between listings.
-  setInterval(function () {
+  // Runs as soon as this file loads, then again whenever Lofty adds or
+  // replaces part of the page (it renders the listing in stages and again
+  // when the visitor moves between listings). Every step only acts when its
+  // work is missing, so repeat runs cost nothing. A slow 1-second check stays
+  // as a backstop.
+  function tick() {
 
     // 1. Share button beside Save (desktop and tablet).
     //    Copies Lofty's own share button from the sticky banner, including
@@ -50,9 +53,10 @@
     if (date && days && listedBy) {
       var line = q(".isg-updated") || listedBy.appendChild(document.createElement("div"));
       line.className = "isg-updated";
-      line.textContent = "Updated " + date.textContent.trim().split(" ")[0] +
+      var text = "Updated " + date.textContent.trim().split(" ")[0] +
         " · " + days.textContent.replace(/^\s*ON MARKET:\s*/i, "").trim();
-      block.style.display = "none";
+      if (line.textContent !== text) line.textContent = text; // only write on change, or the page watcher would loop
+      if (block.style.display !== "none") block.style.display = "none";
     }
 
     // 3. Tidy Lofty's own wording: "$ 240,000" -> "$240,000", the similar-
@@ -129,5 +133,17 @@
     }
     holdBanner();
 
-  }, 1000);
+  }
+
+  var queued = false;
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; tick(); });
+  }
+
+  tick();
+  new MutationObserver(schedule).observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", tick);
+  setInterval(tick, 1000);
 })();

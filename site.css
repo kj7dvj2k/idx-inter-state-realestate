@@ -1268,3 +1268,9 @@ html.isg-banner-hold .listing-detail .fixed-banner.fixed {
     padding: 12px !important;
   }
 }
+
+/* Lofty's own "Updated:" block: hidden from the first paint (site.js moves
+   its text onto the "Listed by" line), so it never flashes on load */
+.listing-detail .key-info.on-site {
+  display: none !important;
+}
