@@ -13,6 +13,15 @@
 (function () {
   function q(sel) { return document.querySelector(sel); }
 
+  // The scrolling bar stays hidden until the in-page PREV / NEXT row has
+  // scrolled off the top of the screen (pages opened from a search only).
+  function holdBanner() {
+    var row = q(".isg-prevnext");
+    document.documentElement.classList.toggle("isg-banner-hold",
+      !!row && row.getBoundingClientRect().top + 40 > 0);
+  }
+  window.addEventListener("scroll", holdBanner, { passive: true });
+
   // Re-run every second: Lofty re-renders parts of the listing page as it
   // loads and when the visitor moves between listings.
   setInterval(function () {
@@ -96,6 +105,29 @@
       };
       lofty(style);
     }
+
+    // 5. In-page PREV / NEXT. Lofty deletes its own pair the moment the
+    //    scrolling bar appears (about 50px down), so keep a copy it cannot
+    //    remove; site.css hides Lofty's and places this one.
+    var exL = q(".extral-banner-left a.btn"), exR = q(".extral-banner-right a.btn");
+    if ((exL || exR) && !q(".isg-prevnext")) {
+      var host = (exL || exR).closest(".mg-container");
+      var row = document.createElement("div");
+      row.className = "isg-prevnext";
+      [exL, exR].forEach(function (a) {
+        var slot = document.createElement("span");
+        if (a) {
+          var c = document.createElement("a");
+          c.className = "btn";
+          c.href = a.getAttribute("href");
+          c.innerHTML = a.innerHTML;
+          slot.appendChild(c);
+        }
+        row.appendChild(slot);
+      });
+      host.insertBefore(row, host.firstChild);
+    }
+    holdBanner();
 
   }, 1000);
 })();

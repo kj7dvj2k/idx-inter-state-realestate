@@ -789,10 +789,123 @@ h6,
   background: #eee !important;
 }
 
-.listing-detail .extral-banner-right {
+.listing-detail :is(.extral-banner-left, .extral-banner-right) {
+  display: none !important; /* replaced by .isg-prevnext (site.js), which Lofty cannot remove on scroll */
+}
+
+/* In-page PREV / NEXT (built by site.js): see-through, white on hover */
+.listing-detail .isg-prevnext {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 16px;
+}
+
+.listing-detail .isg-prevnext a.btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 16px;
+  background: transparent !important;
+  color: #111 !important;
+  font: 700 12px / 1 Roboto, sans-serif;
+  letter-spacing: .14em;
+  text-decoration: none;
+  transition: background-color .15s ease;
+}
+
+.listing-detail .isg-prevnext a.btn:hover {
+  background: #fff !important;
+}
+
+.listing-detail .isg-prevnext a.btn .iconfont {
+  font-size: 11px;
+  color: #111;
+}
+
+.listing-detail .isg-prevnext .iconfont.prev {
+  display: inline-block;
+  transform: rotate(180deg);
+}
+
+/* Scrolling bar PREV / NEXT: inline at the content edges */
+.listing-detail .fixed-banner :is(.banner-left, .banner-right) {
   display: flex !important;
-  justify-content: flex-end;
-  padding-left: 0 !important;
+  align-items: center;
+  flex: none !important;
+  width: auto !important;
+}
+
+.listing-detail .fixed-banner :is(.banner-left, .banner-right) a.btn {
+  position: static !important;
+  transform: none !important;
+}
+
+.listing-detail .fixed-banner .banner-left {
+  margin-right: 20px !important;
+}
+
+/* Wide screens: PREV / NEXT sit outside the content, in the bar and on the page */
+@media (min-width: 1480px) {
+  .listing-detail .fixed-banner .banner-box {
+    position: relative !important;
+  }
+
+  .listing-detail .fixed-banner :is(.banner-left, .banner-right) {
+    position: absolute !important;
+    top: 0;
+    bottom: 0;
+    margin: 0 !important;
+  }
+
+  .listing-detail .fixed-banner .banner-left {
+    right: calc(100% + 20px);
+    left: auto !important;
+  }
+
+  .listing-detail .fixed-banner .banner-right {
+    left: calc(100% + 20px);
+    right: auto !important;
+  }
+
+  .listing-detail .fixed-banner .banner-box > .center {
+    flex: 1 1 auto !important;
+    width: auto !important;
+  }
+
+  .listing-detail .isg-prevnext {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    margin: 0;
+  }
+
+  .listing-detail .isg-prevnext > span {
+    position: absolute;
+    top: 10px;
+  }
+
+  .listing-detail .isg-prevnext > span:first-child {
+    right: calc(100% + 20px);
+  }
+
+  .listing-detail .isg-prevnext > span:last-child {
+    left: calc(100% + 20px);
+  }
+}
+
+/* The scrolling bar waits until the in-page PREV / NEXT have scrolled away
+   (site.js sets html.isg-banner-hold), then slides in */
+.listing-detail .fixed-banner.fixed {
+  transition: transform .2s ease;
+}
+
+html.isg-banner-hold .listing-detail .fixed-banner.fixed {
+  transform: translateY(calc(-100% - 24px)) !important;
 }
 
 /* Property history */
