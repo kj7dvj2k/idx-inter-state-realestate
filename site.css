@@ -176,25 +176,8 @@ h6,
 
 .listing-detail .tour-btn-container .btn-text {
   font: 16px / 1 var(--r);
-  color: #555;
+  color: #333;
   white-space: nowrap;
-}
-
-.listing-detail .tour-btn-container i {
-  width: 36px;
-  height: 36px;
-  background: #fff;
-  border: 1px solid #111;
-  border-radius: 50%;
-  font-size: 17px !important;
-  line-height: 36px !important;
-  text-align: center;
-}
-
-.listing-detail .btn-item .default,
-.listing-detail .icon-3d,
-.listing-detail .caculator-container * {
-  color: #555;
 }
 
 /* Est. payment line (keep .iconfont out of the font rule or its glyph breaks) */
@@ -251,10 +234,10 @@ h6,
   display: none;
 }
 
-/* Tour request card: square black outline */
+/* Tour request card: white, no outline */
 .listing-detail .detail-schedule-container {
   background: #fff !important;
-  border: 2px solid #111;
+  border: 0;
   border-radius: 0;
   box-shadow: none;
 }
@@ -324,13 +307,6 @@ h6,
   background: #fff !important;
 }
 
-/* Beds/baths/sqft icons: white circles with a black outline, like the
-   Save / Share / Virtual Tour buttons */
-.listing-detail .count-container .count-logo {
-  background: #fff !important;
-  border: 1px solid #111 !important;
-}
-
 /* Share button beside Save. The button itself is added by the script in
    Lofty's Script box (CSS cannot add elements); this styles it and opens
    Lofty's share menu on hover */
@@ -392,42 +368,6 @@ h6,
 /* 5. Listing pages, phones only (under 768px) ---------------------------- */
 
 @media (max-width: 767.98px) {
-
-  /* Header block in the desktop order: status, address, price, payment,
-     beds/baths/sqft, then the tour button */
-  .listing-detail .detail-info-header > .mobile {
-    display: flex !important;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-bottom: 24px;
-  }
-
-  .listing-detail .detail-info-header > .mobile .house-status {
-    order: 1;
-    margin: 0 0 12px !important;
-  }
-
-  .listing-detail .detail-info-header > .mobile .address-container {
-    order: 2;
-    margin: 0 !important;
-  }
-
-  .listing-detail .detail-info-header > .mobile .price-container {
-    order: 3;
-    margin: 16px 0 0 !important;
-  }
-
-  .listing-detail .detail-info-header > .mobile .caculator-container {
-    order: 4;
-    margin: 4px 0 0 !important;
-  }
-
-  .listing-detail .detail-info-header > .mobile .count-container {
-    order: 5;
-    align-self: stretch;
-    margin-top: 18px !important;
-    margin-bottom: 0 !important;
-  }
 
   /* Phones already have Share in the top bar */
   .listing-detail .tour-btn-container .share {
@@ -611,5 +551,586 @@ h6,
 
   .listing-detail .detail-info-left {
     padding-right: 48px;
+  }
+}
+
+
+/* 9. Listing pages, 2026-10-29 consistency pass -------------------------- */
+
+/* Round icon buttons, one spec everywhere: beds/baths/sqft, Save, Share,
+   Virtual Tour, and the Save/Share circles in the scrolling top bar.
+   40px white circle, 1px #111 outline, 16px #111 glyph. 40/16 lands on whole
+   device pixels at 100%, 125% and 150% Windows scaling, so edges stay crisp.
+   Centered by line-height 38px (the inner height); display is left to Lofty,
+   which swaps the hover/saved twins. Only the heart is red. */
+.listing-detail .tour-btn-container i,
+.listing-detail .count-container .count-logo,
+.listing-detail .fixed-banner .save-share-tour .item:is(.save, .share) {
+  box-sizing: border-box !important;
+  flex: none !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  background: #fff !important;
+  border: 1px solid #111 !important;
+  border-radius: 50% !important;
+  font-size: 16px !important;
+  line-height: 38px !important;
+  text-align: center !important;
+  color: #111 !important;
+  vertical-align: middle !important;
+}
+
+.listing-detail .tour-btn-container i,
+.listing-detail .fixed-banner .save-share-tour .item {
+  margin: 0 !important;
+}
+
+/* Lofty colours the glyph itself (light gray on beds/baths), so set it there */
+.listing-detail .tour-btn-container i::before,
+.listing-detail .count-container .count-logo::before,
+.listing-detail .fixed-banner .save-share-tour .item i::before {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+}
+
+/* Top bar: the circle is the <span>, the <i> inside is just the glyph */
+.listing-detail .fixed-banner {
+  padding-right: 0 !important; /* Lofty's 15px pushed the bar off the content edges */
+}
+
+.listing-detail .fixed-banner .save-share-tour {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px;
+}
+
+.listing-detail .fixed-banner .save-share-tour .item i {
+  width: 38px !important;
+  height: 38px !important;
+  font-size: 16px !important;
+  line-height: 38px !important;
+  text-align: center !important;
+  color: #111 !important;
+}
+
+/* Heart: red at rest and when filled, nudged 1px down so it reads centred */
+.listing-detail :is(.tour-btn-container, .fixed-banner .save-share-tour .item) i:is(.icon-heart, .icon-heart-fill) {
+  color: #f0454c !important;
+}
+
+.listing-detail :is(.tour-btn-container, .fixed-banner .save-share-tour .item) i:is(.icon-heart, .icon-heart-fill)::before {
+  display: inline-block;
+  transform: translateY(1px);
+  color: #f0454c !important;
+  -webkit-text-fill-color: #f0454c !important;
+}
+
+/* Share arrow is short and wide: 18px so it matches the other glyphs */
+.listing-detail :is(.tour-btn-container, .fixed-banner .save-share-tour .item) i:is(.icon-v2-share-Normal, .icon-v2-share-hover) {
+  font-size: 18px !important;
+}
+
+/* Share keeps its black arrow on hover (no green or blue swap) */
+.listing-detail :is(.fixed-banner .save-share-tour, .tour-btn-container) .share .hover {
+  display: none !important;
+}
+
+.listing-detail :is(.fixed-banner .save-share-tour, .tour-btn-container) .share .default {
+  display: block !important;
+}
+
+.listing-detail .tour-btn-container .btn-item:hover i,
+.listing-detail .fixed-banner .save-share-tour .item:is(.save, .share):hover {
+  background: #eee !important;
+}
+
+/* Desktop: Save/Share/Virtual Tour circles on the same line as beds/baths */
+.listing-detail .detail-info-header > div .tour-btn-container {
+  align-self: start;
+  margin-top: 25px !important;
+}
+
+/* Beds/baths/sqft: no faint lines, text centred on its circle */
+.listing-detail .count-container,
+.listing-detail .count-container > div {
+  border: 0 !important;
+}
+
+.listing-detail .count-container > div {
+  align-items: center !important;
+}
+
+.listing-detail .count-container > div > p:not(.count-logo) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: auto !important;
+}
+
+/* Text on the gray page: values #111, labels and fine print #333 */
+.listing-detail :is(.info-data, .count-container .number, .detail-info-header .city, .caculator-container label, .caculator-container > div, .md-map .addr, .md-map .vertical-line, .md-map .item.school, .md-market-trends label.text, .md-market-trends .sold-number, .open-house .detail-content, .open-house .detail-content *) {
+  color: #111 !important;
+}
+
+.listing-detail :is(.info-title, .house-provided, .property-source, .tour-btn-container .btn-text, .count-container .house, .payment-text, .near-by-disclaimer, .md-map p.desc, .md-map .house-info > div, .md-map .mls-info > div, .md-form .label-top, .mls-desc-tip, .mls-provided, .mls-provided *, .mls-provided-container, .mls-provided-container *) {
+  color: #333 !important;
+}
+
+/* Open house bar: white with a black outline */
+.listing-detail .open-house .detail-content {
+  background: #fff !important;
+  border: 1px solid #111 !important;
+}
+
+/* Tour request card: white, no outline */
+.listing-detail .detail-schedule-container {
+  border: 0 !important;
+}
+
+/* Gallery arrows and the tour card's date arrows: white outlined circles */
+.listing-detail :is(.swiper-button-next, .swiper-button-prev).iconfont {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px !important;
+  height: 40px !important;
+  margin-top: -20px !important;
+  background: #fff !important;
+  border: 1px solid #111 !important;
+  border-radius: 50% !important;
+  color: #111 !important;
+  font-size: 16px !important;
+}
+
+.listing-detail .swiper-button-next.iconfont {
+  right: 16px !important;
+}
+
+.listing-detail .swiper-button-prev.iconfont {
+  left: 16px !important;
+}
+
+.listing-detail :is(.swiper-button-next, .swiper-button-prev).iconfont::before {
+  color: #111 !important;
+}
+
+.listing-detail :is(.booking-prev, .booking-next).iconfont {
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  align-self: center;
+  width: 28px !important;
+  height: 28px !important;
+  background: #fff;
+  border: 1px solid #111;
+  border-radius: 50%;
+  color: #111 !important;
+  font-size: 12px !important;
+}
+
+.listing-detail :is(.booking-prev, .booking-next).disabled {
+  opacity: .3;
+}
+
+/* NEXT listing button (shown when the visitor came from a search), in the
+   page and in the scrolling bar */
+.listing-detail :is(.extral-banner-right, .banner-right) a.btn {
+  box-sizing: border-box;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: auto !important;
+  height: 40px !important;
+  padding: 0 16px !important;
+  background: #fff !important;
+  border: 1px solid #111 !important;
+  border-radius: 0 !important;
+  color: #111 !important;
+  font: 700 12px / 1 Roboto, sans-serif !important;
+  letter-spacing: .14em;
+}
+
+.listing-detail :is(.extral-banner-right, .banner-right) a.btn :is(.text, .iconfont) {
+  color: #111 !important;
+  line-height: 1 !important;
+}
+
+.listing-detail :is(.extral-banner-right, .banner-right) a.btn .iconfont {
+  font-size: 11px !important;
+}
+
+.listing-detail :is(.extral-banner-right, .banner-right) a.btn:hover {
+  background: #eee !important;
+}
+
+.listing-detail .extral-banner-right {
+  display: flex !important;
+  justify-content: flex-end;
+  padding-left: 0 !important;
+}
+
+/* Property history */
+.listing-detail .md-property-history .list-header span {
+  font: 400 12px / 20px Roboto, sans-serif !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+  color: #333 !important;
+}
+
+.listing-detail .md-property-history .list-sub-header {
+  padding-left: 15px !important;
+  background: none !important;
+  border-bottom: 1px solid #111;
+  font: 400 12px / 30px Roboto, sans-serif !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase;
+  color: #333 !important;
+}
+
+.listing-detail .md-property-history .list-box li {
+  border-color: #111 !important;
+}
+
+.listing-detail .md-property-history :is(.property-date, .property-status) {
+  font-size: 15px !important;
+  color: #111 !important;
+}
+
+.listing-detail .md-property-history .price {
+  font: 800 18px / 1.2 Manrope, sans-serif !important;
+  color: #111 !important;
+}
+
+.listing-detail .md-property-history .trend-down {
+  font-size: 13px !important;
+}
+
+/* Market trends (the chart's own colours are set by site.js) */
+.listing-detail .md-market-trends .title_container {
+  padding-bottom: 0 !important;
+}
+
+.listing-detail #app .md-market-trends .mg-title .zipcode {
+  font: 400 16px / 1 Roboto, sans-serif !important;
+  text-transform: none !important;
+  color: #333 !important;
+}
+
+.listing-detail .md-market-trends .filter-chart-container {
+  padding: 16px !important;
+}
+
+.listing-detail .md-market-trends .trends-filter .box-div::before {
+  height: 2px !important;
+  background: #111 !important;
+}
+
+.listing-detail .md-market-trends .trends-filter .sold-number::before {
+  background: #c4c4c4 !important;
+  border-radius: 0 !important;
+}
+
+.listing-detail .md-market-trends .trends-filter .dropdown_icon {
+  color: #111 !important;
+}
+
+.listing-detail .chart-tooltip .label.price .series-name {
+  background: #111 !important;
+}
+
+.listing-detail .chart-tooltip .label.count .series-name {
+  background: #c4c4c4 !important;
+}
+
+.listing-detail .md-market-trends .cta-btn {
+  padding-top: 24px !important;
+}
+
+/* Similar homes / Hot listings */
+.listing-detail .md-house-listing .list-container::before {
+  display: none !important; /* Lofty's lighter band through the cards */
+}
+
+.listing-detail #app .mg-title h3.sub-title {
+  margin-top: 8px !important;
+  font: 400 16px / 1.4 Roboto, sans-serif !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: #333 !important;
+}
+
+.listing-detail #app .mg-title h3.sub-title::first-letter {
+  text-transform: none !important;
+}
+
+.listing-detail .md-house-listing .house-card {
+  background: #fff;
+}
+
+.listing-detail .md-house-listing .house-info {
+  margin: 0 !important;
+  padding: 16px !important;
+  background: #fff;
+}
+
+.listing-detail .md-house-listing .house-preview .house-status {
+  padding: 3px 8px !important;
+  background: #fff !important;
+  border: 2px solid #111 !important;
+  border-radius: 0 !important;
+  font: 700 11px / 1 Roboto, sans-serif !important;
+  letter-spacing: .14em;
+  text-transform: uppercase !important;
+  color: #111 !important;
+}
+
+.listing-detail .md-house-listing .house-basic .vertical-line::after {
+  content: "|" !important;
+  margin: 0 8px;
+  color: #999;
+}
+
+.listing-detail .md-house-listing .house-basic .vertical-line:last-child::after {
+  content: none !important;
+}
+
+/* Get more information form: page gray, plain white fields */
+.listing-detail .md-form {
+  background-color: #eee !important;
+}
+
+.listing-detail .md-form :is(input, textarea) {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #111 !important;
+}
+
+.listing-detail .md-form :is(input, textarea)::placeholder {
+  color: #555 !important;
+}
+
+/* Phones ---------------------------------------------------------------- */
+@media (max-width: 767.98px) {
+
+  /* Header: status, address, city, price, payment, beds/baths/sqft, tour,
+     then the "Listed by" / "Updated" lines as fine print under the block */
+  .listing-detail .detail-info-left {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .listing-detail .detail-info-left > .detail-info-header {
+    order: 1;
+  }
+
+  .listing-detail .detail-info-left > .mls-provided-container {
+    order: 2;
+    margin: 0 0 20px !important;
+  }
+
+  .listing-detail .detail-info-left > .detail-info-group {
+    order: 3;
+  }
+
+  .listing-detail .detail-info-header > .mobile {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    padding: 16px 0 20px !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .house-status {
+    justify-self: start;
+    order: 1;
+    margin: 0 0 14px !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .address-container {
+    order: 2;
+    margin: 0 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .address-container .street {
+    font-size: 22px !important;
+    line-height: 1.2 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .address-container .city {
+    margin-top: 2px !important;
+    font: 400 15px / 1.4 Roboto, sans-serif !important;
+    color: #333 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .price-container {
+    order: 3;
+    margin: 16px 0 0 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .price-container :is(.origin-price, .price-number) {
+    white-space: nowrap !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .price-container .price-number {
+    font-size: 28px !important;
+    line-height: 1 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .caculator-container {
+    order: 4;
+    justify-self: start;
+    margin: 6px 0 0 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .caculator-container :is(div, label, .payment-text) {
+    font: 400 13px / 1.2 Roboto, sans-serif !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .caculator-container .icon-caculator {
+    font-size: 13px !important;
+  }
+
+  /* Beds/baths/sqft: three equal columns, number and label centred on the circle */
+  .listing-detail .detail-info-header > .mobile .count-container {
+    order: 5;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 20px 0 0 !important;
+    padding: 0 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .count-container > div {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .count-container .count-logo {
+    margin: 0 10px 0 0 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .count-container .number {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .count-container .house {
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Tour row: left-aligned (Lofty right-aligned it and clipped the circle);
+     Save and Share stay in the top bar on phones */
+  .listing-detail .detail-info-header > .mobile .tour-btn-container {
+    order: 6;
+    justify-content: flex-start !important;
+    min-width: max-content;
+  }
+
+  .listing-detail .detail-info-header > .mobile .tour-btn-container :is(.save, .share) {
+    display: none !important;
+  }
+
+  .listing-detail .detail-info-header > .mobile .tour-btn-container > .btn-item {
+    margin-top: 16px !important;
+  }
+
+  .listing-detail .mls-provided-container :is(.mls-provided, .isg-updated) {
+    margin: 0 !important;
+    padding: 0 !important;
+    font: 400 12px / 1.5 Roboto, sans-serif !important;
+    color: #333 !important;
+  }
+
+  /* Description: left-aligned, no stretched word gaps */
+  .listing-detail .read-more-content .info-data {
+    text-align: left !important;
+  }
+
+  /* Detail rows: long labels wrap instead of running into the value */
+  .listing-detail .info-content .info-title {
+    flex: 0 0 130px !important;
+    width: 130px !important;
+    padding-right: 12px;
+    white-space: normal !important;
+  }
+
+  /* Amenities & attractions: hidden on phones */
+  .listing-detail .md-map {
+    display: none !important;
+  }
+
+  /* Property history: one stacked block per event */
+  .listing-detail .md-property-history .content-container {
+    padding: 0 15px !important;
+    overflow: visible !important;
+  }
+
+  .listing-detail .md-property-history :is(.list-property-history, .list-box, .list-box li) {
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  .listing-detail .md-property-history .list-header {
+    display: none !important;
+  }
+
+  .listing-detail .md-property-history .list-sub-header {
+    padding-left: 0 !important;
+  }
+
+  .listing-detail .md-property-history .list-box li {
+    display: grid !important;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    column-gap: 12px;
+    row-gap: 4px;
+    padding: 14px 0 !important;
+  }
+
+  .listing-detail .md-property-history .property-date-source {
+    display: contents !important;
+  }
+
+  .listing-detail .md-property-history li > *,
+  .listing-detail .md-property-history .property-date-source > * {
+    min-width: 0;
+    max-width: none !important;
+  }
+
+  .listing-detail .md-property-history .property-date {
+    grid-area: 1 / 1;
+  }
+
+  .listing-detail .md-property-history .property-price {
+    grid-area: 1 / 2;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 6px;
+    width: auto !important;
+    padding: 0 !important;
+  }
+
+  .listing-detail .md-property-history .property-status {
+    grid-area: 2 / 1 / 3 / 3;
+    width: auto !important;
+    padding: 0 !important;
+    font-weight: 500;
+  }
+
+  .listing-detail .md-property-history .property-source {
+    grid-area: 3 / 1 / 4 / 3;
+    margin: 0 !important;
+    overflow: visible !important;
+    white-space: normal !important;
+  }
+
+  .listing-detail .md-market-trends .filter-chart-container {
+    padding: 12px !important;
   }
 }

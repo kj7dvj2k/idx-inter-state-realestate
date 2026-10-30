@@ -5,8 +5,9 @@
    The lead-capture script stays in Lofty itself, not here.
 
    Everything here is cosmetic: if this file fails to load, the page still
-   works and simply looks like Lofty's default in these two spots.
-   Styling for both lives in site.css.
+   works and simply looks like Lofty's default in these spots.
+   Styling lives in site.css; the Market trends chart is the exception
+   (a canvas), so its colours are set here.
    ========================================================================== */
 
 (function () {
@@ -43,6 +44,57 @@
       line.textContent = "Updated " + date.textContent.trim().split(" ")[0] +
         " · " + days.textContent.replace(/^\s*ON MARKET:\s*/i, "").trim();
       block.style.display = "none";
+    }
+
+    // 3. Tidy Lofty's own wording: "$ 240,000" -> "$240,000", the similar-
+    //    homes subtitle ("Townhouses", "River Falls,WI"), and "(In 54806)".
+    document.querySelectorAll(".price-number").forEach(function (p) {
+      p.childNodes.forEach(function (n) {
+        if (n.nodeType === 3 && /\$\s+/.test(n.textContent)) {
+          n.textContent = n.textContent.replace(/\$\s+/, "$");
+        }
+      });
+    });
+    document.querySelectorAll(".md-house-listing h3.sub-title").forEach(function (h) {
+      var t = h.textContent
+        .replace(/similar (\S+)/, function (m, w) { return "similar " + w.toLowerCase(); })
+        .replace(/,(?=[A-Za-z])/g, ", ");
+      if (t !== h.textContent) h.textContent = t;
+    });
+    document.querySelectorAll(".md-market-trends .zipcode").forEach(function (z) {
+      if (z.textContent.indexOf("(In ") > -1) z.textContent = z.textContent.replace("(In ", "(in ");
+    });
+
+    // 4. Market trends chart in the site's colours. It is an ECharts canvas,
+    //    so CSS cannot reach it; restyle the instance, and re-apply whenever
+    //    Lofty redraws it (the Average/Median dropdown).
+    var chartEl = q(".md-market-trends .echart");
+    var inst = chartEl && window.echarts && window.echarts.getInstanceByDom(chartEl);
+    if (inst && !inst.__isg) {
+      inst.__isg = true;
+      var ax = {
+        axisLabel: { color: "#333", fontSize: 11, fontFamily: "Roboto, sans-serif" },
+        splitArea: { show: false }, splitLine: { show: false },
+        axisLine: { show: false }, axisTick: { show: false }
+      };
+      var style = {
+        textStyle: { fontFamily: "Roboto, sans-serif" },
+        grid: [{ left: 4, right: 4, top: 10, bottom: 4, containLabel: true }],
+        xAxis: [ax],
+        yAxis: [Object.assign({}, ax, { splitLine: { show: true, lineStyle: { color: "#e6e6e6" } } }), ax],
+        series: [
+          { barWidth: 14, itemStyle: { color: "#c4c4c4", borderColor: "#c4c4c4", borderRadius: 0, barBorderRadius: 0 } },
+          { symbol: "circle", symbolSize: 6, itemStyle: { color: "#111", borderColor: "#111", borderWidth: 2 }, lineStyle: { color: "#111", width: 2 } }
+        ],
+        axisPointer: [{ lineStyle: { color: "#111", type: "dashed" } }]
+      };
+      var lofty = inst.setOption.bind(inst);
+      inst.setOption = function (o) {
+        var r = lofty.apply(null, arguments);
+        if (o !== style) lofty(style);
+        return r;
+      };
+      lofty(style);
     }
 
   }, 1000);
