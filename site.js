@@ -44,14 +44,41 @@
       buttons.appendChild(copy);
     }
 
-    // 2. "Updated <date> - N days on market" moved onto the "Listed by" line.
-    //    Lofty's own "Updated:" block is hidden once its text is copied.
+    // 2a. "Listed by" at the top of the header on every listing. Lofty puts
+    //     it at the top or at the very bottom depending on the MLS; when it
+    //     is at the bottom, show a copy at the top and hide the original
+    //     (and its section, when that line is all the section holds).
+    var left = q(".detail-info-left");
+    var bottom = q(".md-mls .mls-provided-container");
+    var bottomText = bottom && bottom.querySelector(".mls-provided");
+    if (left && bottomText) {
+      var topLine = left.querySelector(":scope > .isg-provided");
+      if (!topLine) {
+        topLine = document.createElement("div");
+        topLine.className = "mls-provided-container standard isg-provided";
+        topLine.appendChild(document.createElement("div")).className = "mls-provided";
+        left.insertBefore(topLine, left.firstChild);
+      }
+      var provided = topLine.querySelector(".mls-provided");
+      if (provided.innerHTML !== bottomText.innerHTML) provided.innerHTML = bottomText.innerHTML;
+      if (bottom.style.display !== "none") bottom.style.display = "none";
+      var section = bottom.closest(".md-mls");
+      if (section && section.style.display !== "none" && !section.innerText.trim()) section.style.display = "none";
+    }
+
+    // 2b. "Updated <date> - N days on market" moved onto the "Listed by" line.
+    //     Lofty's own "Updated:" block is hidden from the first paint by
+    //     site.css; its text is copied here.
     var block = q(".key-info.on-site");
-    var listedBy = q(".mls-provided-container");
+    var listedBy = q(".detail-info-left > .mls-provided-container");
     var date = block && block.querySelector(".day-site");
     var days = block && block.querySelector(".tiny-site");
     if (date && days && listedBy) {
-      var line = q(".isg-updated") || listedBy.appendChild(document.createElement("div"));
+      var line = listedBy.querySelector(".isg-updated");
+      if (!line) {
+        document.querySelectorAll(".isg-updated").forEach(function (old) { old.remove(); });
+        line = listedBy.appendChild(document.createElement("div"));
+      }
       line.className = "isg-updated";
       var text = "Updated " + date.textContent.trim().split(" ")[0] +
         " · " + days.textContent.replace(/^\s*ON MARKET:\s*/i, "").trim();
