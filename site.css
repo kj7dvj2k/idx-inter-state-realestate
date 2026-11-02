@@ -14,6 +14,13 @@
      5. Listing pages, phones only (under 768px)
      6. Listing pages, tablet and up (768px+)
      7. Listing pages, desktop (1200px+)
+     9. Listing pages, 2026-10-29 consistency pass
+    10. Sold listing pages (their own Lofty template)
+    11. Search results pages
+
+   Listing-page rules are scoped to :is(.listing-detail, .listing-detail-sold)
+   so active and sold listings share them; only the active header grid in
+   section 6 is .listing-detail alone (the sold header is laid out in 10).
    ========================================================================== */
 
 
@@ -126,16 +133,16 @@ h6,
 /* 4. Listing pages, all screen sizes ------------------------------------- */
 
 /* Section titles typed in caps by Lofty: sentence case */
-.listing-detail #app :is(.mg-title, .mg-title *, .form-container .title h2, .on-site .detail-title) {
+:is(.listing-detail, .listing-detail-sold) #app :is(.mg-title, .mg-title *, .form-container .title h2, .on-site .detail-title) {
   text-transform: lowercase !important;
 }
 
-.listing-detail #app :is(.mg-title, .mg-title > h2, .form-container .title h2, .on-site .detail-title)::first-letter {
+:is(.listing-detail, .listing-detail-sold) #app :is(.mg-title, .mg-title > h2, .form-container .title h2, .on-site .detail-title)::first-letter {
   text-transform: uppercase !important;
 }
 
 /* Status badge: outlined box */
-.listing-detail .house-status {
+:is(.listing-detail, .listing-detail-sold) .house-status {
   padding: 3px 8px;
   background: none;
   border: 2px solid #111;
@@ -144,11 +151,11 @@ h6,
 
 /* Header badge: white square on the gray page (Lofty's own tint removed;
    the colored badges on the nearby-listing cards keep their fills) */
-.listing-detail .detail-info-header .house-status {
+:is(.listing-detail, .listing-detail-sold) .detail-info-header .house-status {
   background: #fff !important;
 }
 
-.listing-detail .status-text {
+:is(.listing-detail, .listing-detail-sold) .status-text {
   font: 700 11px / 1 Roboto, sans-serif;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -156,17 +163,17 @@ h6,
 }
 
 /* Save and Virtual Tour buttons: round outlined icons with a text label */
-.listing-detail .tour-btn-container {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container {
   display: flex;
   gap: 20px;
 }
 
-.listing-detail .tour-btn-container .save {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .save {
   order: 1;
 }
 
-.listing-detail .btn-item,
-.listing-detail .btn-item a {
+:is(.listing-detail, .listing-detail-sold) .btn-item,
+:is(.listing-detail, .listing-detail-sold) .btn-item a {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -174,68 +181,68 @@ h6,
   margin: 0 !important;
 }
 
-.listing-detail .tour-btn-container .btn-text {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .btn-text {
   font: 16px / 1 var(--r);
   color: #333;
   white-space: nowrap;
 }
 
 /* Est. payment line (keep .iconfont out of the font rule or its glyph breaks) */
-.listing-detail .caculator-container {
+:is(.listing-detail, .listing-detail-sold) .caculator-container {
   cursor: pointer;
 }
 
-.listing-detail .caculator-container :not(.iconfont) {
+:is(.listing-detail, .listing-detail-sold) .caculator-container :not(.iconfont) {
   font: 17px / 1.4 var(--m) !important;
 }
 
 /* Detail sections: black rule above each title, no gray row lines */
-.listing-detail hr.line {
+:is(.listing-detail, .listing-detail-sold) hr.line {
   display: none;
 }
 
-.listing-detail .key-info .detail-title {
+:is(.listing-detail, .listing-detail-sold) .key-info .detail-title {
   padding-top: 14px;
   border-top: 2px solid #111;
 }
 
-.listing-detail .key-info .two-columns {
+:is(.listing-detail, .listing-detail-sold) .key-info .two-columns {
   column-gap: 40px;
 }
 
-.listing-detail .key-info .info-title {
+:is(.listing-detail, .listing-detail-sold) .key-info .info-title {
   font-size: 12px !important;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
 
-.listing-detail .info-content {
+:is(.listing-detail, .listing-detail-sold) .info-content {
   margin: 0 !important;
   padding: 8px 0 !important;
   border: 0;
 }
 
-.listing-detail .info-des .info-data {
+:is(.listing-detail, .listing-detail-sold) .info-des .info-data {
   max-width: none;
   text-align: justify;
 }
 
 /* No "Read More" cutoff: show all details */
-.listing-detail .read-more {
+:is(.listing-detail, .listing-detail-sold) .read-more {
   display: none;
 }
 
-.listing-detail .detail-info-left {
+:is(.listing-detail, .listing-detail-sold) .detail-info-left {
   max-height: none !important;
 }
 
 /* Empty gray breadcrumb band above the photos: hidden */
-.listing-detail .breadcrumb-container {
+:is(.listing-detail, .listing-detail-sold) .breadcrumb-container {
   display: none;
 }
 
 /* Tour request card: white, no outline */
-.listing-detail .detail-schedule-container {
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container {
   background: #fff !important;
   border: 0;
   border-radius: 0;
@@ -243,87 +250,87 @@ h6,
 }
 
 /* Phone/tablet top bar (back, Search, save, share): white instead of navy */
-.listing-detail .save-share-container {
+:is(.listing-detail, .listing-detail-sold) .save-share-container {
   background: #fff !important;
   border-bottom: 1px solid #e2e2e2;
 }
 
-.listing-detail .save-share-container .iconfont {
+:is(.listing-detail, .listing-detail-sold) .save-share-container .iconfont {
   color: #111 !important;
 }
 
-.listing-detail .save-share-container .btn-text {
+:is(.listing-detail, .listing-detail-sold) .save-share-container .btn-text {
   color: #555 !important;
 }
 
 /* Footer content: company and office address in Manrope, agent lines hidden.
    The address is hard-coded here: if the office moves, change it here too. */
-.listing-detail .md-footer {
+:is(.listing-detail, .listing-detail-sold) .md-footer {
   padding: 48px 0 !important;
 }
 
-.listing-detail .md-footer .site-logo {
+:is(.listing-detail, .listing-detail-sold) .md-footer .site-logo {
   margin: 0 0 20px;
 }
 
-.listing-detail .md-footer .right-content .co-name:not(#_) {
+:is(.listing-detail, .listing-detail-sold) .md-footer .right-content .co-name:not(#_) {
   margin-bottom: 6px;
   font: 20px / 1.3 var(--b) !important;
 }
 
-.listing-detail .md-footer .right-content .detail-addr {
+:is(.listing-detail, .listing-detail-sold) .md-footer .right-content .detail-addr {
   font-size: 0 !important;
 }
 
-.listing-detail .md-footer .right-content .detail-addr::after {
+:is(.listing-detail, .listing-detail-sold) .md-footer .right-content .detail-addr::after {
   content: "715 Main St W\A Ashland, WI 54806";
   white-space: pre;
   font: 20px / 1.3 var(--b);
 }
 
-.listing-detail .md-footer .right-content :is(.agent-name, .agent-info, .other-cont, .detail-info) {
+:is(.listing-detail, .listing-detail-sold) .md-footer .right-content :is(.agent-name, .agent-info, .other-cont, .detail-info) {
   display: none;
 }
 
-.listing-detail .md-footer .line {
+:is(.listing-detail, .listing-detail-sold) .md-footer .line {
   margin: 24px 0;
   background: #fff;
 }
 
-.listing-detail .md-footer .content {
+:is(.listing-detail, .listing-detail-sold) .md-footer .content {
   text-align: justify;
 }
 
 
 /* Gray page (#eeeeee) behind white elements. The header, sticky banner
    and footer keep their own colors */
-.listing-detail main.page-content,
-.listing-detail :is(.md-detail-info, .md-house-listing, .md-map, .md-market-trends, .md-market-trends .container, .md-mid-banner, .md-property-history) {
+:is(.listing-detail, .listing-detail-sold) main.page-content,
+:is(.listing-detail, .listing-detail-sold) :is(.md-detail-info, .md-house-listing, .md-map, .md-market-trends, .md-market-trends .container, .md-mid-banner, .md-property-history) {
   background: #eee !important;
 }
 
 /* Panels sitting on the gray page stay white: map sidebar, market chart */
-.listing-detail :is(.map-tab, .tab-content.more-panel, .filter-chart-container) {
+:is(.listing-detail, .listing-detail-sold) :is(.map-tab, .tab-content.more-panel, .filter-chart-container) {
   background: #fff !important;
 }
 
 /* Share button beside Save. The button itself is added by the script in
    Lofty's Script box (CSS cannot add elements); this styles it and opens
    Lofty's share menu on hover */
-.listing-detail .tour-btn-container .share {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .share {
   order: 2;
   position: relative;
   cursor: pointer;
 }
 
-.listing-detail .tour-btn-container .share .hover {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .share .hover {
   display: none;
 }
 
 /* Share menu floats below the Share icon instead of taking up space beside
    it: the arrow points at the icon, and the transparent top padding keeps
    the menu open while the pointer moves down into it */
-.listing-detail .tour-btn-container .share .popper {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .share .popper {
   position: absolute !important;
   top: 100%;
   left: 18px;
@@ -333,7 +340,7 @@ h6,
   visibility: hidden !important;
 }
 
-.listing-detail .tour-btn-container .share .share-btn::before {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .share .share-btn::before {
   left: calc(50% - 5px) !important;
   right: auto !important;
   transform: rotate(-45deg) !important;   /* Lofty's own nudge put it 5px off */
@@ -341,7 +348,7 @@ h6,
 
 /* "Updated <date> - N days on market", moved by the Script box script from
    its own "Updated:" block onto the right end of the "Listed by" line */
-.listing-detail .mls-provided-container {
+:is(.listing-detail, .listing-detail-sold) .mls-provided-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -349,18 +356,18 @@ h6,
   gap: 4px 16px;
 }
 
-.listing-detail .isg-updated {
+:is(.listing-detail, .listing-detail-sold) .isg-updated {
   font: inherit;          /* same type as the "Listed by" text */
   color: #595e6d;         /* Lofty's "Listed by" gray */
 }
 
-.listing-detail .tour-btn-container .share:hover .popper {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .share:hover .popper {
   visibility: visible !important;
 }
 
 /* Phone bottom bar: Call and Tour in black */
-.listing-detail .detail-bottom-menu :is(.phone, .tour),
-.listing-detail .detail-bottom-menu :is(.phone, .tour) * {
+:is(.listing-detail, .listing-detail-sold) .detail-bottom-menu :is(.phone, .tour),
+:is(.listing-detail, .listing-detail-sold) .detail-bottom-menu :is(.phone, .tour) * {
   color: #111 !important;
 }
 
@@ -370,52 +377,52 @@ h6,
 @media (max-width: 767.98px) {
 
   /* Phones already have Share in the top bar */
-  .listing-detail .tour-btn-container .share {
+  :is(.listing-detail, .listing-detail-sold) .tour-btn-container .share {
     display: none !important;
   }
 
   /* Tour button row: spacing lives on the buttons, so a row with nothing
      visible (Lofty hides Save on phones) adds no empty gap */
-  .listing-detail .detail-info-header > .mobile .tour-btn-container {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .tour-btn-container {
     order: 6;
     position: static !important;
     margin: 0 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .tour-btn-container > .btn-item {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .tour-btn-container > .btn-item {
     margin-top: 18px !important;
   }
 
   /* "Listed by" and the Updated line stack on phones; space before the badge */
-  .listing-detail .mls-provided-container {
+  :is(.listing-detail, .listing-detail-sold) .mls-provided-container {
     margin-bottom: 14px !important;
   }
 
   /* Footer: eXp and ISG logos side by side at equal height, brand line
      under them, company and address below */
-  .listing-detail .md-footer .site-logo {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .site-logo {
     display: flex;
     align-items: center;
     gap: 24px;
   }
 
-  .listing-detail .md-footer .site-logo a {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .site-logo a {
     display: flex;
   }
 
-  .listing-detail .md-footer .site-logo img {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .site-logo img {
     width: auto !important;
     height: 96px !important;
     margin: 0 !important;
   }
 
-  .listing-detail .md-footer .left-content {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content {
     display: block !important;
     margin-bottom: 28px;
   }
 
-  .listing-detail .md-footer .left-content ul,
-  .listing-detail .md-footer .left-content li {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content ul,
+  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content li {
     width: auto !important;
   }
 }
@@ -471,46 +478,46 @@ h6,
   }
 
   /* Footer: logo and brand line left, company and address right */
-  .listing-detail .md-footer .footer-container {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .footer-container {
     display: grid;
     grid-template-columns: 1fr auto;
     column-gap: 40px;
   }
 
-  .listing-detail .md-footer .top-content {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .top-content {
     display: contents;
   }
 
-  .listing-detail .md-footer .left-content {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content {
     grid-area: 2 / 1;
   }
 
-  .listing-detail .md-footer .left-content ul,
-  .listing-detail .md-footer .left-content li {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content ul,
+  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content li {
     width: auto !important;
   }
 
-  .listing-detail .md-footer .right-content {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .right-content {
     grid-area: 1 / 2 / 3;
   }
 
-  .listing-detail .md-footer .right-content * {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .right-content * {
     text-align: right !important;
   }
 
-  .listing-detail .md-footer .bottom-content {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .bottom-content {
     grid-column: 1 / -1;
     margin-top: 32px;
   }
 
-  .listing-detail .md-footer .copyright {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .copyright {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: baseline;
   }
 
-  .listing-detail .md-footer .line {
+  :is(.listing-detail, .listing-detail-sold) .md-footer .line {
     flex-basis: 100%;
   }
 }
@@ -521,35 +528,35 @@ h6,
 @media (min-width: 1200px) {
 
   /* Centered 1240px column, header aligned to it */
-  .listing-detail .md-header .header-container {
+  :is(.listing-detail, .listing-detail-sold) .md-header .header-container {
     padding-inline: max(34px, calc(50vw - 628px));
   }
 
-  .listing-detail #app :is(.mg-container, .footer-container) {
+  :is(.listing-detail, .listing-detail-sold) #app :is(.mg-container, .footer-container) {
     max-width: 1240px;
     margin-inline: auto;
   }
 
-  .listing-detail .fixed-banner :is(.banner-box, .center) {
+  :is(.listing-detail, .listing-detail-sold) .fixed-banner :is(.banner-box, .center) {
     padding-inline: 0;
   }
 
   /* Taller photo gallery */
-  .listing-detail .detail-info-imgs,
-  .listing-detail .detail-info-imgs .slide-pc {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-imgs,
+  :is(.listing-detail, .listing-detail-sold) .detail-info-imgs .slide-pc {
     height: clamp(400px, 30vw, 560px) !important;
   }
 
-  .listing-detail .detail-info-imgs .slide-5 .img-item {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-imgs .slide-5 .img-item {
     height: 50%;
   }
 
-  .listing-detail .detail-info-imgs img {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-imgs img {
     height: 100%;
     object-fit: cover;
   }
 
-  .listing-detail .detail-info-left {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-left {
     padding-right: 48px;
   }
 }
@@ -564,9 +571,9 @@ h6,
    page has no outline; the top bar is white, so its circles keep a 1px #111
    outline. Centered by line-height (the inner height); display is left to
    Lofty, which swaps the hover/saved twins. Only the heart is red. */
-.listing-detail .tour-btn-container i,
-.listing-detail .count-container .count-logo,
-.listing-detail .fixed-banner .save-share-tour .item:is(.save, .share) {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container i,
+:is(.listing-detail, .listing-detail-sold) .count-container .count-logo,
+:is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour .item:is(.save, .share) {
   box-sizing: border-box !important;
   flex: none !important;
   width: 40px !important;
@@ -582,36 +589,36 @@ h6,
   vertical-align: middle !important;
 }
 
-.listing-detail .fixed-banner .save-share-tour .item:is(.save, .share) {
+:is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour .item:is(.save, .share) {
   border: 1px solid #111 !important;
   line-height: 38px !important;
 }
 
-.listing-detail .tour-btn-container i,
-.listing-detail .fixed-banner .save-share-tour .item {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container i,
+:is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour .item {
   margin: 0 !important;
 }
 
 /* Lofty colours the glyph itself (light gray on beds/baths), so set it there */
-.listing-detail .tour-btn-container i::before,
-.listing-detail .count-container .count-logo::before,
-.listing-detail .fixed-banner .save-share-tour .item i::before {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container i::before,
+:is(.listing-detail, .listing-detail-sold) .count-container .count-logo::before,
+:is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour .item i::before {
   color: #111 !important;
   -webkit-text-fill-color: #111 !important;
 }
 
 /* Top bar: the circle is the <span>, the <i> inside is just the glyph */
-.listing-detail .fixed-banner {
+:is(.listing-detail, .listing-detail-sold) .fixed-banner {
   padding-right: 0 !important; /* Lofty's 15px pushed the bar off the content edges */
 }
 
-.listing-detail .fixed-banner .save-share-tour {
+:is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour {
   display: flex !important;
   align-items: center !important;
   gap: 16px;
 }
 
-.listing-detail .fixed-banner .save-share-tour .item i {
+:is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour .item i {
   width: 38px !important;
   height: 38px !important;
   font-size: 16px !important;
@@ -621,11 +628,11 @@ h6,
 }
 
 /* Heart: red at rest and when filled, nudged 1px down so it reads centred */
-.listing-detail :is(.tour-btn-container, .fixed-banner .save-share-tour .item) i:is(.icon-heart, .icon-heart-fill) {
+:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container, .fixed-banner .save-share-tour .item) i:is(.icon-heart, .icon-heart-fill) {
   color: #f0454c !important;
 }
 
-.listing-detail :is(.tour-btn-container, .fixed-banner .save-share-tour .item) i:is(.icon-heart, .icon-heart-fill)::before {
+:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container, .fixed-banner .save-share-tour .item) i:is(.icon-heart, .icon-heart-fill)::before {
   display: inline-block;
   transform: translateY(1px);
   color: #f0454c !important;
@@ -633,41 +640,41 @@ h6,
 }
 
 /* Share arrow is short and wide: 18px so it matches the other glyphs */
-.listing-detail :is(.tour-btn-container, .fixed-banner .save-share-tour .item) i:is(.icon-v2-share-Normal, .icon-v2-share-hover) {
+:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container, .fixed-banner .save-share-tour .item) i:is(.icon-v2-share-Normal, .icon-v2-share-hover) {
   font-size: 18px !important;
 }
 
 /* Share keeps its black arrow on hover (no green or blue swap) */
-.listing-detail :is(.fixed-banner .save-share-tour, .tour-btn-container) .share .hover {
+:is(.listing-detail, .listing-detail-sold) :is(.fixed-banner .save-share-tour, .tour-btn-container) .share .hover {
   display: none !important;
 }
 
-.listing-detail :is(.fixed-banner .save-share-tour, .tour-btn-container) .share .default {
+:is(.listing-detail, .listing-detail-sold) :is(.fixed-banner .save-share-tour, .tour-btn-container) .share .default {
   display: block !important;
 }
 
-.listing-detail .tour-btn-container .btn-item:hover i,
-.listing-detail .fixed-banner .save-share-tour .item:is(.save, .share):hover {
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .btn-item:hover i,
+:is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour .item:is(.save, .share):hover {
   background: #eee !important;
 }
 
 /* Desktop: Save/Share/Virtual Tour circles on the same line as beds/baths */
-.listing-detail .detail-info-header > div .tour-btn-container {
+:is(.listing-detail, .listing-detail-sold) .detail-info-header > div .tour-btn-container {
   align-self: start;
   margin-top: 25px !important;
 }
 
 /* Beds/baths/sqft: no faint lines, text centred on its circle */
-.listing-detail .count-container,
-.listing-detail .count-container > div {
+:is(.listing-detail, .listing-detail-sold) .count-container,
+:is(.listing-detail, .listing-detail-sold) .count-container > div {
   border: 0 !important;
 }
 
-.listing-detail .count-container > div {
+:is(.listing-detail, .listing-detail-sold) .count-container > div {
   align-items: center !important;
 }
 
-.listing-detail .count-container > div > p:not(.count-logo) {
+:is(.listing-detail, .listing-detail-sold) .count-container > div > p:not(.count-logo) {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -675,32 +682,32 @@ h6,
 }
 
 /* Text on the gray page: values #111, labels and fine print #333 */
-.listing-detail :is(.info-data, .count-container .number, .detail-info-header .city, .caculator-container label, .caculator-container > div, .md-map .addr, .md-map .vertical-line, .md-map .item.school, .md-market-trends label.text, .md-market-trends .sold-number, .open-house .detail-content, .open-house .detail-content *) {
+:is(.listing-detail, .listing-detail-sold) :is(.info-data, .count-container .number, .detail-info-header .city, .caculator-container label, .caculator-container > div, .md-map .addr, .md-map .vertical-line, .md-map .item.school, .md-market-trends label.text, .md-market-trends .sold-number, .open-house .detail-content, .open-house .detail-content *) {
   color: #111 !important;
 }
 
-.listing-detail :is(.info-title, .house-provided, .property-source, .tour-btn-container .btn-text, .count-container .house, .payment-text, .near-by-disclaimer, .md-map p.desc, .md-map .house-info > div, .md-map .mls-info > div, .md-form .label-top, .mls-desc-tip, .mls-provided, .mls-provided *, .mls-provided-container, .mls-provided-container *) {
+:is(.listing-detail, .listing-detail-sold) :is(.info-title, .house-provided, .property-source, .tour-btn-container .btn-text, .count-container .house, .payment-text, .near-by-disclaimer, .md-map p.desc, .md-map .house-info > div, .md-map .mls-info > div, .md-form .label-top, .mls-desc-tip, .mls-provided, .mls-provided *, .mls-provided-container, .mls-provided-container *) {
   color: #333 !important;
 }
 
 /* White on the gray page has no outline: open house bar, header status badge */
-.listing-detail .open-house .detail-content {
+:is(.listing-detail, .listing-detail-sold) .open-house .detail-content {
   background: #fff !important;
   border: 0 !important;
 }
 
-.listing-detail .detail-info-header .house-status {
+:is(.listing-detail, .listing-detail-sold) .detail-info-header .house-status {
   padding: 5px 10px !important;
   border: 0 !important;
 }
 
 /* Tour request card: white, no outline */
-.listing-detail .detail-schedule-container {
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container {
   border: 0 !important;
 }
 
 /* Gallery arrows and the tour card's date arrows: white outlined circles */
-.listing-detail :is(.swiper-button-next, .swiper-button-prev).iconfont {
+:is(.listing-detail, .listing-detail-sold) :is(.swiper-button-next, .swiper-button-prev).iconfont {
   box-sizing: border-box !important;
   display: flex !important;
   align-items: center;
@@ -715,19 +722,19 @@ h6,
   font-size: 16px !important;
 }
 
-.listing-detail .swiper-button-next.iconfont {
+:is(.listing-detail, .listing-detail-sold) .swiper-button-next.iconfont {
   right: 16px !important;
 }
 
-.listing-detail .swiper-button-prev.iconfont {
+:is(.listing-detail, .listing-detail-sold) .swiper-button-prev.iconfont {
   left: 16px !important;
 }
 
-.listing-detail :is(.swiper-button-next, .swiper-button-prev).iconfont::before {
+:is(.listing-detail, .listing-detail-sold) :is(.swiper-button-next, .swiper-button-prev).iconfont::before {
   color: #111 !important;
 }
 
-.listing-detail :is(.booking-prev, .booking-next).iconfont {
+:is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).iconfont {
   box-sizing: border-box;
   display: flex !important;
   align-items: center;
@@ -743,14 +750,14 @@ h6,
   font-size: 12px !important;
 }
 
-.listing-detail :is(.booking-prev, .booking-next).disabled {
+:is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).disabled {
   opacity: .3;
 }
 
 /* PREV / NEXT listing buttons (shown when the visitor came from a search),
    in the page (no outline, on the gray) and in the white scrolling bar
    (1px outline) */
-.listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn {
+:is(.listing-detail, .listing-detail-sold) :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn {
   box-sizing: border-box;
   display: inline-flex !important;
   align-items: center;
@@ -767,40 +774,40 @@ h6,
   letter-spacing: .14em;
 }
 
-.listing-detail .fixed-banner :is(.banner-left, .banner-right) a.btn {
+:is(.listing-detail, .listing-detail-sold) .fixed-banner :is(.banner-left, .banner-right) a.btn {
   border: 1px solid #111 !important;
 }
 
 /* No photo preview of the previous / next listing on hover */
-.listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) .bg-img-box {
+:is(.listing-detail, .listing-detail-sold) :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) .bg-img-box {
   display: none !important;
 }
 
-.listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn :is(.text, .iconfont) {
+:is(.listing-detail, .listing-detail-sold) :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn :is(.text, .iconfont) {
   color: #111 !important;
   line-height: 1 !important;
 }
 
-.listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn .iconfont {
+:is(.listing-detail, .listing-detail-sold) :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn .iconfont {
   font-size: 11px !important;
 }
 
-.listing-detail :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn:hover {
+:is(.listing-detail, .listing-detail-sold) :is(.extral-banner-left, .extral-banner-right, .fixed-banner .banner-left, .fixed-banner .banner-right) a.btn:hover {
   background: #eee !important;
 }
 
-.listing-detail :is(.extral-banner-left, .extral-banner-right) {
+:is(.listing-detail, .listing-detail-sold) :is(.extral-banner-left, .extral-banner-right) {
   display: none !important; /* replaced by .isg-prevnext (site.js), which Lofty cannot remove on scroll */
 }
 
 /* In-page PREV / NEXT (built by site.js): see-through, white on hover */
-.listing-detail .isg-prevnext {
+:is(.listing-detail, .listing-detail-sold) .isg-prevnext {
   display: flex;
   justify-content: space-between;
   margin: 0 0 16px;
 }
 
-.listing-detail .isg-prevnext a.btn {
+:is(.listing-detail, .listing-detail-sold) .isg-prevnext a.btn {
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -816,66 +823,66 @@ h6,
   transition: background-color .15s ease;
 }
 
-.listing-detail .isg-prevnext a.btn:hover {
+:is(.listing-detail, .listing-detail-sold) .isg-prevnext a.btn:hover {
   background: #fff !important;
 }
 
-.listing-detail .isg-prevnext a.btn .iconfont {
+:is(.listing-detail, .listing-detail-sold) .isg-prevnext a.btn .iconfont {
   font-size: 11px;
   color: #111;
 }
 
-.listing-detail .isg-prevnext .iconfont.prev {
+:is(.listing-detail, .listing-detail-sold) .isg-prevnext .iconfont.prev {
   display: inline-block;
   transform: rotate(180deg);
 }
 
 /* Scrolling bar PREV / NEXT: inline at the content edges */
-.listing-detail .fixed-banner :is(.banner-left, .banner-right) {
+:is(.listing-detail, .listing-detail-sold) .fixed-banner :is(.banner-left, .banner-right) {
   display: flex !important;
   align-items: center;
   flex: none !important;
   width: auto !important;
 }
 
-.listing-detail .fixed-banner :is(.banner-left, .banner-right) a.btn {
+:is(.listing-detail, .listing-detail-sold) .fixed-banner :is(.banner-left, .banner-right) a.btn {
   position: static !important;
   transform: none !important;
 }
 
-.listing-detail .fixed-banner .banner-left {
+:is(.listing-detail, .listing-detail-sold) .fixed-banner .banner-left {
   margin-right: 20px !important;
 }
 
 /* Wide screens: PREV / NEXT sit outside the content, in the bar and on the page */
 @media (min-width: 1480px) {
-  .listing-detail .fixed-banner .banner-box {
+  :is(.listing-detail, .listing-detail-sold) .fixed-banner .banner-box {
     position: relative !important;
   }
 
-  .listing-detail .fixed-banner :is(.banner-left, .banner-right) {
+  :is(.listing-detail, .listing-detail-sold) .fixed-banner :is(.banner-left, .banner-right) {
     position: absolute !important;
     top: 0;
     bottom: 0;
     margin: 0 !important;
   }
 
-  .listing-detail .fixed-banner .banner-left {
+  :is(.listing-detail, .listing-detail-sold) .fixed-banner .banner-left {
     right: calc(100% + 20px);
     left: auto !important;
   }
 
-  .listing-detail .fixed-banner .banner-right {
+  :is(.listing-detail, .listing-detail-sold) .fixed-banner .banner-right {
     left: calc(100% + 20px);
     right: auto !important;
   }
 
-  .listing-detail .fixed-banner .banner-box > .center {
+  :is(.listing-detail, .listing-detail-sold) .fixed-banner .banner-box > .center {
     flex: 1 1 auto !important;
     width: auto !important;
   }
 
-  .listing-detail .isg-prevnext {
+  :is(.listing-detail, .listing-detail-sold) .isg-prevnext {
     position: absolute;
     top: 0;
     left: 0;
@@ -884,39 +891,39 @@ h6,
     margin: 0;
   }
 
-  .listing-detail .isg-prevnext > span {
+  :is(.listing-detail, .listing-detail-sold) .isg-prevnext > span {
     position: absolute;
     top: 10px;
   }
 
-  .listing-detail .isg-prevnext > span:first-child {
+  :is(.listing-detail, .listing-detail-sold) .isg-prevnext > span:first-child {
     right: calc(100% + 20px);
   }
 
-  .listing-detail .isg-prevnext > span:last-child {
+  :is(.listing-detail, .listing-detail-sold) .isg-prevnext > span:last-child {
     left: calc(100% + 20px);
   }
 }
 
 /* The scrolling bar waits until the in-page PREV / NEXT have scrolled away
    (site.js sets html.isg-banner-hold), then slides in */
-.listing-detail .fixed-banner.fixed {
+:is(.listing-detail, .listing-detail-sold) .fixed-banner.fixed {
   transition: transform .2s ease;
 }
 
-html.isg-banner-hold .listing-detail .fixed-banner.fixed {
+html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fixed {
   transform: translateY(calc(-100% - 24px)) !important;
 }
 
 /* Property history */
-.listing-detail .md-property-history .list-header span {
+:is(.listing-detail, .listing-detail-sold) .md-property-history .list-header span {
   font: 400 12px / 20px Roboto, sans-serif !important;
   letter-spacing: .08em !important;
   text-transform: uppercase !important;
   color: #333 !important;
 }
 
-.listing-detail .md-property-history .list-sub-header {
+:is(.listing-detail, .listing-detail-sold) .md-property-history .list-sub-header {
   padding-left: 15px !important;
   background: none !important;
   border-bottom: 1px solid #111;
@@ -926,71 +933,71 @@ html.isg-banner-hold .listing-detail .fixed-banner.fixed {
   color: #333 !important;
 }
 
-.listing-detail .md-property-history .list-box li {
+:is(.listing-detail, .listing-detail-sold) .md-property-history .list-box li {
   border-color: #111 !important;
 }
 
-.listing-detail .md-property-history :is(.property-date, .property-status) {
+:is(.listing-detail, .listing-detail-sold) .md-property-history :is(.property-date, .property-status) {
   font-size: 15px !important;
   color: #111 !important;
 }
 
-.listing-detail .md-property-history .price {
+:is(.listing-detail, .listing-detail-sold) .md-property-history .price {
   font: 800 18px / 1.2 Manrope, sans-serif !important;
   color: #111 !important;
 }
 
-.listing-detail .md-property-history .trend-down {
+:is(.listing-detail, .listing-detail-sold) .md-property-history .trend-down {
   font-size: 13px !important;
 }
 
 /* Market trends (the chart's own colours are set by site.js) */
-.listing-detail .md-market-trends .title_container {
+:is(.listing-detail, .listing-detail-sold) .md-market-trends .title_container {
   padding-bottom: 0 !important;
 }
 
-.listing-detail #app .md-market-trends .mg-title .zipcode {
+:is(.listing-detail, .listing-detail-sold) #app .md-market-trends .mg-title .zipcode {
   font: 400 16px / 1 Roboto, sans-serif !important;
   text-transform: none !important;
   color: #333 !important;
 }
 
-.listing-detail .md-market-trends .filter-chart-container {
+:is(.listing-detail, .listing-detail-sold) .md-market-trends .filter-chart-container {
   padding: 16px !important;
 }
 
-.listing-detail .md-market-trends .trends-filter .box-div::before {
+:is(.listing-detail, .listing-detail-sold) .md-market-trends .trends-filter .box-div::before {
   height: 2px !important;
   background: #111 !important;
 }
 
-.listing-detail .md-market-trends .trends-filter .sold-number::before {
+:is(.listing-detail, .listing-detail-sold) .md-market-trends .trends-filter .sold-number::before {
   background: #c4c4c4 !important;
   border-radius: 0 !important;
 }
 
-.listing-detail .md-market-trends .trends-filter .dropdown_icon {
+:is(.listing-detail, .listing-detail-sold) .md-market-trends .trends-filter .dropdown_icon {
   color: #111 !important;
 }
 
-.listing-detail .chart-tooltip .label.price .series-name {
+:is(.listing-detail, .listing-detail-sold) .chart-tooltip .label.price .series-name {
   background: #111 !important;
 }
 
-.listing-detail .chart-tooltip .label.count .series-name {
+:is(.listing-detail, .listing-detail-sold) .chart-tooltip .label.count .series-name {
   background: #c4c4c4 !important;
 }
 
-.listing-detail .md-market-trends .cta-btn {
+:is(.listing-detail, .listing-detail-sold) .md-market-trends .cta-btn {
   padding-top: 24px !important;
 }
 
 /* Similar homes / Hot listings */
-.listing-detail .md-house-listing .list-container::before {
+:is(.listing-detail, .listing-detail-sold) .md-house-listing .list-container::before {
   display: none !important; /* Lofty's lighter band through the cards */
 }
 
-.listing-detail #app .mg-title h3.sub-title {
+:is(.listing-detail, .listing-detail-sold) #app .mg-title h3.sub-title {
   margin-top: 8px !important;
   font: 400 16px / 1.4 Roboto, sans-serif !important;
   letter-spacing: 0 !important;
@@ -998,21 +1005,21 @@ html.isg-banner-hold .listing-detail .fixed-banner.fixed {
   color: #333 !important;
 }
 
-.listing-detail #app .mg-title h3.sub-title::first-letter {
+:is(.listing-detail, .listing-detail-sold) #app .mg-title h3.sub-title::first-letter {
   text-transform: none !important;
 }
 
-.listing-detail .md-house-listing .house-card {
+:is(.listing-detail, .listing-detail-sold) .md-house-listing .house-card {
   background: #fff;
 }
 
-.listing-detail .md-house-listing .house-info {
+:is(.listing-detail, .listing-detail-sold) .md-house-listing .house-info {
   margin: 0 !important;
   padding: 16px !important;
   background: #fff;
 }
 
-.listing-detail .md-house-listing .house-preview .house-status {
+:is(.listing-detail, .listing-detail-sold) .md-house-listing .house-preview .house-status {
   padding: 5px 10px !important;
   background: #fff !important;
   border: 0 !important;
@@ -1023,29 +1030,29 @@ html.isg-banner-hold .listing-detail .fixed-banner.fixed {
   color: #111 !important;
 }
 
-.listing-detail .md-house-listing .house-basic .vertical-line::after {
+:is(.listing-detail, .listing-detail-sold) .md-house-listing .house-basic .vertical-line::after {
   content: "|" !important;
   margin: 0 8px;
   color: #999;
 }
 
-.listing-detail .md-house-listing .house-basic .vertical-line:last-child::after {
+:is(.listing-detail, .listing-detail-sold) .md-house-listing .house-basic .vertical-line:last-child::after {
   content: none !important;
 }
 
 /* Get more information form: page gray, plain white fields */
-.listing-detail .md-form {
+:is(.listing-detail, .listing-detail-sold) .md-form {
   background-color: #eee !important;
 }
 
-.listing-detail .md-form :is(input, textarea) {
+:is(.listing-detail, .listing-detail-sold) .md-form :is(input, textarea) {
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   color: #111 !important;
 }
 
-.listing-detail .md-form :is(input, textarea)::placeholder {
+:is(.listing-detail, .listing-detail-sold) .md-form :is(input, textarea)::placeholder {
   color: #555 !important;
 }
 
@@ -1054,82 +1061,82 @@ html.isg-banner-hold .listing-detail .fixed-banner.fixed {
 
   /* Header: status, address, city, price, payment, beds/baths/sqft, tour,
      then the "Listed by" / "Updated" lines as fine print under the block */
-  .listing-detail .detail-info-left {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-left {
     display: flex !important;
     flex-direction: column;
   }
 
-  .listing-detail .detail-info-left > .detail-info-header {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-left > .detail-info-header {
     order: 1;
   }
 
-  .listing-detail .detail-info-left > .mls-provided-container {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-left > .mls-provided-container {
     order: 2;
     margin: 0 0 20px !important;
   }
 
-  .listing-detail .detail-info-left > .detail-info-group {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-left > .detail-info-group {
     order: 3;
   }
 
-  .listing-detail .detail-info-header > .mobile {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile {
     display: grid !important;
     grid-template-columns: 1fr;
     padding: 16px 0 20px !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .house-status {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .house-status {
     justify-self: start;
     order: 1;
     margin: 0 0 14px !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .address-container {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .address-container {
     order: 2;
     margin: 0 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .address-container .street {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .address-container .street {
     font-size: 22px !important;
     line-height: 1.2 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .address-container .city {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .address-container .city {
     margin-top: 2px !important;
     font: 400 15px / 1.4 Roboto, sans-serif !important;
     color: #333 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .price-container {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .price-container {
     order: 3;
     margin: 16px 0 0 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .price-container :is(.origin-price, .price-number) {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .price-container :is(.origin-price, .price-number) {
     white-space: nowrap !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .price-container .price-number {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .price-container .price-number {
     font-size: 28px !important;
     line-height: 1 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .caculator-container {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .caculator-container {
     order: 4;
     justify-self: start;
     margin: 6px 0 0 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .caculator-container :is(div, label, .payment-text) {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .caculator-container :is(div, label, .payment-text) {
     font: 400 13px / 1.2 Roboto, sans-serif !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .caculator-container .icon-caculator {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .caculator-container .icon-caculator {
     font-size: 13px !important;
   }
 
   /* Beds/baths/sqft: three equal columns, number and label centred on the circle */
-  .listing-detail .detail-info-header > .mobile .count-container {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .count-container {
     order: 5;
     display: grid !important;
     grid-template-columns: repeat(3, 1fr);
@@ -1137,43 +1144,43 @@ html.isg-banner-hold .listing-detail .fixed-banner.fixed {
     padding: 0 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .count-container > div {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .count-container > div {
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .count-container .count-logo {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .count-container .count-logo {
     margin: 0 10px 0 0 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .count-container .number {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .count-container .number {
     font-size: 16px !important;
     font-weight: 500 !important;
     line-height: 1.2 !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .count-container .house {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .count-container .house {
     font-size: 13px !important;
     line-height: 1.3 !important;
   }
 
   /* Tour row: left-aligned (Lofty right-aligned it and clipped the circle);
      Save and Share stay in the top bar on phones */
-  .listing-detail .detail-info-header > .mobile .tour-btn-container {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .tour-btn-container {
     order: 6;
     justify-content: flex-start !important;
     min-width: max-content;
   }
 
-  .listing-detail .detail-info-header > .mobile .tour-btn-container :is(.save, .share) {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .tour-btn-container :is(.save, .share) {
     display: none !important;
   }
 
-  .listing-detail .detail-info-header > .mobile .tour-btn-container > .btn-item {
+  :is(.listing-detail, .listing-detail-sold) .detail-info-header > .mobile .tour-btn-container > .btn-item {
     margin-top: 16px !important;
   }
 
-  .listing-detail .mls-provided-container :is(.mls-provided, .isg-updated) {
+  :is(.listing-detail, .listing-detail-sold) .mls-provided-container :is(.mls-provided, .isg-updated) {
     margin: 0 !important;
     padding: 0 !important;
     font: 400 12px / 1.5 Roboto, sans-serif !important;
@@ -1181,12 +1188,12 @@ html.isg-banner-hold .listing-detail .fixed-banner.fixed {
   }
 
   /* Description: left-aligned, no stretched word gaps */
-  .listing-detail .read-more-content .info-data {
+  :is(.listing-detail, .listing-detail-sold) .read-more-content .info-data {
     text-align: left !important;
   }
 
   /* Detail rows: long labels wrap instead of running into the value */
-  .listing-detail .info-content .info-title {
+  :is(.listing-detail, .listing-detail-sold) .info-content .info-title {
     flex: 0 0 130px !important;
     width: 130px !important;
     padding-right: 12px;
@@ -1194,30 +1201,30 @@ html.isg-banner-hold .listing-detail .fixed-banner.fixed {
   }
 
   /* Amenities & attractions: hidden on phones */
-  .listing-detail .md-map {
+  :is(.listing-detail, .listing-detail-sold) .md-map {
     display: none !important;
   }
 
   /* Property history: one stacked block per event */
-  .listing-detail .md-property-history .content-container {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history .content-container {
     padding: 0 15px !important;
     overflow: visible !important;
   }
 
-  .listing-detail .md-property-history :is(.list-property-history, .list-box, .list-box li) {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history :is(.list-property-history, .list-box, .list-box li) {
     width: auto !important;
     min-width: 0 !important;
   }
 
-  .listing-detail .md-property-history .list-header {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history .list-header {
     display: none !important;
   }
 
-  .listing-detail .md-property-history .list-sub-header {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history .list-sub-header {
     padding-left: 0 !important;
   }
 
-  .listing-detail .md-property-history .list-box li {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history .list-box li {
     display: grid !important;
     grid-template-columns: 1fr auto;
     align-items: baseline;
@@ -1226,21 +1233,21 @@ html.isg-banner-hold .listing-detail .fixed-banner.fixed {
     padding: 14px 0 !important;
   }
 
-  .listing-detail .md-property-history .property-date-source {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history .property-date-source {
     display: contents !important;
   }
 
-  .listing-detail .md-property-history li > *,
-  .listing-detail .md-property-history .property-date-source > * {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history li > *,
+  :is(.listing-detail, .listing-detail-sold) .md-property-history .property-date-source > * {
     min-width: 0;
     max-width: none !important;
   }
 
-  .listing-detail .md-property-history .property-date {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history .property-date {
     grid-area: 1 / 1;
   }
 
-  .listing-detail .md-property-history .property-price {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history .property-price {
     grid-area: 1 / 2;
     display: flex;
     align-items: baseline;
@@ -1250,27 +1257,567 @@ html.isg-banner-hold .listing-detail .fixed-banner.fixed {
     padding: 0 !important;
   }
 
-  .listing-detail .md-property-history .property-status {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history .property-status {
     grid-area: 2 / 1 / 3 / 3;
     width: auto !important;
     padding: 0 !important;
     font-weight: 500;
   }
 
-  .listing-detail .md-property-history .property-source {
+  :is(.listing-detail, .listing-detail-sold) .md-property-history .property-source {
     grid-area: 3 / 1 / 4 / 3;
     margin: 0 !important;
     overflow: visible !important;
     white-space: normal !important;
   }
 
-  .listing-detail .md-market-trends .filter-chart-container {
+  :is(.listing-detail, .listing-detail-sold) .md-market-trends .filter-chart-container {
     padding: 12px !important;
   }
 }
 
 /* Lofty's own "Updated:" block: hidden from the first paint (site.js moves
    its text onto the "Listed by" line), so it never flashes on load */
-.listing-detail .key-info.on-site {
+:is(.listing-detail, .listing-detail-sold) .key-info.on-site {
   display: none !important;
+}
+
+
+/* 10. Sold listing pages (body.listing-detail-sold) ------------------------
+   Lofty builds sold listings from a different template than active ones
+   (.md-sold-detail instead of .md-detail-info). Every shared section above
+   (gray page, detail rows, market trends, history, cards, footer, desktop
+   column) is scoped to both pages with :is(.listing-detail,
+   .listing-detail-sold); this section only covers what the sold template
+   does differently. */
+
+/* Gray page: the sold template's own section wrappers */
+.listing-detail-sold :is(.md-sold-detail, .md-house-facts, .md-sold-estimate, .md-listing-list, .md-form) {
+  background: #eee !important;
+}
+
+/* Empty gray band between the header and the photos */
+.listing-detail-sold .breadcrumb-sold-container {
+  display: none !important;
+}
+
+/* All detail sections shown, no "Read More" cutoff */
+.listing-detail-sold .md-sold-detail .detail-info-group > .key-info {
+  display: block !important;
+}
+
+.listing-detail-sold .md-sold-detail .detail-info-group {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Sold date: the white status square, as on active listings
+   (site.js shortens "SOLD DATE : 10/23/2026" to "Sold 10/23/2026") */
+.listing-detail-sold .md-sold-detail .sold-date {
+  display: inline-block;
+  padding: 5px 10px !important;
+  background: #fff !important;
+  font: 700 11px / 1 Roboto, sans-serif !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+  color: #111 !important;
+}
+
+/* Address: the active page's street and city type */
+.listing-detail-sold .md-sold-detail h1.address {
+  margin: 0 !important;
+}
+
+.listing-detail-sold .md-sold-detail h1.address .street {
+  display: block;
+  font: 400 clamp(24px, 3vw, 32px) / 1.15 var(--b) !important;
+  letter-spacing: -.01em !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .md-sold-detail h1.address .city {
+  display: block !important;
+  margin-top: 4px;
+  font: 17px / 1.4 var(--m) !important;
+  color: #111 !important;
+}
+
+/* "Listed by" / "Bought with" lines: no extra gap under them */
+.listing-detail-sold .md-sold-detail .mls-provided {
+  margin: 0 !important;
+}
+
+/* Price block: sold price as the headline, list price and change under it */
+.listing-detail-sold .md-sold-detail .detail-info-header {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  margin: 0 !important;
+}
+
+.listing-detail-sold .md-sold-detail .first-price {
+  margin: 0 !important;
+  font: 400 32px / 1.1 var(--b) !important;
+  letter-spacing: -.01em !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .md-sold-detail .calculator,
+.listing-detail-sold .md-sold-detail .calculator :not(.iconfont) {
+  margin: 0 !important;
+  font: 15px / 1.4 var(--m) !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .md-sold-detail .second-box {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 !important;
+}
+
+.listing-detail-sold .md-sold-detail .second-price {
+  margin: 0 !important;
+  font: 15px / 1.4 var(--m) !important;
+  color: #333 !important;
+}
+
+/* Lofty's estimate shows "?" when it has none: hidden then (site.js) */
+.isg-noest .listing-detail-sold .md-sold-detail .est-price-container,
+.isg-noest .listing-detail-sold .pc-fixed-banner .est-price-container,
+.isg-noest .listing-detail-sold .md-sold-estimate {
+  display: none !important;
+}
+
+/* Acres / beds / baths: the active page's white circles */
+.listing-detail-sold .md-sold-detail .count {
+  display: flex;
+  gap: 24px;
+  border: 0 !important;
+}
+
+.listing-detail-sold .md-sold-detail .count > div {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px;
+  border: 0 !important;
+}
+
+.listing-detail-sold .md-sold-detail .count .count-logo {
+  box-sizing: border-box !important;
+  flex: none !important;
+  width: 40px !important;
+  height: 40px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #fff !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  font-size: 16px !important;
+  line-height: 40px !important;
+  text-align: center !important;
+}
+
+.listing-detail-sold .md-sold-detail .count .count-logo::before {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+}
+
+.listing-detail-sold .md-sold-detail .count p:not(.count-logo),
+.listing-detail-sold .md-sold-detail .count p:not(.count-logo) * {
+  color: #111 !important;
+}
+
+/* "What is your home worth?" card: white, no shadow or colored rule,
+   like the tour card on active listings */
+.listing-detail-sold .est-request-container::before {
+  display: none !important;   /* Lofty's colored rule across the top */
+}
+
+.listing-detail-sold .est-request-container {
+  background: #fff !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.listing-detail-sold .est-request-container :is(.banner, .median-box) {
+  border: 0 !important;
+}
+
+.listing-detail-sold .est-request-container .median-box {
+  background: #eee !important;
+}
+
+.listing-detail-sold .est-request-container .address-input {
+  border: 0 !important;
+}
+
+.listing-detail-sold .est-request-container input {
+  background: #eee !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .est-request-container :is(.address-tip, .bottom-tip, .median-desc) {
+  color: #333 !important;
+}
+
+/* Facts about this property: white squares on the gray, no outline */
+.listing-detail-sold .md-house-facts .fact-box {
+  background: #fff !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.listing-detail-sold .md-house-facts .fact-box .icon {
+  background: none !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .md-house-facts .express-content * {
+  color: #111 !important;
+}
+
+.listing-detail-sold :is(.md-house-facts, .md-sold-estimate) .tip,
+.listing-detail-sold .md-sold-estimate .price-desc {
+  color: #333 !important;
+}
+
+/* Recent sold listings: one white panel, black row rules */
+.listing-detail-sold .md-listing-list .list-rencent-listings-pc .list_container {
+  padding: 8px 24px !important;
+  background: #fff !important;
+}
+
+.listing-detail-sold .md-listing-list .sub-title {
+  margin-bottom: 16px !important;
+  font: 400 16px / 1.4 Roboto, sans-serif !important;
+  letter-spacing: 0 !important;
+  color: #333 !important;
+}
+
+.listing-detail-sold .md-listing-list .list_container * {
+  border-color: #111 !important;
+}
+
+.listing-detail-sold .md-listing-list .list_container :is(th, .header, [class*=header], [class*=header] *) {
+  color: #333 !important;
+}
+
+/* Hot listings: Lofty's other card template (li.house-grid-item) dressed
+   like the cards on active listings. The status tag sits on the white card,
+   so it keeps a black outline */
+.listing-detail-sold .md-house-listing h3.sub-title {
+  margin-top: 8px !important;
+  font: 400 16px / 1.4 Roboto, sans-serif !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: #333 !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item,
+.listing-detail-sold .md-house-listing .house-grid-item article {
+  background: #fff !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item :is(.house-basic, .price-fav, .house-footer) {
+  background: #fff !important;
+  border: 0 !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-basic {
+  padding: 16px 16px 0 !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item :is(.price-fav, .house-footer) {
+  padding-inline: 16px !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-footer {
+  padding-bottom: 16px !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-status {
+  padding: 4px 8px !important;
+  background: #fff !important;
+  border: 1px solid #111 !important;
+  border-radius: 0 !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-status .status-text {
+  font: 700 11px / 1 Roboto, sans-serif !important;
+  letter-spacing: .14em;
+  text-transform: uppercase !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-address a {
+  color: #111 !important;
+  text-decoration: none !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-tag {
+  background: #eee !important;
+  border-radius: 0 !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-provided {
+  color: #333 !important;
+}
+
+/* Scrolling top bar: Share in the round outlined icon used everywhere else */
+.listing-detail-sold .pc-fixed-banner .save-share-tour .item.share {
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px !important;
+  height: 40px !important;
+  background: #fff !important;
+  border: 1px solid #111 !important;
+  border-radius: 50% !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .pc-fixed-banner .save-share-tour .item.share i::before {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+}
+
+.listing-detail-sold .pc-fixed-banner .price-address :is(.price, .price *) {
+  color: #111 !important;
+}
+
+/* Header layout, tablet and up: badge, then address left and price right,
+   counts under the address */
+@media (min-width: 768px) {
+  .listing-detail-sold .md-sold-detail .detail-info {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 32px;
+    align-items: end;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info > * {
+    grid-column: 1 / -1;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info > .mls-provided-container {
+    grid-row: 1;
+    margin-bottom: 16px !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .count-sold-date {
+    display: contents !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .sold-date {
+    grid-area: 2 / 1;
+    justify-self: start;
+    margin: 0 0 12px !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info > h1.address {
+    grid-area: 3 / 1;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info > .detail-info-header {
+    grid-area: 3 / 2;
+  }
+
+  .listing-detail-sold .md-sold-detail .count {
+    grid-area: 4 / 1;
+    margin: 18px 0 28px !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .listing-detail-sold .md-sold-detail .detail-info {
+    padding-right: 48px;
+  }
+
+  .listing-detail-sold .md-sold-detail .swiper,
+  .listing-detail-sold .md-sold-detail .slide-pc {
+    height: clamp(400px, 30vw, 560px) !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .slide-5 .img-item {
+    height: 50%;
+  }
+
+  .listing-detail-sold .md-sold-detail .swiper img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* Sold listing pages, phones (under 768px). Lofty serves a separate mobile
+   layout here: price block, then calculator + sold date, address, counts */
+@media (max-width: 767.98px) {
+
+  /* Top bar and section tabs: white with black type, as on active listings */
+  .listing-detail-sold .mobile-fixed-banner :is(.button, .anchor-box) {
+    background: #fff !important;
+  }
+
+  .listing-detail-sold .mobile-fixed-banner .button {
+    border-bottom: 1px solid #e2e2e2;
+  }
+
+  .listing-detail-sold .mobile-fixed-banner :is(.iconfont, .btn-text, .item, .item *) {
+    color: #111 !important;
+  }
+
+  .listing-detail-sold .mobile-fixed-banner .anchor-item {
+    color: #333 !important;
+  }
+
+  .listing-detail-sold .mobile-fixed-banner .anchor-item.selected {
+    color: #111 !important;
+    border-color: #111 !important;
+  }
+
+  .listing-detail-sold .mobile-fixed-banner .anchor-item.selected::after {
+    background: #111 !important;
+  }
+
+  /* Header order: sold badge, address, price, payment, counts */
+  .listing-detail-sold .md-sold-detail .detail-info {
+    display: flex !important;
+    flex-direction: column;
+    padding: 4px 0 0;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info > div:not([class]) {
+    display: contents !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .sold-date {
+    order: 1;
+    align-self: flex-start;
+    margin: 0 0 14px !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info > h1.address {
+    order: 2;
+  }
+
+  .listing-detail-sold .md-sold-detail h1.address .street {
+    font-size: 22px !important;
+    line-height: 1.2 !important;
+  }
+
+  .listing-detail-sold .md-sold-detail h1.address .city {
+    margin-top: 2px !important;
+    font: 400 15px / 1.4 Roboto, sans-serif !important;
+    color: #333 !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .info-box {
+    order: 3;
+    margin: 16px 0 0 !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .info-box .first-price {
+    font-size: 28px !important;
+    line-height: 1 !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .info-box .second-box {
+    margin-top: 6px !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .calculator {
+    order: 4;
+    align-self: flex-start;
+    margin: 6px 0 0 !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .calculator,
+  .listing-detail-sold .md-sold-detail .calculator :not(.iconfont) {
+    font: 400 13px / 1.2 Roboto, sans-serif !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .count {
+    order: 5;
+    margin: 20px 0 8px !important;
+    padding: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .count .child {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px;
+    border: 0 !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .count .child > p.iconfont {
+    box-sizing: border-box !important;
+    flex: none !important;
+    width: 40px !important;
+    height: 40px !important;
+    margin: 0 !important;
+    background: #fff !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    font-size: 16px !important;
+    line-height: 40px !important;
+    text-align: center !important;
+    color: #111 !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .count .child > p.iconfont::before {
+    color: #111 !important;
+    -webkit-text-fill-color: #111 !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info > :is(.detail-info-group-container, .read-more) {
+    order: 6;
+  }
+
+  .listing-detail-sold .md-sold-detail .mls-provided-container {
+    margin-top: 16px !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .mls-provided {
+    font: 400 12px / 1.5 Roboto, sans-serif !important;
+    color: #333 !important;
+  }
+
+  /* Bottom "Request a FREE Analysis" bar: white, like the phone tour bar */
+  .listing-detail-sold .md-sold-detail .request-box {
+    background: #fff !important;
+  }
+}
+
+
+/* 11. Search results pages (/listing, /sold-listing, area results) --------
+   List view: the search bar and the results grid line up with the header's
+   logo and account icon (the header pads 5% each side; Lofty sized these to
+   the window minus 100px). Mixed and Map views keep Lofty's full-width map. */
+@media (min-width: 801px) {
+  .md-search .md-search-bar.layout1.normal,
+  .md-search.grid .md-search-result .f-col {
+    width: 90% !important;
+    max-width: none !important;
+  }
+}
+
+/* Listing Status filter: Under Contract after Coming Soon (site.js folds the
+   raw MLS values into Active / Coming Soon / Under Contract) */
+.select-button-group-item[data-isg-status="Active Under Contract"] {
+  order: 1;
 }
