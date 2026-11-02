@@ -1878,6 +1878,15 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
     order: 5;
     margin: 0 0 16px;
   }
+
+  /* Lofty nests two 30px gaps above Key Details on phones */
+  .listing-detail-sold .md-sold-detail .detail-info-group-container {
+    margin-top: 0 !important;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info > .detail-info-group-container {
+    margin-top: 12px !important;
+  }
 }
 
 
