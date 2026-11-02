@@ -236,10 +236,8 @@ h6,
   max-height: none !important;
 }
 
-/* Empty gray breadcrumb band above the photos: hidden */
-:is(.listing-detail, .listing-detail-sold) .breadcrumb-container {
-  display: none;
-}
+/* Lofty's breadcrumb band above the photos is empty; site.js fills it with
+   the area breadcrumb (section 12) */
 
 /* Tour request card: white, no outline */
 :is(.listing-detail, .listing-detail-sold) .detail-schedule-container {
@@ -1296,11 +1294,6 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   background: #eee !important;
 }
 
-/* Empty gray band between the header and the photos */
-.listing-detail-sold .breadcrumb-sold-container {
-  display: none !important;
-}
-
 /* All detail sections shown, no "Read More" cutoff */
 .listing-detail-sold .md-sold-detail .detail-info-group > .key-info {
   display: block !important;
@@ -1820,4 +1813,66 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
    raw MLS values into Active / Coming Soon / Under Contract) */
 .select-button-group-item[data-isg-status="Active Under Contract"] {
   order: 1;
+}
+
+
+/* 12. Area breadcrumb on listing pages (built by site.js) -----------------
+   WI > County > Town > ZIP in Lofty's own breadcrumb band, on the gray
+   above the photos, lined up with the content column. Each part links to
+   Lofty's area results page on this site */
+:is(.listing-detail, .listing-detail-sold) :is(.breadcrumb-container, .breadcrumb-sold-container) {
+  display: none !important;   /* until site.js fills it (.isg-has-crumbs) */
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.breadcrumb-container, .breadcrumb-sold-container).isg-has-crumbs {
+  display: block !important;
+  height: auto !important;
+  padding: 14px 0 !important;
+  background: #eee !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .breadcrumb-bar {
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+}
+
+.isg-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 0;
+  font: 400 12px / 1.5 Roboto, sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.isg-crumbs > * + *::before {
+  content: "\203A";      /* single right angle quote */
+  margin: 0 8px;
+  color: #333;
+}
+
+.isg-crumbs a {
+  color: #111 !important;
+  text-decoration: none;
+}
+
+.isg-crumbs a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 767.98px) {
+  :is(.listing-detail, .listing-detail-sold) .breadcrumb-container.isg-has-crumbs {
+    padding: 12px 15px !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  :is(.listing-detail, .listing-detail-sold) .breadcrumb-bar {
+    max-width: 1240px;
+    margin-inline: auto;
+  }
 }

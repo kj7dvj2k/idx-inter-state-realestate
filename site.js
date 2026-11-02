@@ -226,6 +226,53 @@
     // 6. Listing Status buttons in the search filters (see above).
     statusButtons();
 
+    // 8. Area breadcrumb above the photos on every listing, active and sold:
+    //    WI > Bayfield County > Port Wing > 54865, each linking to Lofty's own
+    //    area results page on this site (/WI/Bayfield-County, /WI/Port-Wing,
+    //    /WI/54865). It goes in Lofty's empty breadcrumb band; site.css shows
+    //    the band only once it is filled. The state has no page, so plain text.
+    var bar = q(":is(.listing-detail, .listing-detail-sold) .listing-detail-banner .breadcrumb-bar");
+    var photos = q(":is(.listing-detail, .listing-detail-sold) .listing-detail-banner > .swiper");
+    if (!bar && photos && document.body.classList.contains("mobile")) {
+      // Phones get no breadcrumb band from Lofty: add one above the photos
+      var band = document.createElement("div");
+      band.className = "breadcrumb-container isg-band";
+      bar = band.appendChild(document.createElement("div"));
+      bar.className = "breadcrumb-bar";
+      photos.parentElement.insertBefore(band, photos);
+    }
+    if (bar && !bar.querySelector(".isg-crumbs")) {
+      var cityEl = Array.prototype.find.call(
+        document.querySelectorAll(".detail-info-header .city, .md-sold-detail h1.address .city"),
+        function (e) { return e.textContent.trim(); });
+      var m = cityEl && cityEl.textContent.trim().match(/^(.+?),\s*([A-Z]{2})\s*(\d{5})?/);
+      if (m) {
+        var county = "";
+        document.querySelectorAll(".info-content").forEach(function (r) {
+          var t = r.querySelector(".info-title"), d = r.querySelector(".info-data");
+          if (!county && t && d && t.textContent.trim().toLowerCase() === "county") county = d.textContent.trim();
+        });
+        if (county && !/county$/i.test(county)) county += " County";
+        var st = m[2];
+        var slug = function (s) { return "/" + st + "/" + encodeURIComponent(s.trim().replace(/\s+/g, "-")).replace(/%2D/g, "-"); };
+        var crumbs = document.createElement("nav");
+        crumbs.className = "isg-crumbs";
+        crumbs.setAttribute("aria-label", "Area");
+        var add = function (label, href) {
+          var el = document.createElement(href ? "a" : "span");
+          if (href) el.href = href;
+          el.textContent = label;
+          crumbs.appendChild(el);
+        };
+        add(st, "");
+        if (county) add(county, slug(county));
+        add(m[1].trim(), slug(m[1]));
+        if (m[3]) add(m[3], "/" + st + "/" + m[3]);
+        bar.appendChild(crumbs);
+        bar.parentElement.classList.add("isg-has-crumbs");
+      }
+    }
+
     // 7. Sold listing pages (/sold-listing/detail/...).
     //    "SOLD DATE : 10/23/2026" -> "Sold 10/23/2026" (site.css shows it as
     //    the white status square), and when Lofty has no estimate for the
