@@ -1902,7 +1902,7 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   }
 
   .listing-detail-sold .md-sold-detail .detail-info {
-    padding-top: 32px !important;
+    padding-top: 21px !important;
   }
 }
 
