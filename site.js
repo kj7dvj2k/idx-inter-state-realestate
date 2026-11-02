@@ -268,6 +268,25 @@
       }
     }
 
+    // 9. Sold listings on phones: Lofty puts "Listed by / Bought with" in its
+    //    own box above the listing; show a copy in the listing column (under
+    //    the breadcrumb, as on active listings) and hide the original box.
+    var soldCol = q(".listing-detail-sold .md-sold-detail .detail-info");
+    var soldMls = q(".listing-detail-sold .md-sold-detail > .mg-container > .mls-provided-container .mls-provided");
+    if (soldCol && soldMls) {
+      var copyLine = soldCol.querySelector(":scope > .isg-provided");
+      if (!copyLine) {
+        copyLine = document.createElement("div");
+        copyLine.className = "mls-provided-container standard isg-provided";
+        copyLine.appendChild(document.createElement("div")).className = "mls-provided";
+        soldCol.appendChild(copyLine);
+      }
+      var copyText = copyLine.querySelector(".mls-provided");
+      if (copyText.innerHTML !== soldMls.innerHTML) copyText.innerHTML = soldMls.innerHTML;
+      var box = soldMls.closest(".mg-container");
+      if (box && box.style.display !== "none") box.style.display = "none";
+    }
+
     // 7. Sold listing pages (/sold-listing/detail/...).
     //    "SOLD DATE : 10/23/2026" -> "Sold 10/23/2026" (site.css shows it as
     //    the white status square), and when Lofty has no estimate for the

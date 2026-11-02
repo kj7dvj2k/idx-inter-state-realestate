@@ -1294,6 +1294,11 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   background: #eee !important;
 }
 
+/* No gray sliver between the header and the photos */
+.listing-detail-sold .md-sold-detail {
+  padding-top: 0 !important;
+}
+
 /* All detail sections shown, no "Read More" cutoff */
 .listing-detail-sold .md-sold-detail .detail-info-group > .key-info {
   display: block !important;
@@ -1609,7 +1614,7 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 
   .listing-detail-sold .md-sold-detail .detail-info > .mls-provided-container {
     grid-row: 1;
-    margin-bottom: 16px !important;
+    margin-bottom: 8px !important;
   }
 
   .listing-detail-sold .md-sold-detail .count-sold-date {
@@ -1619,20 +1624,23 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   .listing-detail-sold .md-sold-detail .sold-date {
     grid-area: 2 / 1;
     justify-self: start;
-    margin: 0 0 12px !important;
+    margin: 0 0 8px !important;
   }
 
   .listing-detail-sold .md-sold-detail .detail-info > h1.address {
     grid-area: 3 / 1;
   }
 
+  /* Price block spans the badge and address rows, so its height never
+     pushes the address down away from the badge */
   .listing-detail-sold .md-sold-detail .detail-info > .detail-info-header {
-    grid-area: 3 / 2;
+    grid-area: 2 / 2 / 4 / 3;
+    align-self: end;
   }
 
   .listing-detail-sold .md-sold-detail .count {
     grid-area: 4 / 1;
-    margin: 18px 0 28px !important;
+    margin: 24px 0 28px !important;
   }
 }
 
@@ -1781,9 +1789,7 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
     order: 6;
   }
 
-  .listing-detail-sold .md-sold-detail .mls-provided-container {
-    margin-top: 16px !important;
-  }
+
 
   .listing-detail-sold .md-sold-detail .mls-provided {
     font: 400 12px / 1.5 Roboto, sans-serif !important;
@@ -1876,7 +1882,14 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 
   .listing-detail-sold .md-sold-detail .detail-info > .isg-crumbs {
     order: 5;
-    margin: 0 0 16px;
+    margin: 8px 0 16px;
+  }
+
+  /* "Listed by / Bought with" under the breadcrumb, as on active listings
+     (site.js copies it into the listing column on phones) */
+  .listing-detail-sold .md-sold-detail .detail-info > .isg-provided {
+    order: 6;
+    margin: 0 0 20px !important;
   }
 
   /* Lofty nests two 30px gaps above Key Details on phones */
@@ -1885,7 +1898,11 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   }
 
   .listing-detail-sold .md-sold-detail .detail-info > .detail-info-group-container {
-    margin-top: 12px !important;
+    order: 7;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info {
+    padding-top: 32px !important;
   }
 }
 
@@ -2122,4 +2139,9 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 
 .md-search .crumbs.layout1 .crumb_inner:hover {
   text-decoration: underline !important;
+}
+
+/* Area results: Lofty writes "explore listings in Port Wing" */
+.explore-listings h2.mg-title::first-letter {
+  text-transform: uppercase;
 }
