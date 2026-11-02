@@ -226,22 +226,16 @@
     // 6. Listing Status buttons in the search filters (see above).
     statusButtons();
 
-    // 8. Area breadcrumb above the photos on every listing, active and sold:
-    //    WI > Bayfield County > Port Wing > 54865, each linking to Lofty's own
-    //    area results page on this site (/WI/Bayfield-County, /WI/Port-Wing,
-    //    /WI/54865). It goes in Lofty's empty breadcrumb band; site.css shows
-    //    the band only once it is filled. The state has no page, so plain text.
-    var bar = q(":is(.listing-detail, .listing-detail-sold) .listing-detail-banner .breadcrumb-bar");
-    var photos = q(":is(.listing-detail, .listing-detail-sold) .listing-detail-banner > .swiper");
-    if (!bar && photos && document.body.classList.contains("mobile")) {
-      // Phones get no breadcrumb band from Lofty: add one above the photos
-      var band = document.createElement("div");
-      band.className = "breadcrumb-container isg-band";
-      bar = band.appendChild(document.createElement("div"));
-      bar.className = "breadcrumb-bar";
-      photos.parentElement.insertBefore(band, photos);
-    }
-    if (bar && !bar.querySelector(".isg-crumbs")) {
+    // 8. Area breadcrumb on every listing, active and sold, under the
+    //    beds/baths/acres circles: WI > Bayfield County > Port Wing, then the
+    //    ZIP set apart (a ZIP and a town do not nest). Each links to Lofty's
+    //    own area results page (/WI/Bayfield-County, /WI/Port-Wing, /WI/54865).
+    //    The arrows are their own spans so a link's hover underline stops at
+    //    the word. The state has no page of its own, so it is plain text.
+    var after = q(".listing-detail .detail-info-left > .detail-info-header") ||
+      q(".listing-detail-sold .md-sold-detail .detail-info > .count-sold-date") ||
+      q(".listing-detail-sold .md-sold-detail .detail-info > .count");
+    if (after && !after.parentElement.querySelector(":scope > .isg-crumbs")) {
       var cityEl = Array.prototype.find.call(
         document.querySelectorAll(".detail-info-header .city, .md-sold-detail h1.address .city"),
         function (e) { return e.textContent.trim(); });
@@ -258,18 +252,19 @@
         var crumbs = document.createElement("nav");
         crumbs.className = "isg-crumbs";
         crumbs.setAttribute("aria-label", "Area");
-        var add = function (label, href) {
+        var part = function (label, href, cls) {
           var el = document.createElement(href ? "a" : "span");
           if (href) el.href = href;
+          if (cls) el.className = cls;
           el.textContent = label;
           crumbs.appendChild(el);
         };
-        add(st, "");
-        if (county) add(county, slug(county));
-        add(m[1].trim(), slug(m[1]));
-        if (m[3]) add(m[3], "/" + st + "/" + m[3]);
-        bar.appendChild(crumbs);
-        bar.parentElement.classList.add("isg-has-crumbs");
+        var sep = function () { part("›", "", "sep"); };
+        part(st, "");
+        if (county) { sep(); part(county, slug(county)); }
+        sep(); part(m[1].trim(), slug(m[1]));
+        if (m[3]) part(m[3], "/" + st + "/" + m[3], "zip");
+        after.parentElement.insertBefore(crumbs, after.nextSibling);
       }
     }
 

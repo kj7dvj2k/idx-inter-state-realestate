@@ -1817,62 +1817,280 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 
 
 /* 12. Area breadcrumb on listing pages (built by site.js) -----------------
-   WI > County > Town > ZIP in Lofty's own breadcrumb band, on the gray
-   above the photos, lined up with the content column. Each part links to
-   Lofty's area results page on this site */
+   Under the beds/baths/acres circles, above the rule over Key Details, on
+   active and sold listings. Same type as the "Listed by" line. Each place
+   links to Lofty's area results page on this site; the ZIP sits apart with
+   no arrow, since a ZIP and a town do not nest */
 :is(.listing-detail, .listing-detail-sold) :is(.breadcrumb-container, .breadcrumb-sold-container) {
-  display: none !important;   /* until site.js fills it (.isg-has-crumbs) */
-}
-
-:is(.listing-detail, .listing-detail-sold) :is(.breadcrumb-container, .breadcrumb-sold-container).isg-has-crumbs {
-  display: block !important;
-  height: auto !important;
-  padding: 14px 0 !important;
-  background: #eee !important;
-}
-
-:is(.listing-detail, .listing-detail-sold) .breadcrumb-bar {
-  height: auto !important;
-  min-height: 0 !important;
-  padding: 0 !important;
-  background: none !important;
+  display: none !important;   /* Lofty's empty band above the photos */
 }
 
 .isg-crumbs {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 4px 0;
-  font: 400 12px / 1.5 Roboto, sans-serif;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  row-gap: 4px;
+  margin: 0 0 28px;
+  font: 400 14px / 1.4 font-Roboto-400, Roboto, sans-serif;
   color: #333;
 }
 
-.isg-crumbs > * + *::before {
-  content: "\203A";      /* single right angle quote */
+.isg-crumbs .sep {
   margin: 0 8px;
   color: #333;
 }
 
+.isg-crumbs .zip {
+  margin-left: 24px;
+}
+
 .isg-crumbs a {
   color: #111 !important;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .isg-crumbs a:hover {
-  text-decoration: underline;
+  text-decoration: underline !important;
+}
+
+/* Active listings: the header block's own bottom space is used instead */
+@media (min-width: 768px) {
+  .listing-detail .detail-info-left > .isg-crumbs {
+    margin-top: -12px;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info > .isg-crumbs {
+    grid-area: 5 / 1 / 6 / -1;
+  }
+
+  .listing-detail-sold .md-sold-detail .count {
+    margin-bottom: 16px !important;
+  }
 }
 
 @media (max-width: 767.98px) {
-  :is(.listing-detail, .listing-detail-sold) .breadcrumb-container.isg-has-crumbs {
-    padding: 12px 15px !important;
+  .listing-detail .detail-info-left > .isg-crumbs {
+    order: 1;
+    margin: -4px 0 16px;
+  }
+
+  .listing-detail-sold .md-sold-detail .detail-info > .isg-crumbs {
+    order: 5;
+    margin: 0 0 16px;
   }
 }
 
-@media (min-width: 1200px) {
-  :is(.listing-detail, .listing-detail-sold) .breadcrumb-bar {
-    max-width: 1240px;
-    margin-inline: auto;
-  }
+
+/* 13. One look for buttons, sticky bars and cards --------------------------
+   Every solid button is the active listing's "Schedule a Tour": brand teal,
+   white Manrope 16px, square corners, 40px tall, no capitals */
+:is(.listing-detail, .listing-detail-sold) :is(
+  .detail-schedule-container .schedule-button,
+  .fixed-banner .save-share-tour .item.tour,
+  .pc-fixed-banner .save-share-tour .item.request,
+  .est-request-container .address-button,
+  .md-house-facts .bt-contact,
+  .md-sold-estimate .request button,
+  .md-market-trends .cta-btn button,
+  .md-form .submit) {
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  height: 40px !important;
+  min-height: 0 !important;
+  padding: 0 18px !important;
+  background: #11698c !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font: 700 16px / 1 font-Manrope-400, Manrope, sans-serif !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: #fff !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour .item.tour .text {
+  font: inherit !important;
+  color: inherit !important;
+}
+
+/* Sold listings' scrolling bar = the active listings' bar: price over
+   street over town, Share circle, one button */
+.listing-detail-sold .pc-fixed-banner {
+  padding: 10px 0 !important;
+}
+
+.listing-detail-sold .pc-fixed-banner .banner-box,
+.listing-detail-sold .pc-fixed-banner .center {
+  align-items: center !important;
+}
+
+.listing-detail-sold .pc-fixed-banner .price-address {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.listing-detail-sold .pc-fixed-banner :is(.second-price, .trend, .est-price-container) {
+  display: none !important;
+}
+
+.listing-detail-sold .pc-fixed-banner .first-price {
+  font: 400 22px / 30px var(--b) !important;
+  letter-spacing: -.01em !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .pc-fixed-banner .address .street {
+  display: block !important;
+  margin-top: 5px;
+  font: 400 20px / 23px var(--b) !important;
+  letter-spacing: -.01em !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .pc-fixed-banner .address .city {
+  display: block !important;
+  margin: 0 !important;
+  font: 400 17px / 23.8px var(--m) !important;
+  color: #555 !important;
+}
+
+.listing-detail-sold .pc-fixed-banner .save-share-tour {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px;
+}
+
+.listing-detail-sold .pc-fixed-banner .save-share-tour .item {
+  margin: 0 !important;
+}
+
+/* Sold listings' Hot listings (Lofty's other card template) laid out like
+   the active listings' cards: status square on the photo, then price,
+   address, "Listed by", and beds/baths/acres last. No heart or type tag */
+.listing-detail-sold .md-house-listing .house-grid-item article {
+  position: relative;
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item article > a { order: 0; }
+.listing-detail-sold .md-house-listing .house-grid-item .price-fav { order: 1; padding-top: 16px !important; }
+.listing-detail-sold .md-house-listing .house-grid-item .house-footer { order: 2; }
+.listing-detail-sold .md-house-listing .house-grid-item .house-basic { order: 3; padding: 10px 16px 16px !important; }
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-status {
+  position: absolute !important;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  margin: 0 !important;
+  padding: 5px 10px !important;
+  border: 0 !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-price,
+.listing-detail-sold .md-house-listing .house-grid-item .house-price * {
+  font: 400 22px / 26px var(--b) !important;
+  letter-spacing: -.01em !important;
+  color: #111 !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-address,
+.listing-detail-sold .md-house-listing .house-grid-item .house-address a {
+  margin: 10px 0 0 !important;
+  font: 400 14px / 20px font-Roboto-400, Roboto, sans-serif !important;
+  color: #505050 !important;
+  text-decoration: none !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-provided {
+  margin: 0 !important;
+  font: 400 14px / 1.3 font-Roboto-400, Roboto, sans-serif !important;
+  color: #333 !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-basic,
+.listing-detail-sold .md-house-listing .house-grid-item .house-basic * {
+  font: 400 14px / 16px font-Roboto-400, Roboto, sans-serif !important;
+  color: #505050 !important;
+}
+
+.listing-detail-sold .md-house-listing .house-grid-item .house-basic .iconfont,
+.listing-detail-sold .md-house-listing .house-grid-item :is(.property, .house-count, .swiper-prev, .swiper-next) {
+  display: none !important;
+}
+
+/* Search and area results: the same cards on the same gray page */
+.md-search.grid .md-search-result,
+.md-search.grid .search-result {
+  background: #eee !important;
+}
+
+.md-search .search-result-house-grid article {
+  overflow: hidden;
+  background: #fff !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.md-search .search-result-house-grid .house-detail {
+  display: flex !important;
+  flex-direction: column;
+  padding: 16px !important;
+}
+
+.md-search .search-result-house-grid .house-price { order: 1; }
+.md-search .search-result-house-grid .house-address { order: 2; }
+.md-search .search-result-house-grid .house-info { order: 3; }
+.md-search .search-result-house-grid .house-basic { order: 4; margin-top: 10px !important; }
+
+.md-search .search-result-house-grid .house-price {
+  margin: 0 !important;
+  font: 400 22px / 26px var(--b) !important;
+  letter-spacing: -.01em !important;
+  color: #111 !important;
+}
+
+.md-search .search-result-house-grid .house-address,
+.md-search .search-result-house-grid .house-address a {
+  margin: 10px 0 0 !important;
+  font: 400 14px / 20px font-Roboto-400, Roboto, sans-serif !important;
+  color: #505050 !important;
+}
+
+.md-search .search-result-house-grid .house-provided {
+  margin: 0 !important;
+  font: 400 14px / 1.3 font-Roboto-400, Roboto, sans-serif !important;
+  color: #333 !important;
+}
+
+.md-search .search-result-house-grid .house-basic,
+.md-search .search-result-house-grid .house-basic * {
+  font: 400 14px / 16px font-Roboto-400, Roboto, sans-serif !important;
+  color: #505050 !important;
+}
+
+.md-search .search-result-house-grid .house-status {
+  padding: 5px 10px !important;
+  background: #fff !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.md-search .search-result-house-grid .house-status .status-text {
+  font: 700 11px / 1 Roboto, sans-serif !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+  color: #111 !important;
+}
+
+/* Results headline in the site's heading type */
+.md-search h1.search-text {
+  font: 400 clamp(22px, 2.4vw, 28px) / 1.2 var(--b) !important;
+  letter-spacing: -.01em !important;
+  color: #111 !important;
 }
