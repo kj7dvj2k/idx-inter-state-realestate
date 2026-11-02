@@ -1918,6 +1918,7 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 /* Sold listings' scrolling bar = the active listings' bar: price over
    street over town, Share circle, one button */
 .listing-detail-sold .pc-fixed-banner {
+  height: auto !important;
   padding: 10px 0 !important;
 }
 
@@ -1943,7 +1944,7 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 
 .listing-detail-sold .pc-fixed-banner .address .street {
   display: block !important;
-  margin-top: 5px;
+  margin-top: 4px;
   font: 400 20px / 23px var(--b) !important;
   letter-spacing: -.01em !important;
   color: #111 !important;
@@ -2093,4 +2094,28 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   font: 400 clamp(22px, 2.4vw, 28px) / 1.2 var(--b) !important;
   letter-spacing: -.01em !important;
   color: #111 !important;
+}
+
+/* Lofty's own area breadcrumb on search and area results (WI > Ashland,
+   Market Insights): the listing breadcrumb's type, on the gray, no band */
+.md-search .crumbs.layout1 {
+  background: none !important;
+  padding: 0 !important;
+  font: 400 14px / 1.4 font-Roboto-400, Roboto, sans-serif !important;
+  color: #333 !important;
+}
+
+.md-search .crumbs.layout1 :is(a, span) {
+  font: inherit !important;
+  color: #111 !important;
+  text-decoration: none !important;
+}
+
+.md-search .crumbs.layout1 .crumb_separator {
+  margin: 0 8px !important;
+  color: #333 !important;
+}
+
+.md-search .crumbs.layout1 .crumb_inner:hover {
+  text-decoration: underline !important;
 }
