@@ -1825,8 +1825,8 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 /* 12. Area breadcrumb on listing pages (built by site.js) -----------------
    Under the beds/baths/acres circles, above the rule over Key Details, on
    active and sold listings. Same type as the "Listed by" line. Each place
-   links to Lofty's area results page on this site; the ZIP sits apart with
-   no arrow, since a ZIP and a town do not nest */
+   links to Lofty's area results page on this site; the ZIP follows the
+   town after a slash, not an arrow, since a ZIP and a town do not nest */
 :is(.listing-detail, .listing-detail-sold) :is(.breadcrumb-container, .breadcrumb-sold-container) {
   display: none !important;   /* Lofty's empty band above the photos */
 }
@@ -1844,10 +1844,6 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 .isg-crumbs .sep {
   margin: 0 8px;
   color: #333;
-}
-
-.isg-crumbs .zip {
-  margin-left: 24px;
 }
 
 .isg-crumbs a {
@@ -2144,4 +2140,22 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 /* Area results: Lofty writes "explore listings in Port Wing" */
 .explore-listings h2.mg-title::first-letter {
   text-transform: uppercase;
+}
+
+/* Lofty's phone version of that breadcrumb puts its gray band on the
+   inner .content */
+.md-search .crumbs.layout1 .content {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  background: none !important;
+}
+
+/* Results headline ("18 Properties Available In Port Wing"): room after
+   the count and below the line, as with the other page titles */
+.md-search h1.search-text {
+  margin-bottom: 12px !important;
+}
+
+.md-search h1.search-text > span:nth-child(2) {
+  margin-left: .15em;
 }

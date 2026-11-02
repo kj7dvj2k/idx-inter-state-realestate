@@ -227,8 +227,8 @@
     statusButtons();
 
     // 8. Area breadcrumb on every listing, active and sold, under the
-    //    beds/baths/acres circles: WI > Bayfield County > Port Wing, then the
-    //    ZIP set apart (a ZIP and a town do not nest). Each links to Lofty's
+    //    beds/baths/acres circles: WI > Bayfield County > Port Wing / 54865
+    //    (a slash before the ZIP: a ZIP and a town do not nest). Each links to Lofty's
     //    own area results page (/WI/Bayfield-County, /WI/Port-Wing, /WI/54865).
     //    The arrows are their own spans so a link's hover underline stops at
     //    the word. The state has no page of its own, so it is plain text.
@@ -263,7 +263,7 @@
         part(st, "");
         if (county) { sep(); part(county, slug(county)); }
         sep(); part(m[1].trim(), slug(m[1]));
-        if (m[3]) part(m[3], "/" + st + "/" + m[3], "zip");
+        if (m[3]) { part("/", "", "sep"); part(m[3], "/" + st + "/" + m[3], "zip"); }
         after.parentElement.insertBefore(crumbs, after.nextSibling);
       }
     }
