@@ -2024,12 +2024,7 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   display: none !important;
 }
 
-/* Search and area results: the same cards on the same gray page */
-.md-search.grid .md-search-result,
-.md-search.grid .search-result {
-  background: #eee !important;
-}
-
+/* Search and area results: the same cards (white page, no gray) */
 .md-search .search-result-house-grid article {
   overflow: hidden;
   background: #fff !important;
@@ -2097,7 +2092,7 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 }
 
 /* Lofty's own area breadcrumb on search and area results (WI > Ashland,
-   Market Insights): the listing breadcrumb's type, on the gray, no band */
+   Market Insights): the listing breadcrumb's type, no band */
 .md-search .crumbs.layout1 {
   background: none !important;
   padding: 0 !important;
