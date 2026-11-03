@@ -1904,7 +1904,7 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 
 
 /* 13. One look for buttons, sticky bars and cards --------------------------
-   Every solid button is the active listing's "Schedule a Tour": brand teal,
+   Every solid button is the active listing's "Schedule a Tour": the site button colour (CMS Style > Button Color, now #0c0f24),
    white Manrope 16px, square corners, 40px tall, no capitals */
 :is(.listing-detail, .listing-detail-sold) :is(
   .detail-schedule-container .schedule-button,
@@ -1922,7 +1922,7 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   height: 40px !important;
   min-height: 0 !important;
   padding: 0 18px !important;
-  background: #11698c !important;
+  background: var(--g-btn-background, #0c0f24) !important;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -2209,17 +2209,17 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   gap: 4px 8px;
   height: 40px;
   padding: 0 18px;
-  background: #11698c;
-  font: 700 16px / 1 font-Manrope-400, Manrope, sans-serif;
+  background: var(--g-btn-background, #0c0f24);
+  font: 400 14px / 1 font-Roboto-400, Roboto, sans-serif;
   color: #fff !important;
   text-decoration: none;
   white-space: nowrap;
 }
 
 .md-search .search-result-header > .isg-nwire .isg-nwire-mark {
-  font-family: font-Manrope-800, Manrope, sans-serif;
-  font-weight: 800;
-  letter-spacing: .08em;
+  font-family: font-Roboto-500, Roboto, sans-serif;
+  font-weight: 400;
+  letter-spacing: .125em;
   text-transform: uppercase;
 }
 
@@ -2246,5 +2246,4 @@ body.mobile .md-search .search-result-header > .isg-nwire {
   padding: 10px 14px;
   flex-wrap: wrap;
   white-space: normal;
-  font-size: 15px;
 }

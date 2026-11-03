@@ -322,9 +322,9 @@
       if (sw.getAttribute("href") !== swHref) sw.setAttribute("href", swHref);
     }
 
-    // 11. Search results for one Wisconsin town, county or ZIP (Lofty's
-    //     breadcrumb reads "WI > place"): a button opposite the headline to
-    //     the same place's page on northernwi.realestate.
+    // 11. Search results for one Wisconsin town, county or ZIP: a button
+    //     opposite the headline to the same place's page on
+    //     northernwi.realestate.
     var head = q(".md-search .search-result-header");
     var place = head && searchPlace();
     var cta = head && head.querySelector(":scope > .isg-nwire");
@@ -374,17 +374,23 @@
     return path + (s ? "?" + s : "");
   }
 
-  // The place a search is scoped to, from Lofty's breadcrumb: "WI > Ashland"
-  // -> { name: "Ashland", path: "/WI/Ashland" }. County and ZIP work alike.
+  // The place a search is scoped to: Lofty's breadcrumb ("WI > Ashland" ->
+  // { name: "Ashland", path: "/WI/Ashland" }; ZIPs alike), or, on pages Lofty
+  // gives no breadcrumb (county results), the address itself
+  // (/WI/Douglas-County -> "Douglas County").
   function searchPlace() {
     var crumbs = Array.prototype.map.call(
       document.querySelectorAll(".md-search .crumbs .crumb_inner"),
       function (c) { return c.textContent.trim(); });
-    if (crumbs.length < 2 || crumbs[0] !== "WI") return null;
-    var name = crumbs[crumbs.length - 1];
+    var name = crumbs.length >= 2 && crumbs[0] === "WI" ? crumbs[crumbs.length - 1] : "";
+    if (!name) {
+      var m = location.pathname.match(/^(?:\/sold-listing)?\/WI\/([^\/]+)\/?$/);
+      if (m) name = decodeURIComponent(m[1]).replace(/-/g, " ");
+    }
     if (!name) return null;
     return { name: name, path: "/WI/" + name.replace(/\s+/g, "-") };
   }
+
 
   var queued = false;
   function schedule() {
