@@ -2214,6 +2214,12 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   color: #fff !important;
   text-decoration: none;
   white-space: nowrap;
+  transition: background-color .15s ease-in-out;
+}
+
+/* Hover as on the northernwi.realestate site's solid buttons */
+.md-search .search-result-header > .isg-nwire:hover {
+  background: rgba(8, 8, 8, .7);
 }
 
 .md-search .search-result-header > .isg-nwire .isg-nwire-mark {
@@ -2246,4 +2252,63 @@ body.mobile .md-search .search-result-header > .isg-nwire {
   padding: 10px 14px;
   flex-wrap: wrap;
   white-space: normal;
+}
+
+/* 15. Sold listings on phones: the bar fixed to the bottom matches the
+   active listings' white Call | Tour pill (site.js adds the Call link and
+   rewords Lofty's "Request a FREE Analysis") */
+body.mobile.listing-detail-sold .request-box {
+  left: 15px !important;
+  right: 15px !important;
+  bottom: 20px !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body.mobile.listing-detail-sold .request-box > .mg-container {
+  display: flex;
+  height: 44px;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: rgba(170, 186, 218, .3) 0 4px 10px 3px;
+  overflow: hidden;
+}
+
+body.mobile.listing-detail-sold .request-box .isg-call,
+body.mobile.listing-detail-sold .request-box button {
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 44px !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  font: 400 14px / 1 font-Roboto-400, Roboto, sans-serif !important;
+  color: #111 !important;
+  text-decoration: none;
+  text-transform: none !important;
+  white-space: nowrap;
+}
+
+body.mobile.listing-detail-sold .request-box .isg-call {
+  flex: 0 0 40%;
+}
+
+body.mobile.listing-detail-sold .request-box button {
+  flex: 1 1 auto;
+  width: auto !important;
+}
+
+body.mobile.listing-detail-sold .request-box .isg-call .iconfont {
+  font-size: 16px;
 }

@@ -347,6 +347,34 @@
       cta.remove();
     }
 
+    // 12. No shouted "FREE" anywhere on the site (Lofty writes it into the
+    //     sold pages' estimate box, its popup form and the bottom bar):
+    //     "Request a FREE Analysis" -> "Request a Market Analysis",
+    //     "Contact us for a FREE valuation!" -> "...for a market analysis."
+    //     On phones the sold page's bottom bar becomes the active listings'
+    //     white Call | Tour pill: a Call link (the agent's own number, from
+    //     the page) beside the request.
+    if (document.body && document.body.textContent.indexOf("FREE") > -1) {
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      var tn;
+      while ((tn = walker.nextNode())) {
+        if (!/\bFREE\b/.test(tn.nodeValue) || /^(SCRIPT|STYLE)$/.test(tn.parentNode.nodeName)) continue;
+        tn.nodeValue = tn.nodeValue
+          .replace(/\bFREE Analysis\b/g, "Market Analysis")
+          .replace(/\bfor a FREE valuation!/g, "for a market analysis.")
+          .replace(/\bFREE\s+/g, "");
+      }
+    }
+    var reqBox = q("body.mobile.listing-detail-sold .request-box > .mg-container");
+    var tel = q('.listing-detail-sold a[href^="tel:"]');
+    if (reqBox && tel && !reqBox.querySelector(".isg-call")) {
+      var call = document.createElement("a");
+      call.className = "isg-call";
+      call.href = tel.getAttribute("href");
+      call.innerHTML = '<span class="iconfont icon-phone-solid"></span><span class="name">Call</span>';
+      reqBox.insertBefore(call, reqBox.firstChild);
+    }
+
   }
 
   // northernwi.realestate still runs Lofty, whose area pages are /WI/{Place}.
