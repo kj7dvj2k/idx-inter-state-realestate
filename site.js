@@ -301,6 +301,89 @@
       document.documentElement.classList.toggle("isg-noest", noEst);
     }
 
+    // 10. Search results: "Switch to sold listings" beside the sort button
+    //     ("Switch to listings for sale" on sold results). The visitor's
+    //     filters come along: Lofty serves sold results at the same address
+    //     with /sold-listing in front, and reads the same condition.
+    //     Desktop: the sort button's row; phones and tablets (body.mobile):
+    //     the headline row, where Lofty puts the sort button there.
+    var sortBox = q(".md-search .search-choose > .search-sort, .md-search .search-result-header > .search-sort");
+    if (sortBox) {
+      var sw = sortBox.parentNode.querySelector(":scope > .isg-soldswitch");
+      if (!sw) {
+        sw = document.createElement("a");
+        sw.className = "isg-soldswitch";
+        sw.addEventListener("click", function () { sw.href = soldSwitchHref(); });
+        sortBox.parentNode.insertBefore(sw, sortBox.nextSibling);
+      }
+      var swText = isSoldSearch() ? "Switch to listings for sale" : "Switch to sold listings";
+      if (sw.textContent !== swText) sw.textContent = swText;
+      var swHref = soldSwitchHref();
+      if (sw.getAttribute("href") !== swHref) sw.setAttribute("href", swHref);
+    }
+
+    // 11. Search results for one Wisconsin town, county or ZIP (Lofty's
+    //     breadcrumb reads "WI > place"): a button opposite the headline to
+    //     the same place's page on northernwi.realestate.
+    var head = q(".md-search .search-result-header");
+    var place = head && searchPlace();
+    var cta = head && head.querySelector(":scope > .isg-nwire");
+    if (head && place) {
+      if (!cta) {
+        cta = document.createElement("a");
+        cta.className = "isg-nwire";
+        cta.appendChild(document.createElement("span")).className = "isg-nwire-text";
+        var mark = cta.appendChild(document.createElement("span"));
+        mark.className = "isg-nwire-mark";
+        mark.textContent = "northernwi.realestate";
+        head.appendChild(cta);
+      }
+      var ctaHref = NWIRE + place.path;
+      if (cta.getAttribute("href") !== ctaHref) cta.setAttribute("href", ctaHref);
+      var ctaText = "View " + place.name + " on";
+      var ctaSpan = cta.querySelector(".isg-nwire-text");
+      if (ctaSpan.textContent !== ctaText) ctaSpan.textContent = ctaText;
+    } else if (cta) {
+      cta.remove();
+    }
+
+  }
+
+  // northernwi.realestate still runs Lofty, whose area pages are /WI/{Place}.
+  // When the domain moves to the new site (pages at /wi/{place}/, lower case),
+  // change the path built at the end of searchPlace below.
+  var NWIRE = "https://northernwi.realestate";
+
+  function isSoldSearch() { return /^\/sold-listing(\/|$)/.test(location.pathname); }
+
+  function soldSwitchHref() {
+    var path = location.pathname;
+    var qs = new URLSearchParams(location.search);
+    ["listingSource", "page", "sort", "listingSort"].forEach(function (k) { qs.delete(k); });
+    var c = qs.get("condition");
+    if (c) {
+      try {
+        var o = JSON.parse(c);
+        delete o.listingstatus; // for-sale status choices mean nothing on sold results
+        qs.set("condition", JSON.stringify(o));
+      } catch (e) { /* leave it as Lofty wrote it */ }
+    }
+    if (isSoldSearch()) path = path.replace(/^\/sold-listing/, "") || "/listing";
+    else path = "/sold-listing" + (path === "/listing" ? "" : path);
+    var s = qs.toString();
+    return path + (s ? "?" + s : "");
+  }
+
+  // The place a search is scoped to, from Lofty's breadcrumb: "WI > Ashland"
+  // -> { name: "Ashland", path: "/WI/Ashland" }. County and ZIP work alike.
+  function searchPlace() {
+    var crumbs = Array.prototype.map.call(
+      document.querySelectorAll(".md-search .crumbs .crumb_inner"),
+      function (c) { return c.textContent.trim(); });
+    if (crumbs.length < 2 || crumbs[0] !== "WI") return null;
+    var name = crumbs[crumbs.length - 1];
+    if (!name) return null;
+    return { name: name, path: "/WI/" + name.replace(/\s+/g, "-") };
   }
 
   var queued = false;

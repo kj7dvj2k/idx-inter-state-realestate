@@ -2159,3 +2159,92 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 .md-search h1.search-text > span:nth-child(2) {
   margin-left: .15em;
 }
+
+/* 14. Search results: sold switch and northernwi.realestate button --------
+   Both built by site.js. Desktop: the switch sits beside the sort button and
+   matches it, the grid/list icons stay at the right, and the button sits
+   opposite the headline. Phones and tablets (body.mobile, where Lofty puts
+   the sort button on the headline row): headline and sort, then the switch,
+   then the button across the full width. */
+.md-search .search-choose > .search-sort {
+  margin-right: 12px;
+}
+
+.md-search .isg-soldswitch {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  margin-right: auto;
+  padding: 0 10px;
+  border: 1px solid rgba(218, 218, 218, .5);
+  font: 400 14px / 1 font-Roboto-400, Roboto, sans-serif;
+  color: #000 !important;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.md-search .isg-soldswitch:hover {
+  text-decoration: underline;
+}
+
+.md-search .search-result-header {
+  flex-wrap: wrap !important;
+  gap: 12px 24px;
+  margin-bottom: 12px;
+}
+
+.md-search .search-result-header > h1.search-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-bottom: 0 !important;
+}
+
+.md-search .search-result-header > .isg-nwire {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 8px;
+  height: 40px;
+  padding: 0 18px;
+  background: #11698c;
+  font: 700 16px / 1 font-Manrope-400, Manrope, sans-serif;
+  color: #fff !important;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.md-search .search-result-header > .isg-nwire .isg-nwire-mark {
+  font-family: font-Manrope-800, Manrope, sans-serif;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+body.mobile .md-search .search-result-header {
+  gap: 12px 16px;
+}
+
+body.mobile .md-search .search-result-header > h1.search-text {
+  flex: 1 0 auto;
+}
+
+body.mobile .md-search .search-result-header > .isg-soldswitch {
+  flex: 1 1 100%;
+  height: auto;
+  padding: 0;
+  border: 0;
+  text-decoration: underline;
+}
+
+body.mobile .md-search .search-result-header > .isg-nwire {
+  flex: 1 1 100%;
+  height: auto;
+  min-height: 40px;
+  padding: 10px 14px;
+  flex-wrap: wrap;
+  white-space: normal;
+  font-size: 15px;
+}
