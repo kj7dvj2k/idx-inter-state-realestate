@@ -432,7 +432,7 @@
       if (alt && twin) {
         var a = alt.querySelector("a");
         if (a.getAttribute("href") !== twin.href) a.setAttribute("href", twin.href);
-        var tx = "View this " + twin.what + " on";
+        var tx = twin.label;
         var sp = a.querySelector(".isg-nwire-text");
         if (sp.textContent !== tx) sp.textContent = tx;
       }
@@ -501,14 +501,14 @@
     var p = location.pathname;
     if (isListingPage()) {
       var h = nwireListingHref();
-      return h ? { href: h, what: "listing" } : null;
+      return h ? { href: h, label: "View this listing on" } : null;
     }
-    if (p === "/" || p === "") return { href: NWIRE + "/", what: "page" };
+    if (p === "/" || p === "") return { href: NWIRE + "/", label: "Visit" };
     var place = searchPlace();
-    if (place) return { href: NWIRE + place.path, what: "area" };
+    if (place) return { href: NWIRE + place.path, label: "Browse " + place.name + " homes on" };
     if (/^\/(sold-listing|listing)\/?$/.test(p)) {
       var c = new URLSearchParams(location.search).get("condition");
-      if (!c || c === "{}") return { href: NWIRE + p, what: "search" };
+      if (!c || c === "{}") return { href: NWIRE + p, label: "Browse homes on" };
     }
     return null;
   }

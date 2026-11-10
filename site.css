@@ -1883,14 +1883,36 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   text-decoration: underline !important;
 }
 
-.step1 .input-container,
+/* Email field: one clean gray rectangle the full width, 44px tall (the
+   container itself stays clear, or its hidden floating label leaves a
+   gray lip above the field) */
+.step1 .input-container {
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+  height: auto !important;
+}
+
+.step1 .input-container .label-top {
+  display: none !important;
+}
+
 .step1 .input-container input {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 44px !important;
+  margin: 0 !important;
+  padding: 0 40px 0 14px !important;
   background: #eeeeee !important;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  font-family: var(--r) !important;
+  font: 400 15px / 44px var(--r) !important;
   color: #111 !important;
+}
+
+.step1 .input-container input::placeholder {
+  color: #555 !important;
 }
 
 .step1 .submit input {
@@ -1941,15 +1963,18 @@ body:has(.pop.sign-log) .pop-mask {
   width: 100%;
   min-height: 44px;
   padding: 10px 14px;
-  background: #fff;
+  background: var(--g-btn-background, #0c0f24);
   border: 0;
   font: 400 15px / 1.2 var(--r);
-  color: #111 !important;
+  color: #fff !important;
   text-decoration: none !important;
+  transition: background-color .15s ease-in-out, color .15s ease-in-out;
 }
 
+/* Inverts on hover: white with black text */
 .step1 .isg-pop-nwire .isg-nwire:hover {
-  background: #f6f6f6;
+  background: #fff;
+  color: #111 !important;
 }
 
 .step1 .isg-pop-nwire .isg-nwire-mark {
@@ -1974,11 +1999,13 @@ body:has(.pop.sign-log) .pop-mask {
   color: #111 !important;
   text-decoration: none !important;
   white-space: nowrap;
-  transition: background-color .15s ease-in-out;
+  transition: background-color .15s ease-in-out, color .15s ease-in-out;
 }
 
+/* Inverts on hover: navy with white text */
 .isg-crumbs > .isg-nwire:hover {
-  background: #f6f6f6;
+  background: var(--g-btn-background, #0c0f24);
+  color: #fff !important;
   text-decoration: none !important;
 }
 
