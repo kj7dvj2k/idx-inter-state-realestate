@@ -426,6 +426,14 @@
         if (h2 && h2.textContent !== POP_TITLE) h2.textContent = POP_TITLE;
         if (h3 && h3.textContent !== POP_TEXT) h3.textContent = POP_TEXT;
       }
+      var second = s.querySelector(".step2");
+      if (second && second.offsetParent !== null) {
+        var t2 = second.querySelector("hgroup h2 p, hgroup h2");
+        var d2 = second.querySelector("hgroup h3 p, hgroup h3");
+        if (t2 && t2.textContent !== "One More Step") t2.textContent = "One More Step";
+        var dt = "Add your name and phone to finish your account.";
+        if (d2 && d2.textContent !== dt) d2.textContent = dt;
+      }
       var twin = nwireEquivalent();
       var alt = s.querySelector(".isg-pop-nwire");
       if (twin && !alt) {

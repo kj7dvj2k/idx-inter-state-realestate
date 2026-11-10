@@ -2652,3 +2652,49 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
 .pop.sign-log .step1:has(iframe[style*="height: 0"]) .desc {
   display: none !important;
 }
+
+/* Sign-up popup, second step ("One More Step": name, phone, consent) and
+   every view's title. Titles beat the popup's own body-text rule */
+.pop.sign-log .pop-form hgroup h2,
+.pop.sign-log .pop-form hgroup h2 p {
+  font: 400 26px / 1.15 var(--b) !important;
+  letter-spacing: -.01em !important;
+  color: #111 !important;
+}
+
+/* The required star sits right after the label, not at the far edge;
+   only the sign-in view's "Forgot?" line spreads across */
+.pop.sign-log .pop-form .next-p:not(:has(a.right)) {
+  justify-content: flex-start !important;
+  gap: 2px;
+}
+
+.pop.sign-log .mg-required {
+  color: #111 !important;
+}
+
+/* Consent checkboxes: near-black text and square boxes, links underlined
+   in black (Lofty's text is legal wording and stays as written) */
+.pop.sign-log .disclaimer-content,
+.pop.sign-log .disclaimer-content p {
+  font: 400 12px / 1.45 var(--r) !important;
+  color: #111 !important;
+}
+
+.pop.sign-log .disclaimer-content a {
+  color: #111 !important;
+  text-decoration: underline !important;
+}
+
+.pop.sign-log .check-box-container {
+  border: 1px solid #111 !important;
+  border-radius: 0 !important;
+  color: #111 !important;
+}
+
+/* Finish button greyed until the boxes are ticked: the site navy, faded */
+.pop.sign-log .submit.disabled input[type=submit] {
+  background: var(--g-btn-background, #0c0f24) !important;
+  opacity: .4 !important;
+  filter: none !important;
+}
