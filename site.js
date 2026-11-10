@@ -435,6 +435,8 @@
         s.appendChild(alt);
       }
       if (alt && !twin) alt.remove();
+      var ok = s.querySelector('input[type=submit][value="OK"]');
+      if (ok && s.classList.contains("login")) ok.value = "Sign In";
       if (alt && twin) {
         var a = alt.querySelector("a");
         if (a.getAttribute("href") !== twin.href) a.setAttribute("href", twin.href);

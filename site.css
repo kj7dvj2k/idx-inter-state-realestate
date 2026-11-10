@@ -2610,3 +2610,45 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
 .pop.sign-log > .icon-close {
   display: none !important;
 }
+
+/* Sign-up popup, every view: room above the title, "Forgot?" on the
+   Password label's line, Lofty's Facebook/Gmail frame hidden when Lofty
+   leaves it empty (it does on the sign-in view), so no orphaned "Or" */
+.pop.sign-log .pop-form hgroup {
+  margin: 34px 0 4px !important;
+}
+
+.pop.sign-log .pop-form .next-p {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  margin: 14px 0 6px !important;
+}
+
+.pop.sign-log .pop-form .next-p .label {
+  margin: 0 !important;
+}
+
+.pop.sign-log .third-box:has(iframe[style*="height: 0"]) {
+  display: none !important;
+}
+
+.pop.sign-log .isg-pop-nwire .isg-pop-head {
+  font: 400 22px / 1.2 var(--b) !important;
+  letter-spacing: -.01em !important;
+}
+
+/* The card fits its content: Lofty's 600px minimum left a white strip
+   under the "Just looking?" panel on the shorter sign-in view */
+.pop.sign-log .pop-form {
+  min-height: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pop.sign-log .pop-form:not(:has(.isg-pop-nwire)) {
+  padding-bottom: 28px !important;
+}
+
+.pop.sign-log .step1:has(iframe[style*="height: 0"]) .desc {
+  display: none !important;
+}
