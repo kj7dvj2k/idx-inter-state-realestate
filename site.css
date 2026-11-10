@@ -1853,19 +1853,81 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   margin: 0 .5em;   /* bullet between agent and brokerage (site.js 15) */
 }
 
-/* Sign-up popup: "Just looking? View this listing on NORTHERNWI.REALESTATE"
-   under the sign-in line, only where the page has a twin there (site.js 17).
-   White button with a black outline on the white popup. */
+/* Sign-up popup in the site's type (site.js 17): Manrope ExtraBold title,
+   Roboto text in near-black (no gray text), borderless gray fields, the
+   site button. "Just looking?" is its own gray panel at the foot with a
+   white button, as on the listing page. Facebook/Gmail buttons sit in
+   Lofty's own frame and cannot be restyled. */
+.step1 hgroup h2,
+.step1 hgroup h2 p {
+  margin: 0 0 10px !important;
+  font: 400 26px / 1.15 var(--b) !important;
+  letter-spacing: -.01em !important;
+  color: #111 !important;
+}
+
+.step1 hgroup h3,
+.step1 hgroup h3 p {
+  margin: 0 0 22px !important;
+  font: 400 15px / 1.5 var(--r) !important;
+  color: #111 !important;
+}
+
+.step1 :is(.label, .desc, .sign-in) {
+  font-family: var(--r) !important;
+  color: #111 !important;
+}
+
+.step1 .sign-in a {
+  color: #111 !important;
+  text-decoration: underline !important;
+}
+
+.step1 .input-container,
+.step1 .input-container input {
+  background: #eeeeee !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--r) !important;
+  color: #111 !important;
+}
+
+.step1 .submit input {
+  height: 40px !important;
+  background: var(--g-btn-background, #0c0f24) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font: 700 16px / 1 var(--m) !important;
+  color: #fff !important;
+}
+
+/* Paywall feel: the page behind the sign-up popup is blurred (only for
+   the sign-up popup, not the photo viewer or other Lofty popups) */
+body:has(.pop.sign-log) .pop-mask {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(12, 15, 36, .35) !important;
+}
+
 .step1 .isg-pop-nwire {
-  margin: 16px 0 0;
-  padding-top: 16px;
-  border-top: 1px solid #e6e6e6;
+  margin: 22px -30px 0;
+  padding: 22px 30px 26px;
+  background: #eeeeee;
   text-align: center;
 }
 
-.step1 .isg-pop-or {
-  margin: 0 0 8px;
-  font: 400 14px / 1.4 font-Roboto-400, Roboto, sans-serif;
+.step1 .isg-pop-head {
+  margin: 0 0 4px;
+  font: 400 22px / 1.2 var(--b);
+  letter-spacing: -.01em;
+  color: #111;
+}
+
+.step1 .isg-pop-sub {
+  margin: 0 0 14px;
+  font: 400 15px / 1.4 var(--r);
   color: #111;
 }
 
@@ -1877,11 +1939,11 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   justify-content: center;
   gap: 4px 8px;
   width: 100%;
-  min-height: 40px;
+  min-height: 44px;
   padding: 10px 14px;
   background: #fff;
-  border: 1px solid #111;
-  font: 400 14px / 1 font-Roboto-400, Roboto, sans-serif;
+  border: 0;
+  font: 400 15px / 1.2 var(--r);
   color: #111 !important;
   text-decoration: none !important;
 }

@@ -425,7 +425,7 @@
       if (twin && !alt) {
         alt = document.createElement("div");
         alt.className = "isg-pop-nwire";
-        alt.innerHTML = '<p class="isg-pop-or">Just looking?</p><a class="isg-nwire" rel="noopener"><span class="isg-nwire-text"></span><span class="isg-nwire-mark">northernwi.realestate</span></a>';
+        alt.innerHTML = '<p class="isg-pop-head">Just looking?</p><p class="isg-pop-sub">No account needed on our public site.</p><a class="isg-nwire" rel="noopener"><span class="isg-nwire-text"></span><span class="isg-nwire-mark">northernwi.realestate</span></a>';
         s.appendChild(alt);
       }
       if (alt && !twin) alt.remove();
@@ -475,7 +475,7 @@
   var OWN_HOST = /https?:\/\/(www\.)?idx\.inter-state\.realestate/gi;
 
   var POP_TITLE = "Create Your Account";
-  var POP_TEXT = "Inter-State Group's members' search: new listings the moment they hit the market, saved homes and searches, and recent sold prices.";
+  var POP_TEXT = "Get new listings the moment they hit the market, save homes and searches, and see what nearby homes sold for.";
 
   function isListingPage() {
     return /^\/(listing-detail|sold-listing\/detail)\/\d+/.test(location.pathname);
