@@ -2698,3 +2698,5 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
   opacity: .4 !important;
   filter: none !important;
 }
+.pop.sign-log .submit.disabled::after { background: transparent !important; }
+.pop.sign-log .submit.disabled input[type=submit] { opacity: .5 !important; }
