@@ -346,7 +346,7 @@
         mark.textContent = "northernwi.realestate";
         head.appendChild(cta);
       }
-      var ctaHref = NWIRE + place.path;
+      var ctaHref = NWIRE + place.path + location.search;
       if (cta.getAttribute("href") !== ctaHref) cta.setAttribute("href", ctaHref);
       var ctaText = "View " + place.name + " on";
       var ctaSpan = cta.querySelector(".isg-nwire-text");
@@ -504,11 +504,15 @@
       return h ? { href: h, label: "View this listing on" } : null;
     }
     if (p === "/" || p === "") return { href: NWIRE + "/", label: "Visit" };
+    // Searches keep their filters: the query string (condition, sort,
+    // page, map) carries over as-is, since both sites read the same Lofty
+    // parameters. A search scoped outside Wisconsin has no twin.
     var place = searchPlace();
-    if (place) return { href: NWIRE + place.path, label: "Browse " + place.name + " homes on" };
+    if (place) return { href: NWIRE + place.path + location.search, label: "Browse " + place.name + " homes on" };
     if (/^\/(sold-listing|listing)\/?$/.test(p)) {
-      var c = new URLSearchParams(location.search).get("condition");
-      if (!c || c === "{}") return { href: NWIRE + p, label: "Browse homes on" };
+      var c = new URLSearchParams(location.search).get("condition") || "";
+      if (/,\s*(?!WI\b)[A-Z]{2}\b/.test(c)) return null;
+      return { href: NWIRE + p + location.search, label: c && c !== "{}" ? "View this search on" : "Browse homes on" };
     }
     return null;
   }
