@@ -415,11 +415,17 @@
     //     view it there without an account. Pages with no twin (a Minnesota
     //     listing, profile pages) get no such link. Opening any page with
     //     ?isPopup=0 skips the popup altogether (Lofty's own rule).
-    document.querySelectorAll(".step1").forEach(function (s) {
-      var h2 = s.querySelector("hgroup h2 p, hgroup h2");
-      var h3 = s.querySelector("hgroup h3 p, hgroup h3");
-      if (h2 && h2.textContent !== POP_TITLE) h2.textContent = POP_TITLE;
-      if (h3 && h3.textContent !== POP_TEXT) h3.textContent = POP_TEXT;
+    //     The popup has several views (create account, sign in, the second
+    //     registration step); the wording is set on the create-account view
+    //     only, and the "Just looking?" panel shows on every view.
+    document.querySelectorAll(".pop.sign-log .pop-form").forEach(function (s) {
+      var first = s.querySelector(".step1");
+      if (first && first.offsetParent !== null) {
+        var h2 = first.querySelector("hgroup h2 p, hgroup h2");
+        var h3 = first.querySelector("hgroup h3 p, hgroup h3");
+        if (h2 && h2.textContent !== POP_TITLE) h2.textContent = POP_TITLE;
+        if (h3 && h3.textContent !== POP_TEXT) h3.textContent = POP_TEXT;
+      }
       var twin = nwireEquivalent();
       var alt = s.querySelector(".isg-pop-nwire");
       if (twin && !alt) {

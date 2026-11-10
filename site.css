@@ -1858,27 +1858,27 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
    site button. "Just looking?" is its own gray panel at the foot with a
    white button, as on the listing page. Facebook/Gmail buttons sit in
    Lofty's own frame and cannot be restyled. */
-.step1 hgroup h2,
-.step1 hgroup h2 p {
+.pop.sign-log hgroup h2,
+.pop.sign-log hgroup h2 p {
   margin: 0 0 10px !important;
   font: 400 26px / 1.15 var(--b) !important;
   letter-spacing: -.01em !important;
   color: #111 !important;
 }
 
-.step1 hgroup h3,
-.step1 hgroup h3 p {
+.pop.sign-log hgroup h3,
+.pop.sign-log hgroup h3 p {
   margin: 0 0 22px !important;
   font: 400 15px / 1.5 var(--r) !important;
   color: #111 !important;
 }
 
-.step1 :is(.label, .desc, .sign-in) {
+.pop.sign-log :is(.label, .desc, .sign-in, .pop-footer, .next-p, p:not(.mg-error)) {
   font-family: var(--r) !important;
   color: #111 !important;
 }
 
-.step1 .sign-in a {
+.pop.sign-log :is(.sign-in, .pop-footer, .next-p) a {
   color: #111 !important;
   text-decoration: underline !important;
 }
@@ -1886,18 +1886,18 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
 /* Email field: one clean gray rectangle the full width, 44px tall (the
    container itself stays clear, or its hidden floating label leaves a
    gray lip above the field) */
-.step1 .input-container {
+.pop.sign-log .input-container {
   background: none !important;
   border: 0 !important;
   padding: 0 !important;
   height: auto !important;
 }
 
-.step1 .input-container .label-top {
+.pop.sign-log .input-container .label-top {
   display: none !important;
 }
 
-.step1 .input-container input {
+.pop.sign-log .input-container input {
   box-sizing: border-box !important;
   width: 100% !important;
   height: 44px !important;
@@ -1911,18 +1911,74 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   color: #111 !important;
 }
 
-.step1 .input-container input::placeholder {
+.pop.sign-log .input-container input::placeholder {
   color: #555 !important;
 }
 
-.step1 .submit input {
-  height: 40px !important;
+.pop.sign-log :is(input[type=submit], button:not(.iconfont)) {
+  box-sizing: border-box !important;
+  display: block !important;
+  width: 100% !important;
+  height: 44px !important;
+  margin: 16px 0 0 !important;
   background: var(--g-btn-background, #0c0f24) !important;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   font: 700 16px / 1 var(--m) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
   color: #fff !important;
+  cursor: pointer;
+}
+
+/* Every view of the popup (create account, sign in, second step): same
+   card, same type. The card itself: square, no shadow */
+.pop.sign-log .pop-form {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.pop.sign-log hgroup {
+  margin: 0 0 4px !important;
+  text-align: center !important;
+}
+
+.pop.sign-log .label,
+.pop.sign-log .next-p {
+  margin: 14px 0 6px !important;
+  font: 400 14px / 1.3 var(--r) !important;
+}
+
+.pop.sign-log .next-p a.right,
+.pop.sign-log :is(.sign-in, .pop-footer) {
+  font: 400 14px / 1.4 var(--r) !important;
+}
+
+.pop.sign-log :is(.sign-in, .pop-footer) {
+  margin: 16px 0 0 !important;
+  text-align: center !important;
+}
+
+.pop.sign-log .desc {
+  margin: 14px 0 10px !important;
+  font: 400 14px / 1 var(--r) !important;
+  text-align: center !important;
+}
+
+.pop.sign-log .input-container .iconfont {
+  color: #555 !important;
+}
+
+.pop.sign-log select {
+  box-sizing: border-box !important;
+  height: 44px !important;
+  padding: 0 14px !important;
+  background: #eeeeee !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  font: 400 15px / 44px var(--r) !important;
+  color: #111 !important;
 }
 
 /* Paywall feel: the page behind the sign-up popup is blurred (only for
@@ -1933,27 +1989,27 @@ body:has(.pop.sign-log) .pop-mask {
   background: rgba(12, 15, 36, .35) !important;
 }
 
-.step1 .isg-pop-nwire {
+.pop.sign-log .isg-pop-nwire {
   margin: 22px -30px 0;
   padding: 22px 30px 26px;
   background: #eeeeee;
   text-align: center;
 }
 
-.step1 .isg-pop-head {
+.pop.sign-log .isg-pop-head {
   margin: 0 0 4px;
-  font: 400 22px / 1.2 var(--b);
+  font: 400 22px / 1.2 var(--b) !important;
   letter-spacing: -.01em;
   color: #111;
 }
 
-.step1 .isg-pop-sub {
+.pop.sign-log .isg-pop-sub {
   margin: 0 0 14px;
   font: 400 15px / 1.4 var(--r);
   color: #111;
 }
 
-.step1 .isg-pop-nwire .isg-nwire {
+.pop.sign-log .isg-pop-nwire .isg-nwire {
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -1972,12 +2028,12 @@ body:has(.pop.sign-log) .pop-mask {
 }
 
 /* Inverts on hover: white with black text */
-.step1 .isg-pop-nwire .isg-nwire:hover {
+.pop.sign-log .isg-pop-nwire .isg-nwire:hover {
   background: #fff;
   color: #111 !important;
 }
 
-.step1 .isg-pop-nwire .isg-nwire-mark {
+.pop.sign-log .isg-pop-nwire .isg-nwire-mark {
   font-family: font-Roboto-500, Roboto, sans-serif;
   letter-spacing: .125em;
   text-transform: uppercase;
