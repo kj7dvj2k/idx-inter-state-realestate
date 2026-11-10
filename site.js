@@ -295,6 +295,14 @@
       var t = s.textContent.replace(/^\s*SOLD DATE\s*:\s*/i, "Sold ");
       if (t !== s.textContent) s.textContent = t;
     });
+    // 7b. Card tags: "Sold on 11/03/2026" -> "Sold 11/3/26", as on the
+    //     northernwi.realestate cards.
+    document.querySelectorAll(".house-status .status-text").forEach(function (t) {
+      var m = t.textContent.trim().match(/^Sold on (\d{1,2})\/(\d{1,2})\/\d{2}(\d{2})$/i);
+      if (!m) return;
+      var y = "Sold " + Number(m[1]) + "/" + Number(m[2]) + "/" + m[3];
+      if (t.textContent !== y) t.textContent = y;
+    });
     var est = q(".listing-detail-sold .est-price-container .value");
     var noEst = !!est && est.textContent.trim() === "?";
     if (document.documentElement.classList.contains("isg-noest") !== noEst) {
@@ -347,6 +355,52 @@
       cta.remove();
     }
 
+    // 13. Listing pages, active and sold: "View this listing on
+    //     NORTHERNWI.REALESTATE" at the right end of the area breadcrumb row
+    //     (under it on phones). Both sites run the same Lofty listing ids
+    //     and paths (/listing-detail/<id>/<slug>, /sold-listing/detail/...),
+    //     checked 2026-11-09 on the current northernwi.realestate and on the
+    //     new site, so the link keeps working when the domain moves.
+    var crumbRow = q(".isg-crumbs");
+    var listingHref = nwireListingHref();
+    if (crumbRow && listingHref && !crumbRow.querySelector(".isg-nwire")) {
+      var view = document.createElement("a");
+      view.className = "isg-nwire isg-nwire-listing";
+      view.href = listingHref;
+      view.appendChild(document.createElement("span")).className = "isg-nwire-text";
+      view.firstChild.textContent = "View this listing on";
+      var vMark = view.appendChild(document.createElement("span"));
+      vMark.className = "isg-nwire-mark";
+      vMark.textContent = "northernwi.realestate";
+      crumbRow.appendChild(view);
+    }
+
+    // 14. Share menus hand out the northernwi.realestate address, never this
+    //     site's: Lofty writes this site's address into every share link
+    //     (X, Facebook, email, LinkedIn), in the page and in the sticky bar.
+    if (listingHref) {
+      document.querySelectorAll("a.share-item").forEach(function (a) {
+        var h = a.getAttribute("href") || "";
+        var n = h.replace(OWN_HOST, NWIRE);
+        if (n !== h) a.setAttribute("href", n);
+      });
+    }
+
+    // 15. "Listed by" lines: some feeds put a bullet between the agent and
+    //     the brokerage ("Ethan Trowbridge • eXp Realty LLC") and the spaces
+    //     around it all but vanish. The bullet gets its own span, spaced in
+    //     site.css. Lofty may re-render the line; this re-applies.
+    document.querySelectorAll(".mls-provided").forEach(function (p) {
+      if (p.querySelector(".isg-dot") || p.innerHTML.indexOf("•") < 0) return;
+      p.innerHTML = p.innerHTML.replace(/(\s|&nbsp;)*•(\s|&nbsp;)*/g, '<span class="isg-dot">•</span>');
+    });
+
+    // 16. No "free" in the sign-up popup's title ("Create Your Free Account").
+    document.querySelectorAll("h1, h2, h3, .title, [class*=title]").forEach(function (h) {
+      if (h.children.length || !/\bFree Account\b/.test(h.textContent)) return;
+      h.textContent = h.textContent.replace(/\bFree Account\b/, "Account");
+    });
+
     // 12. No shouted "FREE" anywhere on the site (Lofty writes it into the
     //     sold pages' estimate box, its popup form and the bottom bar):
     //     "Request a FREE Analysis" -> "Request a Market Analysis",
@@ -381,6 +435,30 @@
   // When the domain moves to the new site (pages at /wi/{place}/, lower case),
   // change the path built at the end of searchPlace below.
   var NWIRE = "https://northernwi.realestate";
+  var OWN_HOST = /https?:\/\/(www\.)?idx\.inter-state\.realestate/gi;
+
+  // The same listing on northernwi.realestate, or "" off a listing page.
+  function nwireListingHref() {
+    return /^\/(listing-detail|sold-listing\/detail)\/\d+/.test(location.pathname)
+      ? NWIRE + location.pathname : "";
+  }
+
+  // Phones share through the device's own share sheet; hand it the
+  // northernwi.realestate address too.
+  if (navigator.share && !navigator.share.__isg) {
+    var nativeShare = navigator.share.bind(navigator);
+    var isgShare = function (d) {
+      var href = nwireListingHref();
+      if (href && d && typeof d === "object") {
+        d = Object.assign({}, d);
+        if (d.url) d.url = href;
+        if (d.text) d.text = String(d.text).replace(OWN_HOST, NWIRE);
+      }
+      return nativeShare(d);
+    };
+    isgShare.__isg = true;
+    try { navigator.share = isgShare; } catch (e) { /* read-only in some browsers */ }
+  }
 
   function isSoldSearch() { return /^\/sold-listing(\/|$)/.test(location.pathname); }
 

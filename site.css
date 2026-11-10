@@ -1846,6 +1846,56 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   color: #333;
 }
 
+/* "View this listing on NORTHERNWI.REALESTATE" at the right end of the
+   breadcrumb row (site.js). White on the gray listing page, no border,
+   black text (Alex 2026-11-09) */
+.mls-provided .isg-dot {
+  margin: 0 .5em;   /* bullet between agent and brokerage (site.js 15) */
+}
+
+.isg-crumbs > .isg-nwire {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 8px;
+  height: 40px;
+  margin: 0 0 0 auto;
+  padding: 0 18px;
+  background: #fff;
+  border: 0;
+  font: 400 14px / 1 font-Roboto-400, Roboto, sans-serif;
+  color: #111 !important;
+  text-decoration: none !important;
+  white-space: nowrap;
+  transition: background-color .15s ease-in-out;
+}
+
+.isg-crumbs > .isg-nwire:hover {
+  background: #f6f6f6;
+  text-decoration: none !important;
+}
+
+.isg-crumbs > .isg-nwire .isg-nwire-mark {
+  font-family: font-Roboto-500, Roboto, sans-serif;
+  font-weight: 400;
+  letter-spacing: .125em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 767.98px) {
+  .isg-crumbs > .isg-nwire {
+    flex: 1 1 100%;
+    height: auto;
+    min-height: 40px;
+    margin: 8px 0 0;
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+}
+
 .isg-crumbs a {
   color: #111 !important;
   text-decoration: none !important;
@@ -2311,4 +2361,58 @@ body.mobile.listing-detail-sold .request-box button {
 
 body.mobile.listing-detail-sold .request-box .isg-call .iconfont {
   font-size: 16px;
+}
+
+
+/* 13. Status tags on every listing card (search results, sold search,
+   similar homes, hot listings, featured) = the ISG card badges on the
+   northernwi.realestate site: square, Roboto Medium 11px caps, the same
+   fills, a shadow on the photo. Open house, price drop and "new" have no
+   status colour of their own: navy, so they never read as a status.
+   The listing page's own header badge stays the plain white square.
+   (Alex 2026-11-03) */
+html body .house-status.house-status:not(.detail-info-header .house-status) {
+  height: auto !important;
+  padding: 4px 10px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: rgba(0, 0, 0, .35) 0 2px 8px 0 !important;
+  background: #0c0f24 !important;
+  color: #fff !important;
+}
+
+html body .house-status.house-status:not(.detail-info-header .house-status),
+html body .house-status.house-status:not(.detail-info-header .house-status) .status-text.status-text {
+  font: 500 11px / 1.4 font-Roboto-400, Roboto, sans-serif !important;
+  letter-spacing: .125em !important;
+  text-transform: uppercase !important;
+}
+
+html body .house-status.house-status:not(.detail-info-header .house-status) :is(.status-text, i, .iconfont) {
+  color: inherit !important;
+}
+
+html body .house-status.house-status.active:not(.detail-info-header .house-status) {
+  background: #22C55E !important;
+  color: #04342C !important;
+}
+
+html body .house-status.house-status:is(.comingsoon, .coming-soon):not(.detail-info-header .house-status) {
+  background: #506CAA !important;
+  color: #fff !important;
+}
+
+html body .house-status.house-status:is(.Pending, .pending):not(.detail-info-header .house-status) {
+  background: #D85A30 !important;
+  color: #fff !important;
+}
+
+html body .house-status.house-status:is(.Contingent, .contingent, [class*="Under"], [class*="under"]):not(.detail-info-header .house-status) {
+  background: #EF9F27 !important;
+  color: #412402 !important;
+}
+
+html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.detail-info-header .house-status) {
+  background: #EEEEEE !important;
+  color: #2C2C2A !important;
 }
