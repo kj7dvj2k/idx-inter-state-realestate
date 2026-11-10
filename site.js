@@ -361,6 +361,8 @@
     //     and paths (/listing-detail/<id>/<slug>, /sold-listing/detail/...),
     //     checked 2026-11-09 on the current northernwi.realestate and on the
     //     new site, so the link keeps working when the domain moves.
+    //     Wisconsin listings only: the new site carries WI and nothing else,
+    //     so a Minnesota listing gets no button and keeps its own share links.
     var crumbRow = q(".isg-crumbs");
     var listingHref = nwireListingHref();
     if (crumbRow && listingHref && !crumbRow.querySelector(".isg-nwire")) {
@@ -395,10 +397,45 @@
       p.innerHTML = p.innerHTML.replace(/(\s|&nbsp;)*•(\s|&nbsp;)*/g, '<span class="isg-dot">•</span>');
     });
 
-    // 16. No "free" in the sign-up popup's title ("Create Your Free Account").
-    document.querySelectorAll("h1, h2, h3, .title, [class*=title]").forEach(function (h) {
-      if (h.children.length || !/\bFree Account\b/.test(h.textContent)) return;
-      h.textContent = h.textContent.replace(/\bFree Account\b/, "Account");
+    // 16. Search and area result cards: one MLS feed's line arrives glued
+    //     together ("Listed by Ethan TrowbridgeofeXp Realty LLC"). Put the
+    //     spaces back around "of" (name ends lower case, brokerage starts
+    //     with a capital or "eXp"), only when the line has no " of " already.
+    document.querySelectorAll(".house-provided, .mls-provided").forEach(function (p) {
+      p.childNodes.forEach(function (n) {
+        if (n.nodeType !== 3 || / of /.test(n.nodeValue)) return;
+        var t = n.nodeValue.replace(/([a-z.])of(?=[A-Z]|e[A-Z])/, "$1 of ");
+        if (t !== n.nodeValue) n.nodeValue = t;
+      });
+    });
+
+    // 17. Sign-up popup (Lofty's registration step): our wording, and, on a
+    //     page that has a northernwi.realestate twin (Wisconsin listings,
+    //     Wisconsin area results, the main search, the home page), a way to
+    //     view it there without an account. Pages with no twin (a Minnesota
+    //     listing, profile pages) get no such link. Opening any page with
+    //     ?isPopup=0 skips the popup altogether (Lofty's own rule).
+    document.querySelectorAll(".step1").forEach(function (s) {
+      var h2 = s.querySelector("hgroup h2 p, hgroup h2");
+      var h3 = s.querySelector("hgroup h3 p, hgroup h3");
+      if (h2 && h2.textContent !== POP_TITLE) h2.textContent = POP_TITLE;
+      if (h3 && h3.textContent !== POP_TEXT) h3.textContent = POP_TEXT;
+      var twin = nwireEquivalent();
+      var alt = s.querySelector(".isg-pop-nwire");
+      if (twin && !alt) {
+        alt = document.createElement("div");
+        alt.className = "isg-pop-nwire";
+        alt.innerHTML = '<p class="isg-pop-or">Just looking?</p><a class="isg-nwire" rel="noopener"><span class="isg-nwire-text"></span><span class="isg-nwire-mark">northernwi.realestate</span></a>';
+        s.appendChild(alt);
+      }
+      if (alt && !twin) alt.remove();
+      if (alt && twin) {
+        var a = alt.querySelector("a");
+        if (a.getAttribute("href") !== twin.href) a.setAttribute("href", twin.href);
+        var tx = "View this " + twin.what + " on";
+        var sp = a.querySelector(".isg-nwire-text");
+        if (sp.textContent !== tx) sp.textContent = tx;
+      }
     });
 
     // 12. No shouted "FREE" anywhere on the site (Lofty writes it into the
@@ -437,10 +474,43 @@
   var NWIRE = "https://northernwi.realestate";
   var OWN_HOST = /https?:\/\/(www\.)?idx\.inter-state\.realestate/gi;
 
-  // The same listing on northernwi.realestate, or "" off a listing page.
+  var POP_TITLE = "Create Your Account";
+  var POP_TEXT = "Inter-State Group's members' search: new listings the moment they hit the market, saved homes and searches, and recent sold prices.";
+
+  function isListingPage() {
+    return /^\/(listing-detail|sold-listing\/detail)\/\d+/.test(location.pathname);
+  }
+
+  // The listing's state, read from the area breadcrumb site.js builds
+  // ("WI > Ashland County > Ashland / 54806"), or from the address line.
+  function listingState() {
+    var c = q(".isg-crumbs");
+    if (c && c.firstChild) return c.firstChild.textContent.trim();
+    var city = q(".detail-info-header .city, .md-sold-detail h1.address .city");
+    var m = city && city.textContent.match(/,\s*([A-Z]{2})\b/);
+    return m ? m[1] : "";
+  }
+
+  // The same Wisconsin listing on northernwi.realestate, or "".
   function nwireListingHref() {
-    return /^\/(listing-detail|sold-listing\/detail)\/\d+/.test(location.pathname)
-      ? NWIRE + location.pathname : "";
+    return isListingPage() && listingState() === "WI" ? NWIRE + location.pathname : "";
+  }
+
+  // This page's twin on northernwi.realestate, or null when there is none.
+  function nwireEquivalent() {
+    var p = location.pathname;
+    if (isListingPage()) {
+      var h = nwireListingHref();
+      return h ? { href: h, what: "listing" } : null;
+    }
+    if (p === "/" || p === "") return { href: NWIRE + "/", what: "page" };
+    var place = searchPlace();
+    if (place) return { href: NWIRE + place.path, what: "area" };
+    if (/^\/(sold-listing|listing)\/?$/.test(p)) {
+      var c = new URLSearchParams(location.search).get("condition");
+      if (!c || c === "{}") return { href: NWIRE + p, what: "search" };
+    }
+    return null;
   }
 
   // Phones share through the device's own share sheet; hand it the

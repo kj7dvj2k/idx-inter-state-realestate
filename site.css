@@ -1853,10 +1853,53 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
   margin: 0 .5em;   /* bullet between agent and brokerage (site.js 15) */
 }
 
+/* Sign-up popup: "Just looking? View this listing on NORTHERNWI.REALESTATE"
+   under the sign-in line, only where the page has a twin there (site.js 17).
+   White button with a black outline on the white popup. */
+.step1 .isg-pop-nwire {
+  margin: 16px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid #e6e6e6;
+  text-align: center;
+}
+
+.step1 .isg-pop-or {
+  margin: 0 0 8px;
+  font: 400 14px / 1.4 font-Roboto-400, Roboto, sans-serif;
+  color: #111;
+}
+
+.step1 .isg-pop-nwire .isg-nwire {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 8px;
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid #111;
+  font: 400 14px / 1 font-Roboto-400, Roboto, sans-serif;
+  color: #111 !important;
+  text-decoration: none !important;
+}
+
+.step1 .isg-pop-nwire .isg-nwire:hover {
+  background: #f6f6f6;
+}
+
+.step1 .isg-pop-nwire .isg-nwire-mark {
+  font-family: font-Roboto-500, Roboto, sans-serif;
+  letter-spacing: .125em;
+  text-transform: uppercase;
+}
+
 .isg-crumbs > .isg-nwire {
   box-sizing: border-box;
   display: inline-flex;
-  align-self: center;
+  align-self: baseline;   /* button text on the breadcrumb's line */
   align-items: center;
   justify-content: center;
   gap: 4px 8px;
