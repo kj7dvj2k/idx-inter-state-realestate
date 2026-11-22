@@ -2739,3 +2739,13 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
   margin: 0 0 8px;
 }
 
+/* Several counties in one crumb slot (site.js 19): stacked, none ranked */
+.md-search .isg-scrumbs .isg-stack {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: top;
+}
+
+.md-search .isg-scrumbs > .isg-water + .isg-water {
+  margin-top: 0;
+}

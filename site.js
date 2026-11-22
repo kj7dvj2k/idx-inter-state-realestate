@@ -783,65 +783,104 @@
     waterTuck(crumbs);
   }
 
-  // Search-page water breadcrumb (step 19).
+  // Search-page water breadcrumb (step 19). Built from the search's own
+  // condition: every Water Body value gets its own line under the
+  // breadcrumb, once per county searched (one name, "Long", is many lakes),
+  // each linking to its northernwi.realestate guide when it has one. Water
+  // Body searches lead back to the guides, which search the verified shape,
+  // never the other way (owner 2026-11-22).
   var scrumbCache = {};
+  function waterKey(c) {
+    var wb = (c && (c.waterbody || c.waterBody)) || [];
+    var cs = (c && c.location && c.location.county) || [];
+    return JSON.stringify([wb, cs]);
+  }
+  function countyBases(list) {
+    var seen = {}, out = [];
+    (list || []).forEach(function (v) {
+      var m = String(v).match(/^(.+?)(\s+County)?,\s*([A-Z]{2})$/);
+      if (!m) return;
+      var k = m[1].trim() + "|" + m[3];
+      if (!seen[k]) { seen[k] = 1; out.push({ base: m[1].trim(), st: m[3] }); }
+    });
+    return out;
+  }
   function searchWaterCrumbs() {
     var head = q(".md-search .search-result-header");
     if (!head || q(".md-search .crumbs")) return;
     var col = head.parentNode, have = col.querySelector(":scope > .isg-scrumbs");
-    var key = location.pathname + "|" + (new URLSearchParams(location.search).get("condition") || "");
-    if (have && have.getAttribute("data-k") === key) return;
-    if (have) have.remove();
     var c;
     try { c = JSON.parse(new URLSearchParams(location.search).get("condition") || "{}"); } catch (e) { return; }
-    var wb = c && c.waterbody;
-    if (!wb || wb.length !== 1 || JUNK_WATER.test(wb[0])) return;
-    var counties = (c.location && c.location.county) || [];
-    var m = counties.length ? String(counties[0]).match(/^(.+?)(\s+County)?,\s*([A-Z]{2})$/) : null;
-    var st = m ? m[3] : "";
+    var key = location.pathname + "|" + waterKey(c);
+    if (have && have.getAttribute("data-k") === key) return;
+    if (have) have.remove();
+    var wb = ((c && (c.waterbody || c.waterBody)) || []).filter(function (v) { return !JUNK_WATER.test(v); });
+    if (!wb.length) return;
+    var counties = countyBases(c.location && c.location.county);
     var w = scrumbCache[key];
     if (w === undefined) {
       scrumbCache[key] = null;
-      var probe = { location: c.location || {}, waterbody: wb };
-      fetch("/api-site/search/realTimeListings?page=1&pageSize=1&listingSource=all%20listings&condition=" +
-          encodeURIComponent(JSON.stringify(probe)))
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (j) {
-          var l = j && j.listings && j.listings[0];
-          return waterInfo(wb[0], "", l ? Number(l.latitude) : NaN, l ? Number(l.longitude) : NaN);
-        })
-        .then(function (info) { scrumbCache[key] = info; schedule(); })
-        .catch(function () {});
+      var jobs = [];
+      wb.forEach(function (v) {
+        (counties.length ? counties : [null]).forEach(function (ct) {
+          var loc = ct ? { county: [ct.base + ", " + ct.st, ct.base + " County, " + ct.st] } : (c.location || {});
+          jobs.push(fetch("/api-site/search/realTimeListings?page=1&pageSize=1&listingSource=all%20listings&condition=" +
+              encodeURIComponent(JSON.stringify({ location: loc, waterbody: [v] })))
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (j) {
+              var l = j && j.listings && j.listings[0];
+              if (ct && !l) return null;          // nothing on that water in that county
+              return waterInfo(v, "", l ? Number(l.latitude) : NaN, l ? Number(l.longitude) : NaN)
+                .then(function (info) { info.st = ct ? ct.st : (l && l.state) || ""; return info; });
+            }).catch(function () { return null; }));
+        });
+      });
+      Promise.all(jobs).then(function (r) {
+        var seen = {}, lines = [];
+        r.forEach(function (x) {
+          if (!x) return;
+          var k = x.page || x.name;
+          if (seen[k]) return;
+          seen[k] = 1; lines.push(x);
+        });
+        scrumbCache[key] = { lines: lines };
+        schedule();
+      });
       return;
     }
-    if (!w) return;
+    if (!w || !w.lines.length) return;
     var nav = document.createElement("nav");
     nav.className = "isg-crumbs isg-scrumbs";
     nav.setAttribute("aria-label", "Area");
     nav.setAttribute("data-k", key);
-    var part = function (label, href, cls) {
-      var el = document.createElement(href ? "a" : "span");
-      if (href) el.href = href;
-      if (cls) el.className = cls;
-      el.textContent = label;
-      nav.appendChild(el);
-    };
     var sold = isSoldSearch() ? "/sold-listing" : "/listing";
-    if (st) {
-      part(st, "");
-      part("›", "", "sep");
-      var base = m[1].trim();
-      var cc = { location: { county: [base + ", " + st, base + " County, " + st] } };
-      part(base + " County", sold + "?listingSource=all%20listings&condition=" + encodeURIComponent(JSON.stringify(cc)));
+    function countyLink(ct) {
+      var a = document.createElement("a");
+      a.href = sold + "?listingSource=all%20listings&condition=" + encodeURIComponent(JSON.stringify(
+        { location: { county: [ct.base + ", " + ct.st, ct.base + " County, " + ct.st] } }));
+      a.textContent = ct.base + " County";
+      return a;
     }
-    // The water on its own line under the breadcrumb, as on listing pages: a
-    // lake is not filed under any one town or county it touches.
-    var line = document.createElement("div");
-    line.className = "isg-water";
-    var wl = line.appendChild(document.createElement(st === "WI" && w.page ? "a" : "span"));
-    if (st === "WI" && w.page) wl.href = w.page;
-    wl.textContent = w.name;
-    nav.appendChild(line);
+    if (counties.length) {
+      var st = document.createElement("span"); st.textContent = counties[0].st; nav.appendChild(st);
+      var sep = document.createElement("span"); sep.className = "sep"; sep.textContent = "›"; nav.appendChild(sep);
+      if (counties.length === 1) nav.appendChild(countyLink(counties[0]));
+      else {
+        // Several counties share one crumb slot, stacked, none ranked over another.
+        var slot = document.createElement("span"); slot.className = "isg-stack";
+        counties.forEach(function (ct) { slot.appendChild(countyLink(ct)); });
+        nav.appendChild(slot);
+      }
+    }
+    w.lines.forEach(function (x) {
+      var line = document.createElement("div");
+      line.className = "isg-water";
+      var link = x.st === "WI" && x.page;
+      var el = line.appendChild(document.createElement(link ? "a" : "span"));
+      if (link) el.href = x.page;
+      el.textContent = x.name;
+      nav.appendChild(line);
+    });
     col.insertBefore(nav, head);
   }
 
