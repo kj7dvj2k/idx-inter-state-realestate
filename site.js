@@ -446,6 +446,11 @@
     //     plain text. Area pages keep Lofty's own crumbs.
     searchWaterCrumbs();
 
+    // 20. Search Filters panel: only filters proven to work on every MLS
+    //     feed stay visible (audit 2026-11-22). Allow-list, so a filter
+    //     Lofty adds later stays hidden until it is tested.
+    hideFilters();
+
     // 11. Search results for one Wisconsin town, county or ZIP: a button
     //     opposite the headline to the same place's page on
     //     northernwi.realestate.
@@ -910,6 +915,30 @@
   // { name: "Ashland", path: "/WI/Ashland" }; ZIPs alike), or, on pages Lofty
   // gives no breadcrumb (county results), the address itself
   // (/WI/Douglas-County -> "Douglas County").
+  var FILTER_KEEP = {
+    "Price": 1, "Beds": 1, "Baths": 1, "Listing Status": 1, "Property Type": 1,
+    "Days On Site": 1, "SqFt": 1, "Lot Size": 1, "Water Front Y/N": 1,
+    "Water Body": 1, "Keyword": 1
+  };
+  var FILTER_LABELS = ".title_mid, label.select-text > span, .select-button-group-label, .checkbox-li span.label";
+  function hideFilters() {
+    document.querySelectorAll(".section-box").forEach(function (box) {
+      var shown = 0, seen = 0;
+      box.querySelectorAll(FILTER_LABELS).forEach(function (l) {
+        var w = l;
+        while (w.parentElement && w.parentElement !== box && !w.parentElement.classList.contains("section")) w = w.parentElement;
+        if (w === l && l.closest(".checkbox-li")) w = l.closest(".checkbox-li");
+        seen++;
+        var keep = !!FILTER_KEEP[l.textContent.trim()];
+        if (keep) shown++;
+        var want = keep ? "" : "none";
+        if (w.style.display !== want) w.style.display = want;
+      });
+      var boxWant = seen && !shown ? "none" : "";
+      if (box.style.display !== boxWant) box.style.display = boxWant;
+    });
+  }
+
   // Distinct places a search covers, from the location chips and the URL
   // condition. One county under both feed spellings counts once.
   function placeCount() {
