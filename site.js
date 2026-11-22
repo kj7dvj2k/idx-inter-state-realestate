@@ -450,7 +450,9 @@
     //     opposite the headline to the same place's page on
     //     northernwi.realestate.
     var head = q(".md-search .search-result-header");
-    var place = head && searchPlace();
+    //     A search over more than one place has no single page to point to,
+    //     so it gets no button (owner 2026-11-22).
+    var place = head && placeCount() <= 1 && searchPlace();
     var cta = head && head.querySelector(":scope > .isg-nwire");
     if (head && place) {
       if (!cta) {
@@ -908,6 +910,28 @@
   // { name: "Ashland", path: "/WI/Ashland" }; ZIPs alike), or, on pages Lofty
   // gives no breadcrumb (county results), the address itself
   // (/WI/Douglas-County -> "Douglas County").
+  // Distinct places a search covers, from the location chips and the URL
+  // condition. One county under both feed spellings counts once.
+  function placeCount() {
+    var seen = {};
+    function add(kind, v) {
+      var s = String(v).trim().toLowerCase();
+      if (kind === "county") s = s.replace(/\s+county(?=,|$)/, "");
+      if (s) seen[kind + "|" + s] = 1;
+    }
+    document.querySelectorAll(".md-search .ai-tag-item").forEach(function (t) {
+      var m = t.textContent.trim().match(/^(City|County|Zip[^:]*|Postal[^:]*)\s*:\s*(.+)$/i);
+      if (m) add(/^c(ity)$/i.test(m[1]) ? "city" : /^county$/i.test(m[1]) ? "county" : "zip", m[2]);
+    });
+    try {
+      var loc = JSON.parse(new URLSearchParams(location.search).get("condition") || "{}").location || {};
+      (loc.city || []).forEach(function (v) { add("city", v); });
+      (loc.county || []).forEach(function (v) { add("county", v); });
+      (loc.zipCode || loc.zip || []).forEach(function (v) { add("zip", v); });
+    } catch (e) {}
+    return Object.keys(seen).length;
+  }
+
   function searchPlace() {
     var crumbs = Array.prototype.map.call(
       document.querySelectorAll(".md-search .crumbs .crumb_inner"),
