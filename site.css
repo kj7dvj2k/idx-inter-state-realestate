@@ -2084,6 +2084,37 @@ body:has(.pop.sign-log) .pop-mask {
   }
 }
 
+/* Same-water line under the breadcrumb (site.js 18): its own full-width
+   row, same type, always directly under the breadcrumb. The white button
+   follows it on its own row, unless site.js finds room beside the
+   breadcrumb (.isg-tuck): then the button stays there, centred on the two
+   lines together (Alex 2026-11-22). The name is always underlined */
+.isg-crumbs > .isg-water {
+  flex: 1 1 100%;
+  order: 2;
+  margin-top: 2px;
+}
+
+.isg-crumbs > .isg-water a,
+.isg-crumbs > .isg-water a:hover {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+}
+
+.isg-crumbs:has(> .isg-water) > .isg-nwire {
+  order: 3;
+  margin-left: 0;
+  margin-top: 10px;
+}
+
+/* Breadcrumb line 0-20px, water line 22-42px: a 40px button at 1px sits
+   centred on both; the negative bottom margin keeps the first row 20px */
+.isg-crumbs.isg-tuck > .isg-nwire {
+  order: 1;
+  align-self: flex-start;
+  margin: 1px 0 -21px auto;
+}
+
 .isg-crumbs a {
   color: #111 !important;
   text-decoration: none !important;
@@ -2700,3 +2731,11 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
 }
 .pop.sign-log .submit.disabled::after { background: transparent !important; }
 .pop.sign-log .submit.disabled input[type=submit] { opacity: .5 !important; }
+
+/* 19. Water breadcrumb on search results scoped to one water body (site.js
+   19): the listing breadcrumb's type, above the headline. The water's name
+   links to its northernwi.realestate guide when it has one. */
+.md-search .isg-scrumbs {
+  margin: 0 0 8px;
+}
+

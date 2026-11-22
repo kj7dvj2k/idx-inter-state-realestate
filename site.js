@@ -10,6 +10,112 @@
    (a canvas), so its colours are set here.
    ========================================================================== */
 
+/* ISG water-name lookup (shared by idx.inter-state.realestate and northernwi.realestate).
+   Turns an MLS "Body of Water" value ("Long", "NOKOMIS", "Big Sand Lake (600011978)")
+   into the water's real DNR name and WBIC, using the listing's own coordinates:
+   the nearest DNR water within 2.5 km whose name matches once type words are set aside.
+   Data: one tile per 0.5 degree cell, {n:[names], p:[[nameIndex, wbic, latE4, lngE4]]},
+   built from the WDNR 24K hydro geodatabase (build_names.py).
+   Written with no backslashes: the AgentFire Scripts & Metas box strips them. */
+(function (W) {
+  if (W.ISGWaterName) return;
+  var TILE = 0.5, MAXKM = 2.5, EDGE = 0.05;
+  var DROP = { lake: 1, lakes: 1, lac: 1, river: 1, creek: 1, flowage: 1, pond: 1, the: 1, of: 1,
+    chain: 1, brook: 1, slough: 1, reservoir: 1, bay: 1, spring: 1, springs: 1, impoundment: 1 };
+  var TYPES = ['lake', 'river', 'creek', 'flowage', 'pond', 'brook', 'slough', 'bay', 'reservoir', 'chain'];
+  var cache = {};
+
+  function words(s) {
+    var out = '', i, c;
+    s = String(s || '').toLowerCase();
+    for (i = 0; i < s.length; i++) {
+      c = s.charAt(i);
+      out += (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') ? c : ' ';
+    }
+    return out.split(' ').filter(function (w) { return w; });
+  }
+  function core(s) {
+    s = String(s || '').split('(')[0];          // "(Rusk Twp.)", "(600011978)", "(Flambeau)"
+    var ws = words(s).filter(function (w) { return !(w.length >= 5 && !isNaN(Number(w))); });
+    var kept = ws.filter(function (w) { return !DROP[w]; });
+    if (!kept.length) kept = ws.filter(function (w) { return w !== 'lake' && w !== 'lakes' && w !== 'the' && w !== 'of'; });
+    return kept.map(function (w) { return w === 'saint' ? 'st' : w; }).sort().join(' ');
+  }
+  function typeOf(s) {
+    var ws = words(s);
+    for (var i = 0; i < TYPES.length; i++) if (ws.indexOf(TYPES[i]) >= 0) return TYPES[i];
+    return '';
+  }
+  function km(a, b, c, d) {
+    var x = (d - b) * Math.cos((a + c) * Math.PI / 360) * 111.32, y = (c - a) * 110.57;
+    return Math.sqrt(x * x + y * y);
+  }
+  function tile(base, ty, tx) {
+    var k = ty + '_' + tx;
+    if (!cache[k]) {
+      cache[k] = fetch(base + k + '.json').then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    }
+    return cache[k];
+  }
+
+  // Proper case for a feed value with no DNR match ("CAMP TWELVE" -> "Camp Twelve").
+  function proper(s) {
+    s = String(s || '').split('(')[0].trim();
+    if (s.toLowerCase() !== s && s.toUpperCase() !== s) return s;
+    return s.toLowerCase().split(' ').map(function (w) {
+      return w ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+    }).join(' ');
+  }
+
+  // The name to show. A feed value that already carries a water word is the agent's own
+  // full name and is kept ("St. Croix River", "Lake Altoona"), in proper case. A bare
+  // value takes DNR's name ("NOKOMIS" -> "Lake Nokomis"); with no DNR match, the type
+  // from the waterfront description, else Lake.
+  function display(rawName, front, hit) {
+    var r = proper(rawName);
+    if (typeOf(r)) return r;
+    if (hit) return hit.name;
+    var f = String(front || '').toLowerCase();
+    return r + (f.indexOf('river') >= 0 ? ' River' : f.indexOf('creek') >= 0 || f.indexOf('stream') >= 0 ? ' Creek' :
+      f.indexOf('flowage') >= 0 ? ' Flowage' : f.indexOf('pond') >= 0 ? ' Pond' : ' Lake');
+  }
+
+  // resolve(base, raw, front, lat, lng) -> Promise of {name, wbic, dnr:true|false}
+  function resolve(base, rawName, front, lat, lng) {
+    var alts = String(rawName || '').split('/').map(core).filter(function (x) { return x; });
+    var want = alts[0], wantType = typeOf(rawName) || typeOf(front);
+    var fallback = { name: display(rawName, front, null), wbic: 0, dnr: false };
+    if (!want || !isFinite(lat) || !isFinite(lng)) return Promise.resolve(fallback);
+    // The listing's own tile, plus a neighbour only when the listing sits near that edge.
+    var ys = [Math.floor(lat / TILE)], xs = [Math.floor(lng / TILE)], jobs = [];
+    if (lat - ys[0] * TILE < EDGE) ys.push(ys[0] - 1);
+    if ((ys[0] + 1) * TILE - lat < EDGE) ys.push(ys[0] + 1);
+    if (lng - xs[0] * TILE < EDGE) xs.push(xs[0] - 1);
+    if ((xs[0] + 1) * TILE - lng < EDGE) xs.push(xs[0] + 1);
+    ys.forEach(function (y) { xs.forEach(function (x) { jobs.push(tile(base, y, x)); }); });
+    return Promise.all(jobs).then(function (tiles) {
+      var best = null, bestTyped = null;
+      tiles.forEach(function (t) {
+        if (!t) return;
+        var ok = t.n.map(function (n) { return alts.indexOf(core(n)) >= 0; });
+        t.p.forEach(function (p) {
+          if (!ok[p[0]]) return;
+          var d = km(lat, lng, p[2] / 1e4, p[3] / 1e4);
+          if (d > MAXKM) return;
+          var hit = { name: t.n[p[0]], wbic: p[1], d: d };
+          if (!best || d < best.d) best = hit;
+          if (wantType && typeOf(hit.name) === wantType && (!bestTyped || d < bestTyped.d)) bestTyped = hit;
+        });
+      });
+      var h = bestTyped && (!best || bestTyped.d < best.d + 1) ? bestTyped : best;
+      return h ? { name: display(rawName, front, h), wbic: h.wbic, dnr: true } : fallback;
+    });
+  }
+
+  W.ISGWaterName = { resolve: resolve, core: core, proper: proper, typeOf: typeOf };
+})(window);
+
 (function () {
   function q(sel) { return document.querySelector(sel); }
 
@@ -330,6 +436,16 @@
       if (sw.getAttribute("href") !== swHref) sw.setAttribute("href", swHref);
     }
 
+    // 19. Search results scoped to one water body (the link from a listing's
+    //     water line, or any search with Water Body set): a breadcrumb above
+    //     the headline, "WI › Washburn County", with the water's name on its
+    //     own line under it (owner 2026-11-22: a lake is not filed under one
+    //     town or county). The county links to that county's search under
+    //     both feed spellings; the water links to its guide on
+    //     northernwi.realestate when it has one (Wisconsin only), else stays
+    //     plain text. Area pages keep Lofty's own crumbs.
+    searchWaterCrumbs();
+
     // 11. Search results for one Wisconsin town, county or ZIP: a button
     //     opposite the headline to the same place's page on
     //     northernwi.realestate.
@@ -376,6 +492,16 @@
       vMark.textContent = "northernwi.realestate";
       crumbRow.appendChild(view);
     }
+
+    // 18. Listing pages, active and sold: a second line under the area
+    //     breadcrumb, the water body's name, underlined, linking to every
+    //     listing on the same water in the same county.
+    //     Scoped to the county because one name ("Long") covers dozens of
+    //     lakes. Feeds spell counties two ways ("Washburn" and "Washburn
+    //     County"), so the search asks for both. No line when the listing
+    //     names no water, names it "Unnamed" or the like, or is the only
+    //     listing on it.
+    if (crumbRow) waterLine(crumbRow);
 
     // 14. Share menus hand out the northernwi.realestate address, never this
     //     site's: Lofty writes this site's address into every share link
@@ -548,6 +674,175 @@
     };
     isgShare.__isg = true;
     try { navigator.share = isgShare; } catch (e) { /* read-only in some browsers */ }
+  }
+
+  // Same-water line (step 18). One count request per listing page, kept for
+  // the page's life; Lofty re-renders the page, so the line is re-inserted
+  // from the stored result rather than fetched again. Fails silent.
+  var waterCache = {};
+  // The white northernwi.realestate button sits beside the breadcrumb when
+  // there is room ("isg-tuck": the water line tucks under the breadcrumb);
+  // otherwise it goes below the water line on its own row. Measured from
+  // widths, since the water line itself forces a new row.
+  function waterTuck(crumbs) {
+    var nw = crumbs.querySelector(":scope > .isg-nwire");
+    var parts = crumbs.querySelectorAll(":scope > :not(.isg-nwire):not(.isg-water)");
+    var fits = false;
+    if (nw && parts.length && window.innerWidth >= 768) {
+      var used = parts[parts.length - 1].getBoundingClientRect().right - parts[0].getBoundingClientRect().left;
+      fits = used + nw.getBoundingClientRect().width + 24 <= crumbs.clientWidth;
+    }
+    if (crumbs.classList.contains("isg-tuck") !== fits) crumbs.classList.toggle("isg-tuck", fits);
+  }
+
+  // Water names and northernwi.realestate water guides. The lookup module
+  // (ISGWaterName, prepended to this file) turns the feed's Body of Water
+  // value into DNR's own name using the listing's coordinates; WATER_DATA
+  // holds its tiles and water-pages.json (WBIC -> guide path and name), in the
+  // public data repo, pinned to a commit.
+  var WATER_DATA = "https://cdn.jsdelivr.net/gh/kj7dvj2k/northernwi-realestate@e27adf40d00017d898dcdcc5bc844f2f1d444564/water-names/";
+  var waterPages = null;
+  function loadWaterPages() {
+    if (!waterPages) {
+      waterPages = fetch(WATER_DATA + "water-pages.json")
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .catch(function () { return {}; });
+    }
+    return waterPages;
+  }
+  // {name, page} for a feed value at a point: page is the guide's full
+  // northernwi.realestate address when the water has one, else "".
+  // A guide's own title wins over DNR's name, so the two sites agree.
+  function waterInfo(body, front, lat, lng) {
+    return Promise.all([
+      window.ISGWaterName.resolve(WATER_DATA + "tiles/", body, front, lat, lng),
+      loadWaterPages()
+    ]).then(function (r) {
+      var pg = r[0].wbic && r[1][r[0].wbic];
+      return { name: pg ? pg[1] : r[0].name, page: pg ? NWIRE + pg[0] : "" };
+    });
+  }
+  var JUNK_WATER = /^(unnamed|un-named|none|n\/?a|other|unknown|no|not applicable|-+|[\d\s#-]+|lake|pond|river|creek)(\s+(lake|river|creek|pond|stream))?$/i;
+
+  // The listing's own coordinates, from the page's structured data.
+  function listingPoint() {
+    var out = null;
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(function (s) {
+      if (out) return;
+      var m = s.textContent.match(/"latitude"\s*:\s*"?(-?[\d.]+)"?\s*,\s*"longitude"\s*:\s*"?(-?[\d.]+)/);
+      if (m) out = [Number(m[1]), Number(m[2])];
+    });
+    return out;
+  }
+
+  function waterLine(crumbs) {
+    if (crumbs.querySelector(":scope > .isg-water")) { waterTuck(crumbs); return; }
+    var key = location.pathname;
+    var w = waterCache[key];
+    if (w === undefined) {
+      var body = "", county = "", front = "";
+      document.querySelectorAll(".info-content").forEach(function (r) {
+        var t = r.querySelector(".info-title"), d = r.querySelector(".info-data");
+        if (!t || !d) return;
+        var k = t.textContent.trim().toLowerCase();
+        if (k === "body of water" && !body) body = d.textContent.trim();
+        if (k === "county" && !county) county = d.textContent.trim();
+        if (k === "waterfront description" && !front) front = d.textContent.trim();
+      });
+      var st = listingState();
+      if (!body || !county || !st ||
+          JUNK_WATER.test(body)) {
+        if (body || county) waterCache[key] = null;   // rows rendered, nothing to link
+        return;
+      }
+      var base = county.replace(/\s+county$/i, "").trim();
+      var cond = { location: { county: [base + ", " + st, base + " County, " + st] }, waterbody: [body] };
+      var qs = "listingSource=all%20listings&condition=" + encodeURIComponent(JSON.stringify(cond));
+      var pt = listingPoint() || [NaN, NaN];
+      waterCache[key] = null;
+      Promise.all([
+        fetch("/api-site/search/realTimeListings?page=1&pageSize=1&" + qs)
+          .then(function (r) { return r.ok ? r.json() : null; }),
+        waterInfo(body, front, pt[0], pt[1])
+      ]).then(function (r) {
+        var n = r[0] && Number(r[0].counts);
+        var own = /^\/listing-detail\//.test(key) ? 1 : 0;   // an active listing counts itself
+        if (!n || n - own < 1) return;
+        waterCache[key] = { href: "/listing?" + qs + "&page=1", name: r[1].name };
+        schedule();
+      }).catch(function () {});
+      return;
+    }
+    if (!w) return;
+    var line = document.createElement("div");
+    line.className = "isg-water";
+    var a = line.appendChild(document.createElement("a"));
+    a.href = w.href;
+    a.textContent = w.name;
+    crumbs.appendChild(line);
+    waterTuck(crumbs);
+  }
+
+  // Search-page water breadcrumb (step 19).
+  var scrumbCache = {};
+  function searchWaterCrumbs() {
+    var head = q(".md-search .search-result-header");
+    if (!head || q(".md-search .crumbs")) return;
+    var col = head.parentNode, have = col.querySelector(":scope > .isg-scrumbs");
+    var key = location.pathname + "|" + (new URLSearchParams(location.search).get("condition") || "");
+    if (have && have.getAttribute("data-k") === key) return;
+    if (have) have.remove();
+    var c;
+    try { c = JSON.parse(new URLSearchParams(location.search).get("condition") || "{}"); } catch (e) { return; }
+    var wb = c && c.waterbody;
+    if (!wb || wb.length !== 1 || JUNK_WATER.test(wb[0])) return;
+    var counties = (c.location && c.location.county) || [];
+    var m = counties.length ? String(counties[0]).match(/^(.+?)(\s+County)?,\s*([A-Z]{2})$/) : null;
+    var st = m ? m[3] : "";
+    var w = scrumbCache[key];
+    if (w === undefined) {
+      scrumbCache[key] = null;
+      var probe = { location: c.location || {}, waterbody: wb };
+      fetch("/api-site/search/realTimeListings?page=1&pageSize=1&listingSource=all%20listings&condition=" +
+          encodeURIComponent(JSON.stringify(probe)))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          var l = j && j.listings && j.listings[0];
+          return waterInfo(wb[0], "", l ? Number(l.latitude) : NaN, l ? Number(l.longitude) : NaN);
+        })
+        .then(function (info) { scrumbCache[key] = info; schedule(); })
+        .catch(function () {});
+      return;
+    }
+    if (!w) return;
+    var nav = document.createElement("nav");
+    nav.className = "isg-crumbs isg-scrumbs";
+    nav.setAttribute("aria-label", "Area");
+    nav.setAttribute("data-k", key);
+    var part = function (label, href, cls) {
+      var el = document.createElement(href ? "a" : "span");
+      if (href) el.href = href;
+      if (cls) el.className = cls;
+      el.textContent = label;
+      nav.appendChild(el);
+    };
+    var sold = isSoldSearch() ? "/sold-listing" : "/listing";
+    if (st) {
+      part(st, "");
+      part("›", "", "sep");
+      var base = m[1].trim();
+      var cc = { location: { county: [base + ", " + st, base + " County, " + st] } };
+      part(base + " County", sold + "?listingSource=all%20listings&condition=" + encodeURIComponent(JSON.stringify(cc)));
+    }
+    // The water on its own line under the breadcrumb, as on listing pages: a
+    // lake is not filed under any one town or county it touches.
+    var line = document.createElement("div");
+    line.className = "isg-water";
+    var wl = line.appendChild(document.createElement(st === "WI" && w.page ? "a" : "span"));
+    if (st === "WI" && w.page) wl.href = w.page;
+    wl.textContent = w.name;
+    nav.appendChild(line);
+    col.insertBefore(nav, head);
   }
 
   function isSoldSearch() { return /^\/sold-listing(\/|$)/.test(location.pathname); }
