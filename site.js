@@ -451,6 +451,20 @@
     //     Lofty adds later stays hidden until it is tested.
     hideFilters();
 
+    // 22. Footer lettermark is never wider than the eXp and ISG logos above
+    //     it (owner 2026-11-22): its size is fitted to the logos' span.
+    document.querySelectorAll(".md-footer").forEach(function (f) {
+      var imgs = f.querySelectorAll(".site-logo img"), mark = f.querySelector(".left-content .menu-label");
+      if (!imgs.length || !mark) return;
+      var span = imgs[imgs.length - 1].getBoundingClientRect().right - imgs[0].getBoundingClientRect().left;
+      if (span < 50) return;
+      var cs = getComputedStyle(mark), size = parseFloat(cs.fontSize);
+      var w = mark.getBoundingClientRect().width - parseFloat(cs.letterSpacing || 0);
+      if (!w || (w <= span && w > span - 2)) return;
+      var fit = Math.min(16, Math.floor(size * span / w * 10) / 10);
+      if (Math.abs(fit - size) >= 0.1) mark.style.setProperty("font-size", fit + "px", "important");
+    });
+
     // 21. Every map opens on the satellite view (owner 2026-11-22). Lofty's
     //     map-type button reads "hybrid" while the road map shows; it is
     //     pressed once per map, so a visitor can switch back.

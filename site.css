@@ -1854,10 +1854,14 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
     padding-inline: 20px !important;
   }
 
-  /* Both header edges slide with the search bar (Lofty animates its width
-     0.3s ease but the header only on the left) */
+  /* Switching List / Mixed / Map: the results and map change at once, so
+     the header and search bar change at once with them, no slide */
   .page-content:has(.md-search) .md-header .header-container {
-    transition: padding-left .3s ease, padding-right .3s ease, transform .3s ease, opacity .7s ease !important;
+    transition: transform .3s ease, opacity .7s ease !important;
+  }
+
+  .md-search .md-search-bar {
+    transition: none !important;
   }
 }
 
