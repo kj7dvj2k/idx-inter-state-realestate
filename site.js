@@ -457,7 +457,7 @@
     var head = q(".md-search .search-result-header");
     //     A search over more than one place has no single page to point to,
     //     so it gets no button (owner 2026-11-22).
-    var place = head && placeCount() <= 1 && searchPlace();
+    var place = head && placeCount() <= 1 && (searchPlace() || waterPlace());
     var cta = head && head.querySelector(":scope > .isg-nwire");
     if (head && place) {
       if (!cta) {
@@ -469,7 +469,7 @@
         mark.textContent = "northernwi.realestate";
         head.appendChild(cta);
       }
-      var ctaHref = NWIRE + place.path + location.search;
+      var ctaHref = place.href || NWIRE + place.path + location.search;
       if (cta.getAttribute("href") !== ctaHref) cta.setAttribute("href", ctaHref);
       var ctaText = "View " + place.name + " on";
       var ctaSpan = cta.querySelector(".isg-nwire-text");
@@ -831,11 +831,14 @@
       wb.forEach(function (v) {
         (counties.length ? counties : [null]).forEach(function (ct) {
           var loc = ct ? { county: [ct.base + ", " + ct.st, ct.base + " County, " + ct.st] } : (c.location || {});
-          jobs.push(fetch("/api-site/search/realTimeListings?page=1&pageSize=1&listingSource=all%20listings&condition=" +
+          jobs.push(fetch("/api-site/search/realTimeListings?page=1&pageSize=20&listingSource=all%20listings&condition=" +
               encodeURIComponent(JSON.stringify({ location: loc, waterbody: [v] })))
             .then(function (r) { return r.ok ? r.json() : null; })
             .then(function (j) {
-              var l = j && j.listings && j.listings[0];
+              // Prefer a Wisconsin listing: with no county in the search the
+              // first result can sit across the line in Minnesota.
+              var ls = (j && j.listings) || [];
+              var l = ls.filter(function (x) { return x.state === "WI"; })[0] || ls[0];
               if (ct && !l) return null;          // nothing on that water in that county
               return waterInfo(v, "", l ? Number(l.latitude) : NaN, l ? Number(l.longitude) : NaN)
                 .then(function (info) { info.st = ct ? ct.st : (l && l.state) || ""; return info; });
@@ -937,6 +940,16 @@
       var boxWant = seen && !shown ? "none" : "";
       if (box.style.display !== boxWant) box.style.display = boxWant;
     });
+  }
+
+  // A search on one water whose guide exists on northernwi.realestate: the
+  // button points at that guide (owner 2026-11-22: steer Water Body searches
+  // back to the guides). Read off the water crumb this file builds.
+  function waterPlace() {
+    var lines = document.querySelectorAll(".md-search .isg-scrumbs > .isg-water");
+    if (lines.length !== 1) return null;
+    var a = lines[0].querySelector("a[href]");
+    return a ? { name: a.textContent.trim(), href: a.getAttribute("href") } : null;
   }
 
   // Distinct places a search covers, from the location chips and the URL
