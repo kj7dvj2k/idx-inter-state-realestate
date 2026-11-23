@@ -299,6 +299,40 @@ h6,
   text-align: justify;
 }
 
+/* The copy of the footer inside the Mixed view results column: logos side by
+   side at a smaller height, brand line spaced like the main footer */
+#app .md-footer.inner .site-logo {
+  display: flex !important;
+  align-items: center;
+  gap: 20px;
+}
+
+#app .md-footer.inner .site-logo a {
+  display: flex;
+}
+
+#app .md-footer.inner .site-logo img {
+  width: auto !important;
+  height: 80px !important;
+  margin: 0 !important;
+}
+
+/* Footer lettermark in the header's face (Roboto Medium, .125em) */
+#app .md-footer .left-content .menu-label {
+  font-family: font-Roboto-500 !important;
+  font-size: 16px !important;
+  letter-spacing: .125em !important;
+  text-transform: uppercase !important;
+}
+
+#app .md-footer.inner .right-content .co-name:not(#_) {
+  font-size: 17px !important;
+}
+
+#app .md-footer.inner .right-content .detail-addr::after {
+  font-size: 17px;
+}
+
 
 /* Gray page (#eeeeee) behind white elements. The header, sticky banner
    and footer keep their own colors */
@@ -1818,6 +1852,12 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
      logos and account icon line up with the search bar (owner 2026-11-22) */
   .page-content:has(.md-search:not(.grid)) .md-header .header-container {
     padding-inline: 20px !important;
+  }
+
+  /* Both header edges slide with the search bar (Lofty animates its width
+     0.3s ease but the header only on the left) */
+  .page-content:has(.md-search) .md-header .header-container {
+    transition: padding-left .3s ease, padding-right .3s ease, transform .3s ease, opacity .7s ease !important;
   }
 }
 
