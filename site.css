@@ -1813,6 +1813,12 @@ html.isg-banner-hold :is(.listing-detail, .listing-detail-sold) .fixed-banner.fi
     width: 90% !important;
     max-width: none !important;
   }
+
+  /* Mixed and Map views run edge to edge, so the header widens to match:
+     logos and account icon line up with the search bar (owner 2026-11-22) */
+  .page-content:has(.md-search:not(.grid)) .md-header .header-container {
+    padding-inline: 20px !important;
+  }
 }
 
 /* Listing Status filter: Under Contract after Coming Soon (site.js folds the
