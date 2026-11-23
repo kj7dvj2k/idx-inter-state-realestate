@@ -458,6 +458,25 @@
       b.setAttribute("data-isg-sat", "1");
       b.click();
     });
+    //     Map view (the map fills the page): the scroll wheel zooms without
+    //     holding Ctrl (owner 2026-11-22). Lofty's map only zooms on a
+    //     Ctrl+wheel, so a plain wheel over it is passed on with Ctrl set.
+    //     Mixed view keeps Ctrl, so the page still scrolls there.
+    if (!window.__isgWheel) {
+      window.__isgWheel = 1;
+      document.addEventListener("wheel", function (e) {
+        if (e.ctrlKey || e.__isg) return;
+        if (!(e.target.closest && e.target.closest(".md-search .map-box"))) return;
+        if (!document.querySelector(".md-search .search-result-drawer.big-map")) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var w = new WheelEvent("wheel", { bubbles: true, cancelable: true,
+          clientX: e.clientX, clientY: e.clientY, screenX: e.screenX, screenY: e.screenY,
+          deltaX: e.deltaX, deltaY: e.deltaY, deltaMode: e.deltaMode, ctrlKey: true });
+        w.__isg = 1;
+        e.target.dispatchEvent(w);
+      }, { capture: true, passive: false });
+    }
     //     Listing pages embed a Google map in an iframe (/maps?...&output=embed);
     //     t=h is Google's satellite-with-labels view.
     document.querySelectorAll('iframe[src*="/maps?"]:not([data-isg-sat])').forEach(function (f) {
