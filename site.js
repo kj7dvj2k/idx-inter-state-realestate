@@ -472,16 +472,18 @@
       b.setAttribute("data-isg-sat", "1");
       b.click();
     });
-    //     Map view (the map fills the page): the scroll wheel zooms without
+    //     Search page maps (/listing, /sold-listing): the scroll wheel zooms without
     //     holding Ctrl (owner 2026-11-22). Lofty's map only zooms on a
     //     Ctrl+wheel, so a plain wheel over it is passed on with Ctrl set.
-    //     Mixed view keeps Ctrl, so the page still scrolls there.
+    //     Applies in Mixed and Map views alike.
     if (!window.__isgWheel) {
       window.__isgWheel = 1;
       document.addEventListener("wheel", function (e) {
         if (e.ctrlKey || e.__isg) return;
         if (!(e.target.closest && e.target.closest(".md-search .map-box"))) return;
-        if (!document.querySelector(".md-search .search-result-drawer.big-map")) return;
+        // Only the search pages' own maps (Mixed and Map views); maps on
+        // pages meant to be scrolled past keep Ctrl (owner 2026-11-22).
+        if (!/^\/(sold-)?listing\/?$/.test(location.pathname)) return;
         e.preventDefault();
         e.stopImmediatePropagation();
         var w = new WheelEvent("wheel", { bubbles: true, cancelable: true,
