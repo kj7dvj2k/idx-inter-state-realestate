@@ -261,41 +261,41 @@ h6,
   color: #555 !important;
 }
 
-/* Footer content: company and office address in Manrope, agent lines hidden.
+/* Footer content, every page: company and office address in Manrope, agent lines hidden.
    The address is hard-coded here: if the office moves, change it here too. */
-:is(.listing-detail, .listing-detail-sold) .md-footer {
+#app .md-footer {
   padding: 48px 0 !important;
 }
 
-:is(.listing-detail, .listing-detail-sold) .md-footer .site-logo {
+#app .md-footer .site-logo {
   margin: 0 0 20px;
 }
 
-:is(.listing-detail, .listing-detail-sold) .md-footer .right-content .co-name:not(#_) {
+#app .md-footer .right-content .co-name:not(#_) {
   margin-bottom: 6px;
   font: 20px / 1.3 var(--b) !important;
 }
 
-:is(.listing-detail, .listing-detail-sold) .md-footer .right-content .detail-addr {
+#app .md-footer .right-content .detail-addr {
   font-size: 0 !important;
 }
 
-:is(.listing-detail, .listing-detail-sold) .md-footer .right-content .detail-addr::after {
+#app .md-footer .right-content .detail-addr::after {
   content: "715 Main St W\A Ashland, WI 54806";
   white-space: pre;
   font: 20px / 1.3 var(--b);
 }
 
-:is(.listing-detail, .listing-detail-sold) .md-footer .right-content :is(.agent-name, .agent-info, .other-cont, .detail-info) {
+#app .md-footer .right-content :is(.agent-name, .agent-info, .other-cont, .detail-info) {
   display: none;
 }
 
-:is(.listing-detail, .listing-detail-sold) .md-footer .line {
+#app .md-footer .line {
   margin: 24px 0;
   background: #fff;
 }
 
-:is(.listing-detail, .listing-detail-sold) .md-footer .content {
+#app .md-footer .content {
   text-align: justify;
 }
 
@@ -398,29 +398,29 @@ h6,
 
   /* Footer: eXp and ISG logos side by side at equal height, brand line
      under them, company and address below */
-  :is(.listing-detail, .listing-detail-sold) .md-footer .site-logo {
+  #app .md-footer .site-logo {
     display: flex;
     align-items: center;
     gap: 24px;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .site-logo a {
+  #app .md-footer .site-logo a {
     display: flex;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .site-logo img {
+  #app .md-footer .site-logo img {
     width: auto !important;
     height: 96px !important;
     margin: 0 !important;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content {
+  #app .md-footer .left-content {
     display: block !important;
     margin-bottom: 28px;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content ul,
-  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content li {
+  #app .md-footer .left-content ul,
+  #app .md-footer .left-content li {
     width: auto !important;
   }
 }
@@ -476,46 +476,46 @@ h6,
   }
 
   /* Footer: logo and brand line left, company and address right */
-  :is(.listing-detail, .listing-detail-sold) .md-footer .footer-container {
+  #app .md-footer .footer-container {
     display: grid;
     grid-template-columns: 1fr auto;
     column-gap: 40px;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .top-content {
+  #app .md-footer .top-content {
     display: contents;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content {
+  #app .md-footer .left-content {
     grid-area: 2 / 1;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content ul,
-  :is(.listing-detail, .listing-detail-sold) .md-footer .left-content li {
+  #app .md-footer .left-content ul,
+  #app .md-footer .left-content li {
     width: auto !important;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .right-content {
+  #app .md-footer .right-content {
     grid-area: 1 / 2 / 3;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .right-content * {
+  #app .md-footer .right-content * {
     text-align: right !important;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .bottom-content {
+  #app .md-footer .bottom-content {
     grid-column: 1 / -1;
     margin-top: 32px;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .copyright {
+  #app .md-footer .copyright {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: baseline;
   }
 
-  :is(.listing-detail, .listing-detail-sold) .md-footer .line {
+  #app .md-footer .line {
     flex-basis: 100%;
   }
 }

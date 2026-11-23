@@ -451,6 +451,14 @@
     //     Lofty adds later stays hidden until it is tested.
     hideFilters();
 
+    // 21. Every map opens on the satellite view (owner 2026-11-22). Lofty's
+    //     map-type button reads "hybrid" while the road map shows; it is
+    //     pressed once per map, so a visitor can switch back.
+    document.querySelectorAll(".map-type.hybrid:not([data-isg-sat])").forEach(function (b) {
+      b.setAttribute("data-isg-sat", "1");
+      b.click();
+    });
+
     // 11. Search results for one Wisconsin town, county or ZIP: a button
     //     opposite the headline to the same place's page on
     //     northernwi.realestate.
@@ -819,7 +827,10 @@
     var c;
     try { c = JSON.parse(new URLSearchParams(location.search).get("condition") || "{}"); } catch (e) { return; }
     var key = location.pathname + "|" + waterKey(c);
-    if (have && have.getAttribute("data-k") === key) return;
+    // The crumb lines up with the results header, whose left padding
+    // changes between List and Mixed views.
+    function alignCrumb(n) { var p = getComputedStyle(head).paddingLeft; if (n.style.paddingLeft !== p) n.style.paddingLeft = p; }
+    if (have && have.getAttribute("data-k") === key) { alignCrumb(have); return; }
     if (have) have.remove();
     var wb = ((c && (c.waterbody || c.waterBody)) || []).filter(function (v) { return !JUNK_WATER.test(v); });
     if (!wb.length) return;
@@ -891,6 +902,7 @@
       el.textContent = x.name;
       nav.appendChild(line);
     });
+    alignCrumb(nav);
     col.insertBefore(nav, head);
   }
 
