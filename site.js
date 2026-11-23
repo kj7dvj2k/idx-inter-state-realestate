@@ -458,6 +458,18 @@
       b.setAttribute("data-isg-sat", "1");
       b.click();
     });
+    //     Listing pages embed a Google map in an iframe (/maps?...&output=embed);
+    //     t=h is Google's satellite-with-labels view.
+    document.querySelectorAll('iframe[src*="/maps?"]:not([data-isg-sat])').forEach(function (f) {
+      f.setAttribute("data-isg-sat", "1");
+      try {
+        var u = new URL(f.src, location.href);
+        if (u.searchParams.get("output") === "embed" && !u.searchParams.get("t")) {
+          u.searchParams.set("t", "h");
+          f.src = u.toString();
+        }
+      } catch (e) {}
+    });
 
     // 11. Search results for one Wisconsin town, county or ZIP: a button
     //     opposite the headline to the same place's page on
