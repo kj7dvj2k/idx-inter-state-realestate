@@ -239,12 +239,11 @@ h6,
 /* Lofty's breadcrumb band above the photos is empty; site.js fills it with
    the area breadcrumb (section 12) */
 
-/* Tour request card: white, no outline */
+/* Tour request card: white, no outline (its shadow is in the Depth section) */
 :is(.listing-detail, .listing-detail-sold) .detail-schedule-container {
   background: #fff !important;
   border: 0;
   border-radius: 0;
-  box-shadow: none;
 }
 
 /* Phone/tablet top bar (back, Search, save, share): white instead of navy */
@@ -738,28 +737,33 @@ h6,
   border: 0 !important;
 }
 
-/* Gallery arrows and the tour card's date arrows: white outlined circles */
+/* Gallery arrows: white circles, no outline, lifted off the photos by a
+   shadow, centred on the photo strip (Lofty's own -20px translate is
+   cancelled; with the margin it put them 20px high) and set 24px in */
 :is(.listing-detail, .listing-detail-sold) :is(.swiper-button-next, .swiper-button-prev).iconfont {
   box-sizing: border-box !important;
   display: flex !important;
   align-items: center;
   justify-content: center;
-  width: 40px !important;
-  height: 40px !important;
-  margin-top: -20px !important;
+  top: 50% !important;
+  transform: none !important;
+  width: 44px !important;
+  height: 44px !important;
+  margin-top: -22px !important;
   background: #fff !important;
-  border: 1px solid #111 !important;
+  border: 0 !important;
   border-radius: 50% !important;
+  box-shadow: 0 2px 4px rgba(12, 15, 36, .12), 0 8px 24px rgba(12, 15, 36, .22) !important;
   color: #111 !important;
   font-size: 16px !important;
 }
 
 :is(.listing-detail, .listing-detail-sold) .swiper-button-next.iconfont {
-  right: 16px !important;
+  right: 24px !important;
 }
 
 :is(.listing-detail, .listing-detail-sold) .swiper-button-prev.iconfont {
-  left: 16px !important;
+  left: 24px !important;
 }
 
 :is(.listing-detail, .listing-detail-sold) :is(.swiper-button-next, .swiper-button-prev).iconfont::before {
@@ -776,8 +780,9 @@ h6,
   width: 28px !important;
   height: 28px !important;
   background: #fff;
-  border: 1px solid #111;
+  border: 0;
   border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(12, 15, 36, .06), 0 4px 12px rgba(12, 15, 36, .10);
   color: #111 !important;
   font-size: 12px !important;
 }
@@ -2798,4 +2803,125 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
 
 .md-search .isg-scrumbs > .isg-water + .isg-water {
   margin-top: 0;
+}
+
+/* ==========================================================================
+   Depth (owner 2026-11-27): one navy-tinted shadow set in three depths so
+   every white element on the gray listing page reads as lifted.
+   Light: small controls (round icons, badges, buttons, form fields).
+   Medium: panels (photos, tour card, top bar, map, chart, listing cards).
+   Deep: listing cards on hover.
+   ========================================================================== */
+:root {
+  --isg-sh-1: 0 1px 2px rgba(12, 15, 36, .06), 0 4px 12px rgba(12, 15, 36, .10);
+  --isg-sh-2: 0 1px 2px rgba(12, 15, 36, .06), 0 8px 24px rgba(12, 15, 36, .12);
+  --isg-sh-3: 0 2px 4px rgba(12, 15, 36, .08), 0 14px 32px rgba(12, 15, 36, .16);
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.detail-info-imgs, .fixed-banner, .pc-fixed-banner, .detail-schedule-container, .map-content, .map-tab, .filter-chart-container, .md-house-listing li.house-card, .md-house-listing li.house-grid-item) {
+  box-shadow: var(--isg-sh-2) !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.count-container .count-logo, .md-sold-detail .count .count-logo, .tour-btn-container .btn-item > i, .detail-info-header .house-status, a.isg-nwire, .basic-info input, .v-input input, .v-input textarea, .save-share-tour .item.tour, button.schedule-button, .submit-box button.submit, .md-house-listing li .house-status) {
+  box-shadow: var(--isg-sh-1) !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.md-house-listing li.house-card, .md-house-listing li.house-grid-item) {
+  transition: box-shadow .2s, transform .2s;
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.md-house-listing li.house-card, .md-house-listing li.house-grid-item):hover {
+  box-shadow: var(--isg-sh-3) !important;
+  transform: translateY(-2px);
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container .btn-item > i, a.isg-nwire) {
+  transition: box-shadow .2s;
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container .btn-item:hover > i, a.isg-nwire:hover) {
+  box-shadow: var(--isg-sh-2) !important;
+}
+
+/* Request a Tour card (owner 2026-11-27): heading in the Key Details face,
+   left aligned (site.js 23 puts it in sentence case); tabs and date tiles
+   borderless, #eeeeee with the selected one navy; the date tiles span the
+   same width as the tabs and the button, with the arrows in the card's
+   side padding; the agent photo centred on the name and contact lines */
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .schedule-title {
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .schedule-title > span:first-child {
+  font-family: font-Manrope-800, Manrope, sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 20px !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .booking-tab {
+  display: flex !important;
+  gap: 6px !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .booking-tab .tab-item {
+  border: 0 !important;
+  background: #eeeeee !important;
+  color: #000 !important;
+  font-family: font-Manrope-400, Manrope, sans-serif !important;
+  font-weight: 700 !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .booking-tab .tab-item.active {
+  background: #0c0f24 !important;
+  color: #fff !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .booking-date-content .date {
+  border: 0 !important;
+  background: #eeeeee !important;
+  color: #000 !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .booking-date-content .date * {
+  color: inherit !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .booking-date-content .date.selected {
+  background: #0c0f24 !important;
+  color: #fff !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .booking-date-wrap {
+  margin-left: -30px !important;
+  margin-right: -30px !important;
+  padding: 0 1px !important;
+  align-items: center !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .booking-date-wrap > .booking-prev {
+  flex: 0 0 28px !important;
+  left: 0 !important;
+  margin: 0 1px 0 0 !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .booking-date-wrap > .booking-next {
+  flex: 0 0 28px !important;
+  margin: 0 0 0 1px !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .booking-date-content {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .schedule-agent-info {
+  align-items: center !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .detail-schedule-container .schedule-agent-info .info > *:last-child {
+  margin-bottom: 0 !important;
 }

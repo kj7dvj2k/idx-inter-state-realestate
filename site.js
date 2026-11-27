@@ -670,6 +670,23 @@
       reqBox.insertBefore(call, reqBox.firstChild);
     }
 
+    // 23. Request a Tour card (owner 2026-11-27): the heading in sentence
+    //     case like "Key Details" (Lofty types it in capitals), the agent's
+    //     phone as "(715) 681-2879" without Lofty's "+1", and the date
+    //     slider re-measured once, since site.css widens it to line up with
+    //     the tabs and the button.
+    var tourTitle = q(".detail-schedule-container .schedule-title > span:first-child");
+    if (tourTitle && tourTitle.textContent.trim() === "REQUEST A TOUR") tourTitle.textContent = "Request a Tour";
+    document.querySelectorAll(".schedule-agent-info a.phone, .detail-schedule-container a.phone").forEach(function (a) {
+      var t = a.textContent.replace(/^\s*\+1\s*\((\d{3})\)\s*/, "($1) ");
+      if (t !== a.textContent) a.textContent = t;
+    });
+    var dates = q(".detail-schedule-container .booking-date-content");
+    if (dates && dates.swiper && !dates.hasAttribute("data-isg-sized")) {
+      dates.setAttribute("data-isg-sized", "1");
+      dates.swiper.update();
+    }
+
   }
 
   // northernwi.realestate still runs Lofty, whose area pages are /WI/{Place}.
