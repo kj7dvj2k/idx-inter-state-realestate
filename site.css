@@ -752,8 +752,8 @@ h6,
   border: 0 !important;
 }
 
-/* Gallery arrows: the same 40px white circle and light shadow as the round
-   icons beside the address, centred on the photo strip (Lofty's own -20px translate is
+/* Gallery arrows: 40px #eeeeee circles with the light shadow, the same
+   chevron glyph as the tour card's date arrows (consistent line weight), centred on the photo strip (Lofty's own -20px translate is
    cancelled; with the margin it put them 20px high) and set 24px in */
 :is(.listing-detail, .listing-detail-sold) :is(.swiper-button-next, .swiper-button-prev).iconfont {
   box-sizing: border-box !important;
@@ -765,10 +765,11 @@ h6,
   width: 40px !important;
   height: 40px !important;
   margin-top: -20px !important;
-  background: #fff !important;
+  background: #eeeeee !important;
   border: 0 !important;
   border-radius: 50% !important;
   box-shadow: var(--isg-sh-1) !important;
+  opacity: 1 !important;
   color: #111 !important;
   font-size: 16px !important;
 }
@@ -2977,18 +2978,37 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
   transition: background-color .15s, color .15s, box-shadow .15s, transform .15s;
 }
 
+/* Photo arrows (owner 2026-11-27): gray circle with a black chevron at
+   rest, white circle with a bolded black chevron on hover; Lofty's own
+   arrow glyph is swapped for the date arrows' chevron so the line weight
+   matches; an arrow that cannot move is hidden, not faded */
+:is(.listing-detail, .listing-detail-sold) .swiper-pc .swiper-button-prev.iconfont::before {
+  content: "\e7a2" !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .swiper-pc .swiper-button-next.iconfont::before {
+  content: "\e79f" !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .swiper-pc :is(.swiper-button-next, .swiper-button-prev).iconfont.swiper-button-disabled {
+  visibility: hidden !important;
+}
+
 :is(.listing-detail, .listing-detail-sold) .swiper-pc :is(.swiper-button-next, .swiper-button-prev).iconfont:not(.swiper-button-disabled):hover {
-  background: #0c0f24 !important;
-  color: #fff !important;
+  background: #fff !important;
+  color: #111 !important;
   box-shadow: var(--isg-sh-2) !important;
 }
 
 :is(.listing-detail, .listing-detail-sold) .swiper-pc :is(.swiper-button-next, .swiper-button-prev).iconfont:not(.swiper-button-disabled):hover::before {
-  color: #fff !important;
+  color: #111 !important;
+  -webkit-text-stroke: .8px #111;
 }
 
+/* Date arrows: the chevron bolds and grows a little on hover */
 :is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).iconfont:not(.disabled):hover {
-  color: #0c0f24 !important;
+  color: #111 !important;
+  -webkit-text-stroke: .8px #111;
   transform: scale(1.25);
 }
 
