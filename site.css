@@ -684,15 +684,24 @@ h6,
   display: block !important;
 }
 
-/* Hover: in the white top bar the circle turns #eee; on the gray page it
-   stays white and its shadow deepens instead (Depth section), since gray on
-   gray read badly (owner 2026-11-27) */
-:is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour .item:is(.save, .share):hover {
-  background: #eee !important;
+/* Hover, every round button (Save, Share, Virtual Tour, the top bar's
+   Save and Share, the photo arrows): solid navy with a white glyph, never
+   gray on gray (owner 2026-11-27). The heart and the share arrow both show
+   their SOLID glyph on hover */
+:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container .btn-item:hover > i, .fixed-banner .save-share-tour .item:is(.save, .share):hover, .fixed-banner .save-share-tour .item:is(.save, .share):hover i) {
+  background: #0c0f24 !important;
+  border-color: #0c0f24 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
 }
 
-:is(.listing-detail, .listing-detail-sold) .tour-btn-container .btn-item:hover i {
-  background: #fff !important;
+:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container .btn-item:hover > i, .fixed-banner .save-share-tour .item:is(.save, .share):hover i)::before {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container .btn-item > i, .fixed-banner .save-share-tour .item, .fixed-banner .save-share-tour .item i) {
+  transition: background-color .15s, color .15s, box-shadow .15s;
 }
 
 /* Desktop: Save/Share/Virtual Tour circles on the same line as beds/baths */
@@ -743,8 +752,8 @@ h6,
   border: 0 !important;
 }
 
-/* Gallery arrows: white circles, no outline, lifted off the photos by a
-   shadow, centred on the photo strip (Lofty's own -20px translate is
+/* Gallery arrows: the same 40px white circle and light shadow as the round
+   icons beside the address, centred on the photo strip (Lofty's own -20px translate is
    cancelled; with the margin it put them 20px high) and set 24px in */
 :is(.listing-detail, .listing-detail-sold) :is(.swiper-button-next, .swiper-button-prev).iconfont {
   box-sizing: border-box !important;
@@ -753,13 +762,13 @@ h6,
   justify-content: center;
   top: 50% !important;
   transform: none !important;
-  width: 44px !important;
-  height: 44px !important;
-  margin-top: -22px !important;
+  width: 40px !important;
+  height: 40px !important;
+  margin-top: -20px !important;
   background: #fff !important;
   border: 0 !important;
   border-radius: 50% !important;
-  box-shadow: 0 2px 4px rgba(12, 15, 36, .12), 0 8px 24px rgba(12, 15, 36, .22) !important;
+  box-shadow: var(--isg-sh-1) !important;
   color: #111 !important;
   font-size: 16px !important;
 }
@@ -785,12 +794,12 @@ h6,
   align-self: center;
   width: 28px !important;
   height: 28px !important;
-  background: #fff;
-  border: 0;
-  border-radius: 50%;
-  box-shadow: 0 1px 2px rgba(12, 15, 36, .06), 0 4px 12px rgba(12, 15, 36, .10);
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
   color: #111 !important;
-  font-size: 12px !important;
+  font-size: 16px !important;
 }
 
 :is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).disabled {
@@ -2958,16 +2967,16 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
   margin-bottom: -36px !important;
 }
 
-/* Arrows answer the pointer (owner 2026-11-27): the tour card's date arrows
-   and the photo arrows turn navy with a white glyph and lift on hover; a
+/* Arrows answer the pointer (owner 2026-11-27): photo arrows turn navy
+   with a white glyph like the other round buttons; the tour card's date
+   arrows are bare chevrons (no circle) that turn navy and grow a little; a
    disabled arrow does not react */
 :is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).iconfont,
 :is(.listing-detail, .listing-detail-sold) .swiper-pc :is(.swiper-button-next, .swiper-button-prev).iconfont {
   cursor: pointer;
-  transition: background-color .15s, color .15s, box-shadow .15s;
+  transition: background-color .15s, color .15s, box-shadow .15s, transform .15s;
 }
 
-:is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).iconfont:not(.disabled):hover,
 :is(.listing-detail, .listing-detail-sold) .swiper-pc :is(.swiper-button-next, .swiper-button-prev).iconfont:not(.swiper-button-disabled):hover {
   background: #0c0f24 !important;
   color: #fff !important;
@@ -2978,6 +2987,21 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
   color: #fff !important;
 }
 
+:is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).iconfont:not(.disabled):hover {
+  color: #0c0f24 !important;
+  transform: scale(1.25);
+}
+
 :is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).disabled {
   cursor: default;
+  opacity: .25 !important;
+}
+
+/* Share shows its solid arrow on hover, as Save shows its solid heart */
+:is(.listing-detail, .listing-detail-sold) :is(.fixed-banner .save-share-tour, .tour-btn-container) .share:hover .default {
+  display: none !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.fixed-banner .save-share-tour, .tour-btn-container) .share:hover .hover {
+  display: block !important;
 }
