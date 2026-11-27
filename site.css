@@ -3062,3 +3062,17 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
 }
+
+/* Sticky bar slides down from the top edge instead of popping in (owner
+   2026-11-27). Lofty toggles .fixed on scroll and fades opacity/visibility;
+   the bar now also travels from just above the screen. Visibility switches
+   off only after the slide back up finishes */
+:is(.listing-detail, .listing-detail-sold) :is(.fixed-banner, .pc-fixed-banner) {
+  transform: translateY(-110%) !important;
+  transition: transform .4s cubic-bezier(.2, .7, .2, 1), opacity .25s ease, visibility 0s linear .4s !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.fixed-banner, .pc-fixed-banner).fixed {
+  transform: translateY(0) !important;
+  transition: transform .4s cubic-bezier(.2, .7, .2, 1), opacity .25s ease, visibility 0s !important;
+}
