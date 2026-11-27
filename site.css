@@ -3005,3 +3005,23 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
 :is(.listing-detail, .listing-detail-sold) :is(.fixed-banner .save-share-tour, .tour-btn-container) .share:hover .hover {
   display: block !important;
 }
+
+/* Virtual Tour: Lofty wraps its circle in a link (btn-item > a > i), so the
+   Save/Share rules above miss it. Same light shadow at rest and the same
+   navy hover */
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .btn-item > a > i {
+  box-shadow: var(--isg-sh-1) !important;
+  transition: background-color .15s, color .15s, box-shadow .15s;
+}
+
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .btn-item:hover > a > i {
+  background: #0c0f24 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: var(--isg-sh-2) !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .btn-item:hover > a > i::before {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
