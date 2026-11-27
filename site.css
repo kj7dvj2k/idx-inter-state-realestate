@@ -688,11 +688,27 @@ h6,
    Save and Share, the photo arrows): solid navy with a white glyph, never
    gray on gray (owner 2026-11-27). The heart and the share arrow both show
    their SOLID glyph on hover */
-:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container .btn-item:hover > i, .fixed-banner .save-share-tour .item:is(.save, .share):hover, .fixed-banner .save-share-tour .item:is(.save, .share):hover i) {
+:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container .btn-item:hover > i, .fixed-banner .save-share-tour .item:is(.save, .share):hover) {
   background: #0c0f24 !important;
   border-color: #0c0f24 !important;
+}
+
+/* Only the glyph turns white: in the top bar the circle is the item and its
+   icon is a square box inside it, so the icon box stays transparent (it
+   showed as a navy square), and the share menu inside the item keeps its
+   own navy icons instead of inheriting white (they vanished) */
+:is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container .btn-item:hover > i, .fixed-banner .save-share-tour .item:is(.save, .share):hover > i) {
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour .item i {
+  background: transparent !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .share-btn :is(.share-item, .share-item .iconfont) {
+  color: #0c0f24 !important;
+  -webkit-text-fill-color: #0c0f24 !important;
 }
 
 :is(.listing-detail, .listing-detail-sold) :is(.tour-btn-container .btn-item:hover > i, .fixed-banner .save-share-tour .item:is(.save, .share):hover i)::before {
