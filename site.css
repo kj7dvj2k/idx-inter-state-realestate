@@ -2998,6 +2998,7 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
   background: #fff !important;
   color: #111 !important;
   box-shadow: var(--isg-sh-2) !important;
+  transform: scale(1.25) !important;   /* grows like the date arrows */
 }
 
 :is(.listing-detail, .listing-detail-sold) .swiper-pc :is(.swiper-button-next, .swiper-button-prev).iconfont:not(.swiper-button-disabled):hover::before {
