@@ -2818,11 +2818,11 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
   --isg-sh-3: 0 2px 4px rgba(12, 15, 36, .08), 0 14px 32px rgba(12, 15, 36, .16);
 }
 
-:is(.listing-detail, .listing-detail-sold) :is(.detail-info-imgs, .fixed-banner, .pc-fixed-banner, .detail-schedule-container, .map-content, .map-tab, .filter-chart-container, .md-house-listing li.house-card, .md-house-listing li.house-grid-item) {
+:is(.listing-detail, .listing-detail-sold) :is(.detail-info-imgs, .fixed-banner, .pc-fixed-banner, .detail-schedule-container, .map-content, .map-tab, .filter-chart-container, .md-house-listing li.house-card, .md-house-listing li.house-grid-item, .est-request-container, .fact-box, .md-sold-estimate .box, .list-rencent-listings-pc .list_container) {
   box-shadow: var(--isg-sh-2) !important;
 }
 
-:is(.listing-detail, .listing-detail-sold) :is(.count-container .count-logo, .md-sold-detail .count .count-logo, .tour-btn-container .btn-item > i, .detail-info-header .house-status, a.isg-nwire, .basic-info input, .v-input input, .v-input textarea, .save-share-tour .item.tour, button.schedule-button, .submit-box button.submit, .md-house-listing li .house-status) {
+:is(.listing-detail, .listing-detail-sold) :is(.count-container .count-logo, .md-sold-detail .count .count-logo, .tour-btn-container .btn-item > i, .detail-info-header .house-status, a.isg-nwire, .basic-info input, .v-input input, .v-input textarea, .save-share-tour .item.tour, button.schedule-button, .submit-box button.submit, .md-house-listing li .house-status, .count-sold-date .sold-date) {
   box-shadow: var(--isg-sh-1) !important;
 }
 
