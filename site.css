@@ -684,9 +684,15 @@ h6,
   display: block !important;
 }
 
-:is(.listing-detail, .listing-detail-sold) .tour-btn-container .btn-item:hover i,
+/* Hover: in the white top bar the circle turns #eee; on the gray page it
+   stays white and its shadow deepens instead (Depth section), since gray on
+   gray read badly (owner 2026-11-27) */
 :is(.listing-detail, .listing-detail-sold) .fixed-banner .save-share-tour .item:is(.save, .share):hover {
   background: #eee !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .btn-item:hover i {
+  background: #fff !important;
 }
 
 /* Desktop: Save/Share/Virtual Tour circles on the same line as beds/baths */
@@ -2924,4 +2930,54 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
 
 :is(.listing-detail, .listing-detail-sold) .detail-schedule-container .schedule-agent-info .info > *:last-child {
   margin-bottom: 0 !important;
+}
+
+
+/* Share menu (owner 2026-11-27): the panel lifts off the gray page like the
+   other panels, and its icons are navy, not Lofty's faint gray */
+:is(.listing-detail, .listing-detail-sold) .tour-btn-container .share .share-btn {
+  box-shadow: var(--isg-sh-2) !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .share-btn .share-item,
+:is(.listing-detail, .listing-detail-sold) .share-btn .share-item .iconfont {
+  color: #0c0f24 !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .share-btn .share-item:hover {
+  opacity: .75;
+}
+
+/* Hot listings and similar-homes rows: Lofty's row clips everything outside
+   it, which cut the cards' shadows into flat bands. Room for the shadow
+   inside the row, taken back by negative margins so the cards do not move */
+:is(.listing-detail, .listing-detail-sold) .md-house-listing ul.house-list {
+  box-sizing: content-box !important;
+  padding: 12px 24px 36px !important;
+  margin-top: -12px !important;
+  margin-bottom: -36px !important;
+}
+
+/* Arrows answer the pointer (owner 2026-11-27): the tour card's date arrows
+   and the photo arrows turn navy with a white glyph and lift on hover; a
+   disabled arrow does not react */
+:is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).iconfont,
+:is(.listing-detail, .listing-detail-sold) .swiper-pc :is(.swiper-button-next, .swiper-button-prev).iconfont {
+  cursor: pointer;
+  transition: background-color .15s, color .15s, box-shadow .15s;
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).iconfont:not(.disabled):hover,
+:is(.listing-detail, .listing-detail-sold) .swiper-pc :is(.swiper-button-next, .swiper-button-prev).iconfont:not(.swiper-button-disabled):hover {
+  background: #0c0f24 !important;
+  color: #fff !important;
+  box-shadow: var(--isg-sh-2) !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) .swiper-pc :is(.swiper-button-next, .swiper-button-prev).iconfont:not(.swiper-button-disabled):hover::before {
+  color: #fff !important;
+}
+
+:is(.listing-detail, .listing-detail-sold) :is(.booking-prev, .booking-next).disabled {
+  cursor: default;
 }
