@@ -3098,3 +3098,5 @@ body.mobile .request-tour-pop .isg-wheel .swiper-wrapper{transform:none!importan
 body.mobile .request-tour-pop .isg-wheel .swiper-slide{position:absolute!important;left:0!important;top:0!important;margin:0!important;height:94px!important;transition:background-color .15s,color .15s!important;overflow:hidden!important;box-sizing:border-box!important;padding:15px 0!important;text-align:center!important;white-space:nowrap!important;transform-origin:50% 50%!important}
 body.mobile .request-tour-pop .isg-wheel .swiper-slide>*{width:auto!important;max-width:none!important}
 body.mobile .request-tour-pop .isg-wheel .swiper-slide{width:80px!important}
+/* Card price: "Reduced $6K" beside the price, as on the northernwi.realestate cards (2026-11-28) */
+.house-price .isg-drop{display:inline-block;margin-left:10px;vertical-align:middle;padding:3px 7px;background:#eeeeee;font:500 11px/1.2 Roboto,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#111}
