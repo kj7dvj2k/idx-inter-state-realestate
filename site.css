@@ -3079,3 +3079,21 @@ html body .house-status.house-status:is(.sold, .Sold, .closed, .Closed):not(.det
 
 /* Phone and tablet layout: listing card rows keep shadow room inside the row width (2026-11-28) */
 body.mobile .md-house-listing ul.house-list{box-sizing:border-box!important;width:100%!important;max-width:100%!important;padding:12px 15px 36px!important;margin:-12px 0 -36px!important}
+
+/* Phones: Request a Tour popup (2026-11-28) */
+body.mobile .request-tour-pop .pop{border-radius:16px 16px 0 0!important;box-shadow:0 -8px 28px rgba(12,15,36,.18)!important;overflow:hidden auto!important}
+body.mobile .request-tour-pop .request-tour-wrap{border-radius:16px 16px 0 0!important;padding:24px 20px calc(24px + env(safe-area-inset-bottom))!important}
+body.mobile .request-tour-pop .detail-schedule-container{box-shadow:none!important;background:transparent!important}
+body.mobile .request-tour-pop .icon-close{top:22px!important;right:16px!important;width:32px!important;height:32px!important;line-height:32px!important;text-align:center!important;font-size:18px!important;color:#0c0f24!important;z-index:2}
+body.mobile .request-tour-pop .schedule-title{margin:0 40px 20px 0!important;display:flex;align-items:center}
+body.mobile .request-tour-pop .schedule-title>span:first-child{font-family:"font-Manrope-800",Manrope,sans-serif!important;font-size:20px!important;font-weight:400!important;color:#111!important;text-transform:none!important;line-height:28px}
+body.mobile .request-tour-pop .schedule-title>span:nth-child(2){display:none!important}
+body.mobile .request-tour-pop .booking-date-wrap{margin:20px -20px!important;padding:0!important;display:flex!important;align-items:center!important}
+body.mobile .request-tour-pop .booking-date-wrap>.swiper{flex:1 1 auto;min-width:0}
+body.mobile .request-tour-pop .booking-prev,body.mobile .request-tour-pop .booking-next{flex:0 0 20px!important;width:20px!important;max-width:20px!important;min-width:0!important;height:28px!important;line-height:28px!important;padding:0!important;border:0!important;text-align:center!important;position:static!important;margin:0!important;font-size:16px!important;color:#0c0f24!important;background:none!important;box-shadow:none!important;box-sizing:border-box!important}
+body.mobile .request-tour-pop .booking-prev.disabled,body.mobile .request-tour-pop .booking-next.disabled{opacity:.25!important}
+/* date strip (site.js): centre day is the selected date */
+body.mobile .request-tour-pop .isg-wheel{touch-action:pan-y;user-select:none;-webkit-user-select:none}
+body.mobile .request-tour-pop .isg-wheel .swiper-wrapper{transform:none!important;transition:none!important;position:relative!important;height:94px!important}
+body.mobile .request-tour-pop .isg-wheel .swiper-slide{position:absolute!important;left:0!important;top:0!important;margin:0!important;height:94px!important;transition:background-color .15s,color .15s!important;overflow:hidden!important;box-sizing:border-box!important;padding:15px 0!important;text-align:center!important;white-space:nowrap!important;transform-origin:50% 50%!important}
+body.mobile .request-tour-pop .isg-wheel .swiper-slide>*{width:auto!important;max-width:none!important}
