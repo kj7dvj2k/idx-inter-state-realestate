@@ -128,21 +128,22 @@
   }
   window.addEventListener("scroll", holdBanner, { passive: true });
 
-  // Search filters, Listing Status: one button per status family instead of
-  // one per raw MLS value. The family's first value keeps its button (renamed
-  // where needed); the others are hidden and follow it on every click, so the
-  // search still asks for all of them. Hold and the sold values are hidden
-  // outright (sold listings live on /sold-listing). Measured 2026-11-01: only
-  // Active, Pending, Contingent, Active Under Contract and Coming Soon return
-  // anything on this site; the rest are kept in a family in case a feed starts
-  // sending them.
+  // Search filters, Listing Status: the same four buttons as the
+  // northernwi.realestate search (2026-11-28): Active, Coming Soon, Contingent,
+  // Pending. A family's first value keeps its button; the others are hidden
+  // and follow it on every click, so the search still asks for all of them
+  // (Contingent also asks for Active Under Contract). Hold and the sold values
+  // are hidden outright (sold listings live on /sold-listing). Measured
+  // 2026-11-01: only Active, Pending, Contingent, Active Under Contract and
+  // Coming Soon return anything on this site; the rest are kept in a family in
+  // case a feed starts sending them.
   var STATUS_FAMILIES = {
     "Active": ["Back on Market", "Back+on+Market", "reactivated", "Price Changed", "Offer Show"],
     "Coming Soon": ["Coming+Soon"],
-    "Active Under Contract": ["Contingent", "Pending", "Offer Bump"]
+    "Contingent": ["Active Under Contract", "Offer Bump"]
   };
   var STATUS_HIDDEN = ["Hold", "Sold", "[Sold]"];
-  var STATUS_LABELS = { "Active Under Contract": "Under Contract" };
+  var STATUS_LABELS = {};
 
   function statusButtons() {
     document.querySelectorAll(".select-button-group-wrap").forEach(function (w) {
@@ -408,6 +409,37 @@
       if (!m) return;
       var y = "Sold " + Number(m[1]) + "/" + Number(m[2]) + "/" + m[3];
       if (t.textContent !== y) t.textContent = y;
+    });
+    // 7c. Card tags, as on the northernwi.realestate cards: "Active Under
+    //     Contract" reads "Contingent" in the Contingent colour, and a
+    //     "Price Dropped by $6K" tag becomes "Active", with "Reduced $6K"
+    //     beside the card's price.
+    document.querySelectorAll(".house-status .status-text").forEach(function (t) {
+      var s = t.parentElement, txt = t.textContent.trim();
+      if (/^active under contract$/i.test(txt)) {
+        t.textContent = "Contingent";
+        s.classList.remove("tag-default");
+        s.classList.add("Contingent");
+        return;
+      }
+      var m = txt.match(/^price dropped by (.+)$/i);
+      var drop = m ? m[1] : s.getAttribute("data-isg-drop");
+      if (!drop) return;
+      var card = s.closest(".search-result-house-grid, .house-grid-item, li, article");
+      var price = card && card.querySelector(".house-price");
+      if (!price) return;
+      if (m) {
+        s.setAttribute("data-isg-drop", drop);
+        t.textContent = "Active";
+        s.classList.remove("price-reduced");
+        s.classList.add("active");
+      }
+      if (!price.querySelector(".isg-drop")) {
+        var d = document.createElement("span");
+        d.className = "isg-drop";
+        d.textContent = "Reduced " + drop;
+        price.appendChild(d);
+      }
     });
     var est = q(".listing-detail-sold .est-price-container .value");
     var noEst = !!est && est.textContent.trim() === "?";
