@@ -1076,3 +1076,81 @@
   document.addEventListener("DOMContentLoaded", tick);
   setInterval(tick, 1000);
 })();
+
+/* ISG: Request a Tour date strip (phones). Snapping strip; the centre day is the selected date, full size and navy; neighbours keep all their text at a slightly smaller scale. */
+(function(){
+  var TILE=80, PITCH=88, STEP=PITCH, MIN=0.86;
+  function ease(t){return 1-Math.pow(1-t,3);}
+  function closeness(d){d=Math.abs(d);return d>=1?0:(1+Math.cos(Math.PI*d))/2;}
+  function init(sw){
+    if(!sw||sw.__isgWheel)return; var el=sw.el, wrap=sw.wrapperEl;
+    var slides=[].slice.call(wrap.querySelectorAll('.swiper-slide'));
+    if(!slides.length)return;
+    sw.__isgWheel=true; sw.allowTouchMove=false; sw.params.allowTouchMove=false;
+    el.classList.add('isg-wheel');
+    var sel=slides.findIndex(function(s){return s.classList.contains('selected')}); if(sel<0)sel=0;
+    var p=sel, anim=null;
+    function render(){
+      var C=el.clientWidth/2;
+      slides.forEach(function(s,i){
+        var d=i-p, k=closeness(d), sc=MIN+(1-MIN)*k, x=C+d*PITCH;
+        var st=s.style;
+        st.setProperty('width',TILE+'px','important');
+        st.setProperty('transform','translateX('+(x-TILE/2)+'px) scale('+sc+')','important');
+        var on=Math.abs(d)<0.5;
+        st.setProperty('background-color',on?'#0c0f24':'#eeeeee','important');
+        st.setProperty('color',on?'#fff':'#111','important');
+        st.visibility=Math.abs(x-C)>C+TILE?'hidden':'';
+      });
+      var box=el.parentElement, pv=box.querySelector('.booking-prev'), nx=box.querySelector('.booking-next');
+      if(pv)pv.classList.toggle('disabled',p<=0.01);
+      if(nx)nx.classList.toggle('disabled',p>=slides.length-1.01);
+    }
+    function clamp(v){return Math.max(0,Math.min(slides.length-1,v));}
+    function go(target,pick){
+      target=clamp(Math.round(target)); cancelAnimationFrame(anim);
+      var from=p, t0=performance.now(), dur=Math.min(520,220+Math.abs(target-from)*90);
+      (function tick(now){
+        var t=Math.min(1,(now-t0)/dur); p=from+(target-from)*ease(t); render();
+        if(t<1)anim=requestAnimationFrame(tick);
+        else if(pick&&!slides[target].classList.contains('selected')){slides[target].__isgSynth=true;slides[target].click();}
+      })(t0);
+    }
+    /* drag */
+    var startX=null, startP=0, moved=false, quietUntil=0, lastX=0, lastT=0, vel=0;
+    el.addEventListener('pointerdown',function(e){cancelAnimationFrame(anim);startX=lastX=e.clientX;lastT=performance.now();startP=p;moved=false;vel=0;},{passive:true});
+    window.addEventListener('pointermove',function(e){
+      if(startX==null)return; var dx=e.clientX-startX; if(Math.abs(dx)>4)moved=true;
+      var now=performance.now(); vel=(e.clientX-lastX)/Math.max(1,now-lastT); lastX=e.clientX; lastT=now;
+      p=clamp(startP-dx/STEP); render();
+    },{passive:true});
+    window.addEventListener('pointerup',function(){
+      if(startX==null)return; startX=null; if(!moved)return; moved=false; quietUntil=performance.now()+350;
+      go(p-vel*120/STEP,true);
+    });
+    /* a tap on a tile glides it to the centre; a drag never counts as a tap */
+    el.addEventListener('click',function(e){
+      var s=e.target.closest('.swiper-slide'); if(!s)return;
+      if(s.__isgSynth){s.__isgSynth=false;return;}
+      if(performance.now()<quietUntil){e.stopPropagation();e.preventDefault();return;}
+      go(slides.indexOf(s),false);
+    },true);
+    /* arrows step one day */
+    var box=el.parentElement;
+    [['.booking-prev',-1],['.booking-next',1]].forEach(function(a){
+      var b=box.querySelector(a[0]); if(!b)return;
+      b.addEventListener('click',function(e){e.stopPropagation();e.preventDefault();go(p+a[1],true);},true);
+    });
+    /* swiper rewrites slide widths on update and resize; draw again after it */
+    ['update','resize','setTranslate','slideChange','transitionEnd'].forEach(function(ev){sw.on(ev,function(){requestAnimationFrame(render);});});
+    render();
+  }
+  function scan(){
+    if(!document.body.classList.contains('mobile'))return;
+    var h=document.querySelector('.request-tour-pop .schedule-title>span:first-child');
+    if(h&&h.textContent.trim()==='REQUEST A TOUR')h.textContent='Request a Tour';
+    var c=document.querySelector('.request-tour-pop .booking-date-content');
+    if(c&&c.swiper&&c.offsetWidth)init(c.swiper);
+  }
+  setInterval(scan,500);
+})();
